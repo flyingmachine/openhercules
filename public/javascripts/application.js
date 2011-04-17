@@ -1,39 +1,38 @@
-// Initial Setup: App.setupLines(linesJson)
-// where linesJson is an array of objects with the attributes:
+// Initial Setup: App.setupItems(itemsJson)
+// where itemsJson is an array of objects with the attributes:
 //   id: Integer
 //   body: String
 //   status: 'incomplete'|'complete'
 //   parent_id: Integer - parent must be 
-//   line_type: String - each line will have its line type added as a class
+//   item_type: String - each item will have its item type added as a class
 // example:
-//   [{"status":"incomplete","body":"note 1","line_type":"note","id":1764,"parent_id":null},
-//   {"status":"incomplete","body":"note 2","line_type":"note","id":1765,"parent_id":null},
-//   {"status":"incomplete","body":"note 3","line_type":"note","id":1766,"parent_id":null},
-//   {"status":"incomplete","body":"note 4 - child","line_type":"note","id":1767,"parent_id":1766},
-//   {"status":"complete","body":"note 5","line_type":"note","id":1771,"parent_id":null}]
+//   [{"status":"incomplete","body":"note 1","item_type":"note","id":1764,"parent_id":null},
+//   {"status":"incomplete","body":"note 2","item_type":"note","id":1765,"parent_id":null},
+//   {"status":"incomplete","body":"note 3","item_type":"note","id":1766,"parent_id":null},
+//   {"status":"incomplete","body":"note 4 - child","item_type":"note","id":1767,"parent_id":1766},
+//   {"status":"complete","body":"note 5","item_type":"note","id":1771,"parent_id":null}]
 // 
 // "REST" api:
-// POST   /lines              - create; return line JSON
-// PUT    /lines/:id          - update; return line JSON
-// PUT    /lines/:id/reparent - change parent of line; returnn nothing
-// PUT    /lines/:id/move?direction=[up|down] - move the line up or down; return nothing
-// DELETE /lines/:id          - delete
+// POST   /items              - create; return item JSON
+// PUT    /items/:id          - update; return item JSON
+// PUT    /items/:id/reparent - change parent of item; returnn nothing
+// PUT    /items/:id/move?direction=[up|down] - move the item up or down; return nothing
+// DELETE /items/:id          - delete
 //
-// If you don't want to use "/lines", change App.url
+// If you don't want to use "/items", change App.url
 // Needs container div with id #appl; change App.appId
 
 var App = {
   // Config
   appId: "#app",
-  url: "/lines",
+  url: "/lists",
   
   //Not config
   backbone: {},
-  initializationMap: {},
   
-  selection: function(line) {
-    if (line) {
-      this.selected = line
+  selection: function(item) {
+    if (item) {
+      this.selected = item
     } else if (!this.selected) {
       this.selected = App.root.children.first();
     }
@@ -43,21 +42,20 @@ var App = {
   projectId: /[^\/]+$/.exec(location.href)[0]
 }
 
-App.backbone.Line = Backbone.Model.extend({
+App.backbone.List = Backbone.Model.extend({
+  change: function() {
+    this.save();
+  },
+  
+  update: function() {
+    this.set("items", App.root.asJson)
+  }
+})
+
+App.backbone.Item = Backbone.Model.extend({
   initialize: function(){
-    App.initializationMap[this.id] = this
-    
-    if (this.get("parent_id")) {
-      var parent = App.initializationMap[this.get("parent_id")]
-      if(typeof(parent) == "undefined") {
-        console.log(this.get("id"))
-        console.log(this.get("parent_id"))
-      }
-      this.parent = parent;
-      this.parent.addChild(this)
-    } else if (this.get("parent")) {
+    if (this.get("parent")) {
       this.parent = this.get("parent");
-      this.parent.addChild(this)
       this.unset('parent', {silent:true})
     } else if (App.root) {
       this.parent = App.root
@@ -68,11 +66,27 @@ App.backbone.Line = Backbone.Model.extend({
       this.set({body:""}, {silent:true})
     }
     
-    this.children = new App.backbone.LineChildren;
+    this.children = new App.backbone.ItemChildren;
+    if (this.get("children")) {
+      var that = this;
+      _.each(this.get("children"), function(childObject) {
+        childObject["parent"] = that;
+        that.addChild(App.backbone.Item(childObject))
+      })
+    }
   },
-  
+    
   events: {
     'change': 'change'
+  },
+  
+  asJson: function() {
+    var json = this.toJSON;
+    json.children = this.children.map(function(child){return child.asJson});
+  },
+  
+  updateList: function() {
+    App.list.update();
   },
   
   change: function() {
@@ -105,8 +119,6 @@ App.backbone.Line = Backbone.Model.extend({
       $(this.view.el).insertBefore(prev.view.el)
       this.parent.removeChild(this);
       this.insertBefore(prev);
-      
-      this.saveMove('up');
     }
   },
   
@@ -116,20 +128,7 @@ App.backbone.Line = Backbone.Model.extend({
       $(this.view.el).insertAfter(next.view.el)
       this.parent.removeChild(this);
       this.insertAfter(next);
-      
-      this.saveMove('down');
     }
-  },
-  
-  saveMove: function(direction) {
-    $.ajax({
-      url: this.url() + '/move',
-      type: "POST",
-      data: {
-        direction: direction,
-        _method: "PUT"
-      }
-    })
   },
   
   // selecting
@@ -175,8 +174,6 @@ App.backbone.Line = Backbone.Model.extend({
       oldParent.removeChild(this);
       this.parent.addChild(this)
       $(this.parent.view.childrenView.el).append(this.view.el)
-      
-      if(!skipSave) this.saveNewParent();
     }
   },
   
@@ -187,27 +184,12 @@ App.backbone.Line = Backbone.Model.extend({
       oldParent.removeChild(this);
       this.insertAfter(oldParent);
       $(this.view.el).insertAfter(oldParent.view.el);
-      
-      if(!skipSave) this.saveNewParent();
     }
   },
   
   setParent: function(parent) {
     this.parent = parent;
     this.set({'parent_id': parent.id})
-  },
-  
-  saveNewParent: function() {
-    var referenceId = this.previousSibling() && this.previousSibling().id
-    $.ajax({
-      url: this.url() + '/reparent',
-      type: 'POST',
-      data: {
-        parent_id : this.parent.id,
-        reference_id : referenceId,
-        _method : "PUT"
-      }
-    })
   },
   
   parents: function() {
@@ -263,16 +245,16 @@ App.backbone.Line = Backbone.Model.extend({
   }
 })
 
-App.backbone.LineChildren = Backbone.Collection.extend({
-  model: App.backbone.Line,
+App.backbone.ItemChildren = Backbone.Collection.extend({
+  model: App.backbone.Item,
   url: App.url,
   
-  before: function(line) {
-    return this.inRelationToLine(line, -1);
+  before: function(item) {
+    return this.inRelationToItem(item, -1);
   },
   
-  after: function(line) {
-    return this.inRelationToLine(line, 1);
+  after: function(item) {
+    return this.inRelationToItem(item, 1);
   },
   
   insertBefore: function(toInsert, ref) {
@@ -292,18 +274,18 @@ App.backbone.LineChildren = Backbone.Collection.extend({
   },
   
   //TODO refactor with inRelationToSelection
-  inRelationToLine: function(line, relativeIndex) {
-    var nextLine = this.at(this.indexOf(line) + relativeIndex) 
-    return nextLine;
+  inRelationToItem: function(item, relativeIndex) {
+    var nextItem = this.at(this.indexOf(item) + relativeIndex) 
+    return nextItem;
   },
   
-  // returns all lines and their children recursively in a flat array
+  // returns all items and their children recursively in a flat array
   flatten: function() {
     var results = [];
-    this.each(function(line){
-      results.push(line);
-      if(line.children.length) {
-        _.each(line.children.flatten(), function(child){
+    this.each(function(item){
+      results.push(item);
+      if(item.children.length) {
+        _.each(item.children.flatten(), function(child){
           results.push(child)
         })
       }
@@ -312,7 +294,7 @@ App.backbone.LineChildren = Backbone.Collection.extend({
   }
 })
 
-App.backbone.LineFormView = Backbone.View.extend({
+App.backbone.ItemFormView = Backbone.View.extend({
   tagName: "form",
   template: _.template("<input type='text' value='' />"),
   
@@ -351,7 +333,7 @@ App.backbone.LineFormView = Backbone.View.extend({
       this.submit();
     } else if (event.keyCode == '13') {
       this.submit();
-      App.mainList.newLine();
+      App.mainList.newItem();
     } 
   },
   
@@ -382,9 +364,9 @@ App.backbone.LineFormView = Backbone.View.extend({
   }
 })
 
-App.backbone.LineView = Backbone.View.extend({
+App.backbone.ItemView = Backbone.View.extend({
   tagName: "li",
-  template: _.template("<div class='line'><div class='body'></div></div>"),
+  template: _.template("<div class='item'><div class='body'></div></div>"),
   
   initialize: function() {
     this.model.view = this;
@@ -392,8 +374,8 @@ App.backbone.LineView = Backbone.View.extend({
   
   events: {
     'change input[type="checkbox"]:first': 'changeStatus',
-    'click .line:first': 'click',
-    'dblclick .line:first': 'switchToForm'
+    'click .item:first': 'click',
+    'dblclick .item:first': 'switchToForm'
   },
   
   changeStatus: function() {
@@ -413,23 +395,23 @@ App.backbone.LineView = Backbone.View.extend({
   },
   
   setClasses: function() {
-    this.line.attr('class', 'line')
-    this.line.addClass(this.model.get("status"))
-    this.line.addClass(this.model.get("line_type"))
+    this.item.attr('class', 'item')
+    this.item.addClass(this.model.get("status"))
+    this.item.addClass(this.model.get("item_type"))
     if (App.selected == this.model) {
-      this.line.addClass('selected')
+      this.item.addClass('selected')
     }
   },
   
   select: function() {
-    this.line.addClass('selected')
+    this.item.addClass('selected')
   },
   
   deselect: function() {
     if (this.$("form").length) {
       this.form.submit();
     }
-    this.line.removeClass('selected')
+    this.item.removeClass('selected')
   },
   
   setBody: function() {
@@ -440,8 +422,8 @@ App.backbone.LineView = Backbone.View.extend({
     var that = this;
     $(this.el).html(this.template(this.model.toJSON()));
     
-    this.line = $(this.el).children(".line")
-    this.body = this.line.children(".body")
+    this.item = $(this.el).children(".item")
+    this.body = this.item.children(".body")
     this.setBody();
     
     this.status = $("<input type='checkbox' />")
@@ -451,9 +433,9 @@ App.backbone.LineView = Backbone.View.extend({
       this.status.attr('checked', false);
     }
     
-    $(this.line).prepend(this.status);
+    $(this.item).prepend(this.status);
     
-    this.childrenView = new App.backbone.LineChildrenView({model:this.model});
+    this.childrenView = new App.backbone.ItemChildrenView({model:this.model});
     $(this.el).append(this.childrenView.render().el)
     
     this.setClasses();
@@ -462,7 +444,7 @@ App.backbone.LineView = Backbone.View.extend({
   },
   
   switchToForm: function() {
-    this.form = new App.backbone.LineFormView({model:this.model})
+    this.form = new App.backbone.ItemFormView({model:this.model})
     this.body.replaceWith(this.form.render().el)
     $(this.form.el).find("input").focus()
   },
@@ -473,14 +455,14 @@ App.backbone.LineView = Backbone.View.extend({
   }
 })
 
-App.backbone.LineChildrenView = Backbone.View.extend({
+App.backbone.ItemChildrenView = Backbone.View.extend({
   tagName: "ul",
   className: "children",
   
   render: function() {
     var that = this;
     this.model.children.each(function(child){
-      var lv = new App.backbone.LineView({model:child});
+      var lv = new App.backbone.ItemView({model:child});
       $(that.el).append(lv.render().el)
     })
     return this;
@@ -492,13 +474,13 @@ App.backbone.LineChildrenView = Backbone.View.extend({
 // down
 // indent
 // outdent
-// delete line
+// delete item
 App.backbone.ListView = Backbone.View.extend({
   tagName: "ul",
-  className: "line-list",
+  className: "item-list",
   
   initialize: function() {
-    _.bindAll(this, 'selectPrevious', 'selectNext', 'switchLine', 'toggleStatus', 'moveSelectionUp', 'moveSelectionDown', 'indentLine', 'outdentLine', 'newLine', 'deleteLine')
+    _.bindAll(this, 'selectPrevious', 'selectNext', 'switchItem', 'toggleStatus', 'moveSelectionUp', 'moveSelectionDown', 'indentItem', 'outdentItem', 'newItem', 'deleteItem')
   },
   
   // navigation
@@ -520,8 +502,8 @@ App.backbone.ListView = Backbone.View.extend({
     return false;
   },
   
-  // edit line
-  switchLine: function() {
+  // edit item
+  switchItem: function() {
     App.selection().view.switchToForm();
   },
   
@@ -531,7 +513,7 @@ App.backbone.ListView = Backbone.View.extend({
   },
   
   
-  // move line
+  // move item
   moveSelectionUp: function(event) {
     App.selection().moveUp();
     return false;
@@ -542,16 +524,16 @@ App.backbone.ListView = Backbone.View.extend({
     return false;
   },
   
-  indentLine: function() {
+  indentItem: function() {
     App.selection().indent();
   },
   
-  outdentLine: function() {
+  outdentItem: function() {
     App.selection().outdent();
   },
     
   // create
-  newLine: function(placement) {
+  newItem: function(placement) {
     var parent;
     var selection = App.selection()
     
@@ -561,40 +543,40 @@ App.backbone.ListView = Backbone.View.extend({
       parent = App.root
     }
     
-    var line = new App.backbone.Line({parent:parent});
-    var lineView = new App.backbone.LineView({model:line})
-    lineView.render();
+    var item = new App.backbone.Item({parent:parent});
+    var itemView = new App.backbone.ItemView({model:item})
+    itemView.render();
         
     if (selection) {
       if (placement == 'indent') {
-        line.insertAfter(selection)
-        line.indent(true);
+        item.insertAfter(selection)
+        item.indent(true);
       } else if (placement == 'previous') {
-        line.insertBefore(selection)
-        $(line.view.el).insertBefore(selection.view.el)
+        item.insertBefore(selection)
+        $(item.view.el).insertBefore(selection.view.el)
       } else {
-        line.insertAfter(selection)
-        $(line.view.el).insertAfter(selection.view.el)
+        item.insertAfter(selection)
+        $(item.view.el).insertAfter(selection.view.el)
       }
     } else {
-      $(this.el).append(lineView.el)
+      $(this.el).append(itemView.el)
     }
     
-    line.select()
+    item.select()
     _.defer(function(){App.selection().view.switchToForm()})
   },
   
   //
-  deleteLine: function() {
+  deleteItem: function() {
     App.selection().remove();
     return false;
   },
   
   render: function() {
     var that = this;
-    this.collection.each(function(line){
-      if (!line.get("parent_id")) {
-        var lv = new App.backbone.LineView({model:line});
+    this.collection.each(function(item){
+      if (!item.get("parent_id")) {
+        var lv = new App.backbone.ItemView({model:item});
         $(that.el).append(lv.render().el)
       }
     })
@@ -605,28 +587,23 @@ App.backbone.ListView = Backbone.View.extend({
 App.keyBindings = function(){
   $(document).bind('keydown', 'up',           App.mainList.selectPrevious)
   $(document).bind('keydown', 'down',         App.mainList.selectNext)
-  $(document).bind('keydown', 'esc',          App.mainList.switchLine)
+  $(document).bind('keydown', 'esc',          App.mainList.switchItem)
   $(document).bind('keydown', 'ctrl+up',      App.mainList.moveSelectionUp)
   $(document).bind('keydown', 'ctrl+down',    App.mainList.moveSelectionDown)
   $(document).bind('keydown', 'space',        App.mainList.toggleStatus)
-  $(document).bind('keydown', 'return',       function(){App.mainList.newLine()})
-  $(document).bind('keydown', 'ctrl+return',  function(){App.mainList.newLine('indent')})
-  $(document).bind('keydown', 'shift+return', function(){App.mainList.newLine('previous')})
-  $(document).bind('keydown', 'backspace',    App.mainList.deleteLine)
-  $(document).bind('keydown', 'del',          App.mainList.deleteLine)
-  $(document).bind('keydown', "x",            App.mainList.indentLine)
-  $(document).bind('keydown', "z",            App.mainList.outdentLine)
+  $(document).bind('keydown', 'return',       function(){App.mainList.newItem()})
+  $(document).bind('keydown', 'ctrl+return',  function(){App.mainList.newItem('indent')})
+  $(document).bind('keydown', 'shift+return', function(){App.mainList.newItem('previous')})
+  $(document).bind('keydown', 'backspace',    App.mainList.deleteItem)
+  $(document).bind('keydown', 'del',          App.mainList.deleteItem)
+  $(document).bind('keydown', "x",            App.mainList.indentItem)
+  $(document).bind('keydown', "z",            App.mainList.outdentItem)
   $(document).bind('keydown', "p",            function(){$("#project").focus()})
 }
 
-App.setupLines = function(linesJson) {
+App.setup = function(itemsJson) {
   $(function(){
-    App.root = new App.backbone.Line();
-
-    _.each(linesJson, function(line) {
-      new App.backbone.Line(line)
-    })
-
+    App.setupItems(itemsJson)
     App.mainList = new App.backbone.ListView({
       collection: App.root.children 
     });
@@ -634,6 +611,13 @@ App.setupLines = function(linesJson) {
 
     App.keyBindings();
     App.mainList.selectNext();
+  })
+}
+
+App.setupItems = function(itemsJson) {
+  App.root = new App.backbone.Item();
+  _.each(itemsJson, function(item) {
+    new App.backbone.Item(item)
   })
 }
 

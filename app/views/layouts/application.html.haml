@@ -1,31 +1,14 @@
 !!!
 %html
   %head
-    %title== Happy Scratch List
+    %title== Checklist Hub
     = stylesheet_link_tag 'main'
     = javascript_include_tag 'jquery-1.4.4.js', 'jquery.hotkeys', 'underscore.js', 'backbone.js', 'application.js', 'projects.js'
     = yield :extra_javascripts
     = csrf_meta_tag
   %body
     #wrapper
-      #navigation
-        - if user_signed_in?
-          - if controller.controller_name == "projects" && params[:action] == "show"
-            - options = options_from_collection_for_select(current_user.projects, :id, :name, params[:id])
-            - options << "<option>---</option><option value='edit'>Change Project Name</option>".html_safe
-            - options << "<option value='delete'>Delete Project</option>".html_safe unless current_user.projects.count == 1
-            - options << "<option>---</option><option value='new'>New Project</option>".html_safe
-            = select_tag 'project', options
-            = form_tag '', :method => :delete, :id => "delete" do
-              \.
-          - else
-            = link_to "back to #{current_user.last_used_project.name}", current_user.last_used_project
-            
-          .utility
-            = link_to 'account', edit_user_path(current_user)
-            - sign_out_class = current_user.cookie_user? ? "cookie-user" : ""
-            = link_to "sign out", destroy_user_session_path, :class => sign_out_class
-        
+      #navigation        
       = yield
     #footer
       = yield :footer
