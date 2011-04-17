@@ -8,6 +8,7 @@ gem 'json'
 
 group :development do
   gem 'yard'
+  gem 'ruby-debug'
 end
 
 group :test, :development do

@@ -1,5 +1,5 @@
 :javascript
-  App.setupLines(#{@incomplete.to_json(:methods => :status, :only => [:body, :parent_id, :line_type, :id])})
+  App.setupLines(#{JSON.generate(@list.to_hash[:items])})
   
 #app
 
