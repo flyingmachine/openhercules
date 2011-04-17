@@ -1,0 +1,51 @@
+:javascript
+  App.setupLines(#{@incomplete.to_json(:methods => :status, :only => [:body, :parent_id, :line_type, :id])})
+  
+#app
+
+- content_for :footer do
+  %p Commands
+  %table#commands
+    %tr
+      %td enter
+      %td save current line and add new line below
+    %tr
+      %td shift+enter
+      %td save current line and add new line above
+    %tr
+      %td ctrl+enter
+      %td save current line and add new line, indented
+    %tr
+      %td space
+      %td toggle complete
+    %tr
+      %td &#8593;
+      %td select previous line
+    %tr
+      %td &#8595;
+      %td select next line
+    %tr
+      %td ctrl + &#8593;
+      %td move line up
+    %tr
+      %td ctrl + &#8595;
+      %td move line down
+    %tr
+      %td x
+      %td indent
+    %tr 
+      %td z
+      %td outdent
+    %tr
+      %td esc
+      %td toggle form
+    %tr
+      %td backspace, del
+      %td delete line  
+    %tr
+      %td p
+      %td select project dropdown
+  
+  %p Highlights
+  .story Lines starting with "s" (for "story") are highlighted in orange
+  .discussion Lines starting with "q" or "d" (for "question", "discussion") are highlighted in green
