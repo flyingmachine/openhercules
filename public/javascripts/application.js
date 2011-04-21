@@ -179,6 +179,7 @@ App.backbone.Item = Backbone.Model.extend({
       oldParent.removeChild(this);
       this.parent.addChild(this)
       $(this.parent.view.childrenView.el).append(this.view.el)
+      this.save();
     }
   },
   
@@ -189,6 +190,7 @@ App.backbone.Item = Backbone.Model.extend({
       oldParent.removeChild(this);
       this.insertAfter(oldParent);
       $(this.view.el).insertAfter(oldParent.view.el);
+      this.save();
     }
   },
   
