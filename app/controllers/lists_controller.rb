@@ -10,4 +10,11 @@ class ListsController < ApplicationController
     list = List.create_default
     redirect_to(list)
   end
+  
+  def update
+    @list = List.find_one(params[:id])
+    @list.attributes = params.slice(*List.properties)
+    @list.save
+    render :status => 200, :text => "success"
+  end
 end

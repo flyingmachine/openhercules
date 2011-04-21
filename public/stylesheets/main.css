@@ -73,7 +73,7 @@ h2 {
   padding:0 20px;
 }
 
-.line {
+.item {
   min-height:12px;
   cursor:default;
   padding:2px 0 3px 25px;
@@ -82,11 +82,11 @@ h2 {
   border:1px solid #fff;
 }
 
-.line:hover {
+.item:hover {
   border-color:#96e9fc;
 }
 
-.line.selected {
+.item.selected {
   background:#e1f7fc;
 }
 
@@ -103,7 +103,7 @@ li {
   margin-left:20px;
 }
 
-#app ul.line-list {
+#app ul.item-list {
   margin-left:0;
   margin-top:1em;
 }

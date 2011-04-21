@@ -25,7 +25,6 @@
 var App = {
   // Config
   appId: "#app",
-  url: "/lists",
   
   //Not config
   backbone: {},
@@ -47,9 +46,14 @@ App.backbone.List = Backbone.Model.extend({
     this.save();
   },
   
-  update: function() {
-    this.set("items", App.root.asJson)
+  updateItems: function() {
+    this.set({items: App.root.asJson().children})
   }
+})
+
+App.backbone.Lists = Backbone.Collection.extend({
+  model: App.backbone.List,
+  url:   "/lists"
 })
 
 App.backbone.Item = Backbone.Model.extend({
@@ -71,7 +75,7 @@ App.backbone.Item = Backbone.Model.extend({
       var that = this;
       _.each(this.get("children"), function(childObject) {
         childObject["parent"] = that;
-        that.addChild(App.backbone.Item(childObject))
+        that.addChild(new App.backbone.Item(childObject))
       })
     }
   },
@@ -81,12 +85,13 @@ App.backbone.Item = Backbone.Model.extend({
   },
   
   asJson: function() {
-    var json = this.toJSON;
-    json.children = this.children.map(function(child){return child.asJson});
+    var json = this.toJSON();
+    json.children = this.children.map(function(child){return child.asJson()});
+    return json;
   },
   
   updateList: function() {
-    App.list.update();
+    App.mainList.updateItems();
   },
   
   change: function() {
@@ -242,12 +247,15 @@ App.backbone.Item = Backbone.Model.extend({
     this.view.status.attr('checked', true)
     this.view.setClasses();
     this.save();
+  },
+  
+  save: function() {
+    this.updateList();
   }
 })
 
 App.backbone.ItemChildren = Backbone.Collection.extend({
   model: App.backbone.Item,
-  url: App.url,
   
   before: function(item) {
     return this.inRelationToItem(item, -1);
@@ -309,21 +317,13 @@ App.backbone.ItemFormView = Backbone.View.extend({
     var prev = this.model.previous() && this.model.previous().id
     var val = this.$("input").val();
     
-    this.model.set({body:val}, {silent:true});
+    this.model.set({body:val});
+    this.model.save();
     this.model.view.switchToShow();
     
     // TODO why is it necessary to defer?
     // TODO don't like project id handling
     // Actually save back to db
-    _.defer(
-      function() {
-        that.model.save({body:val, id_of_previous:prev, project_id:App.projectId}, {
-          success:function(model, response){
-            model.set(response);
-          }
-        })
-      }
-    )
     return false;
   },
   
@@ -333,7 +333,7 @@ App.backbone.ItemFormView = Backbone.View.extend({
       this.submit();
     } else if (event.keyCode == '13') {
       this.submit();
-      App.mainList.newItem();
+      App.mainList.view.newItem();
     } 
   },
   
@@ -450,6 +450,7 @@ App.backbone.ItemView = Backbone.View.extend({
   },
   
   switchToShow: function() {
+    this.setBody();
     $(this.form.el).replaceWith(this.body)
     this.model.select();
   }
@@ -585,38 +586,45 @@ App.backbone.ListView = Backbone.View.extend({
 })
 
 App.keyBindings = function(){
-  $(document).bind('keydown', 'up',           App.mainList.selectPrevious)
-  $(document).bind('keydown', 'down',         App.mainList.selectNext)
-  $(document).bind('keydown', 'esc',          App.mainList.switchItem)
-  $(document).bind('keydown', 'ctrl+up',      App.mainList.moveSelectionUp)
-  $(document).bind('keydown', 'ctrl+down',    App.mainList.moveSelectionDown)
-  $(document).bind('keydown', 'space',        App.mainList.toggleStatus)
-  $(document).bind('keydown', 'return',       function(){App.mainList.newItem()})
-  $(document).bind('keydown', 'ctrl+return',  function(){App.mainList.newItem('indent')})
-  $(document).bind('keydown', 'shift+return', function(){App.mainList.newItem('previous')})
-  $(document).bind('keydown', 'backspace',    App.mainList.deleteItem)
-  $(document).bind('keydown', 'del',          App.mainList.deleteItem)
-  $(document).bind('keydown', "x",            App.mainList.indentItem)
-  $(document).bind('keydown', "z",            App.mainList.outdentItem)
+  $(document).bind('keydown', 'up',           App.mainList.view.selectPrevious)
+  $(document).bind('keydown', 'down',         App.mainList.view.selectNext)
+  $(document).bind('keydown', 'esc',          App.mainList.view.switchItem)
+  $(document).bind('keydown', 'ctrl+up',      App.mainList.view.moveSelectionUp)
+  $(document).bind('keydown', 'ctrl+down',    App.mainList.view.moveSelectionDown)
+  $(document).bind('keydown', 'space',        App.mainList.view.toggleStatus)
+  $(document).bind('keydown', 'return',       function(){App.mainList.view.newItem()})
+  $(document).bind('keydown', 'ctrl+return',  function(){App.mainList.view.newItem('indent')})
+  $(document).bind('keydown', 'shift+return', function(){App.mainList.view.newItem('previous')})
+  $(document).bind('keydown', 'backspace',    App.mainList.view.deleteItem)
+  $(document).bind('keydown', 'del',          App.mainList.view.deleteItem)
+  $(document).bind('keydown', "x",            App.mainList.view.indentItem)
+  $(document).bind('keydown', "z",            App.mainList.view.outdentItem)
   $(document).bind('keydown', "p",            function(){$("#project").focus()})
 }
 
-App.setup = function(itemsJson) {
+App.setup = function(list) {
   $(function(){
-    App.setupItems(itemsJson)
-    App.mainList = new App.backbone.ListView({
-      collection: App.root.children 
-    });
-    $(App.appId).append(App.mainList.render().el);
+    App.setupList(list)
+    $(App.appId).append(App.mainList.view.render().el);
 
     App.keyBindings();
-    App.mainList.selectNext();
+    App.mainList.view.selectNext();
   })
 }
 
-App.setupItems = function(itemsJson) {
+App.setupList = function(list) {
+  // TODO use extend; only need this to set id
+  App.lists = new App.backbone.Lists([{id: list._id.$oid, name: list.name, notes: list.notes, items: list.items}]);
+  App.mainList = App.lists.at(0)
+  App.setupItems(list.items);
+  App.mainList.view = new App.backbone.ListView({
+    collection: App.root.children 
+  });
+}
+
+App.setupItems = function(items) {
   App.root = new App.backbone.Item();
-  _.each(itemsJson, function(item) {
+  _.each(items, function(item) {
     new App.backbone.Item(item)
   })
 }
