@@ -210,14 +210,12 @@ App.backbone.Item = Backbone.Model.extend({
   // goodbye
   remove: function() {
     var prev = this.previous();
-    this.destroy({
-      success: function(model, response){
-        if (prev) {
-          prev.select();
-        }
-        $(model.view.el).remove();
-      }
-    })
+    if (prev) {
+      prev.select();
+    }
+    $(this.view.el).remove();
+    this.parent.children.remove(this)
+    this.updateList();
   },
   
   // status
