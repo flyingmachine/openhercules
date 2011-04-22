@@ -3,13 +3,9 @@ source 'http://rubygems.org'
 gem 'rails', '3.0.6'
 gem 'haml'
 gem 'mongo'
-gem "mongo_thing", :path => '~/web_sites/mongo_thing'
 gem 'json'
+gem "mongo_thing", :git => 'git://github.com/flyingmachine/mongo_thing.git'
 
-group :development do
-  gem 'yard'
-  gem 'ruby-debug'
-end
 
 group :test, :development do
   gem "rspec-rails"
