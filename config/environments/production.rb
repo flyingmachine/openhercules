@@ -48,6 +48,13 @@ Checklisthub::Application.configure do
   config.active_support.deprecation = :notify
   
   config.after_initialize do
-    MongoThing.connection = ENV['MONGOHQ_URL']
+    require 'uri'
+
+    uri = URI.parse(ENV['MONGOHQ_URL'])
+    conn = Mongo::Connection.new(uri.host, uri.port)
+    db = conn.db(uri.path.gsub(/^\//, ''))
+    db.authenticate(uri.user, uri.password)
+    MongoThing.connection = conn
+    MongoThing.db = db
   end
 end
