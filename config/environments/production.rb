@@ -48,6 +48,7 @@ Checklisthub::Application.configure do
   config.active_support.deprecation = :notify
   
   config.after_initialize do
+    require 'mongo_thing'
     MongoThing.db = ENV['MONGOHQ_URL']
   end
 end
