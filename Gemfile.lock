@@ -1,15 +1,3 @@
-GIT
-  remote: git://github.com/flyingmachine/mongo_thing.git
-  revision: 0cbb8b9808b0d7398af7dfe85c5709d64d9de45f
-  specs:
-    mongo_thing (0.0.2)
-      activesupport (~> 3)
-      bson (~> 1.0.1)
-      bson
-      bson_ext
-      mongo (~> 1.0.1)
-      mongo
-
 GEM
   remote: http://rubygems.org/
   specs:
@@ -58,6 +46,14 @@ GEM
     mime-types (1.16)
     mongo (1.0.9)
       bson (>= 1.0.5)
+    mongo_thing (0.0.3)
+      activesupport (~> 3)
+      bson (~> 1.0.1)
+      bson
+      bson_ext
+      i18n
+      mongo (~> 1.0.1)
+      mongo
     polyglot (0.3.1)
     rack (1.2.2)
     rack-mount (0.6.14)
@@ -103,6 +99,6 @@ DEPENDENCIES
   haml
   json
   mongo
-  mongo_thing!
+  mongo_thing (= 0.0.3)
   rails (= 3.0.6)
   rspec-rails
