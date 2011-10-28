@@ -60,7 +60,7 @@ class App.backbone.Item extends Backbone.Model
     if @get("children")
       for child in @get("children")
         child["parent"] = @
-        @addChild new App.backbone.Item(childObject)
+        @addChild new App.backbone.Item(child)
     
   events:
     'change': 'change'
@@ -268,7 +268,10 @@ class App.backbone.ItemFormView extends Backbone.View
 
   handleInputKey: (event) ->
     keyCode = event.keyCode.toString()
-    if keyCode == "38"
+    if keyCode == "27"
+      @stopEditing()
+      false
+    else if keyCode == "38"
       prev = App.selection().previous()
       if prev
         @stopEditing()
