@@ -7,6 +7,9 @@ gem 'rails', '3.1.0'
 
 gem 'mongoid'
 gem 'bson_ext'
+gem 'jquery-rails'
+gem "haml-rails"
+gem 'devise'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -15,9 +18,6 @@ group :assets do
   gem 'coffee-rails', "~> 3.1.0"
   gem 'uglifier'
 end
-
-gem 'jquery-rails'
-gem "haml-rails"
 
 group :test do
   gem "factory_girl_rails", :group => "test"
