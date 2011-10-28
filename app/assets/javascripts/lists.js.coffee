@@ -246,6 +246,7 @@ class App.backbone.ItemFormView extends Backbone.View
     submit: "submit"
     keydown: "handleKey"
     "keydown input": "handleInputKey"
+    "blur input": "stopEditing"
 
   submit: ->
     @stopEditing()

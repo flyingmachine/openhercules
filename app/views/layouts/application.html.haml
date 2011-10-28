@@ -8,15 +8,16 @@
     = csrf_meta_tag
   %body
     .topbar
-      .fill
-        .container
-          %a.brand{:href => "#"} A Stroke of a Different Color
+      .topbar-inner
+        .container-fluid
+          %a.brand{:href => "#"} Checklist Hub
           %form.pull-right{:action => ""}
             %input.input-small{:placeholder => "Username", :type => "text"}/
             %input.input-small{:placeholder => "Password", :type => "password"}/
             %button.btn{:type => "submit"} Sign in
-    .container
+    .container-fluid
+      .sidebar
+        .well
+          content
       .content
         = yield
-        #footer
-          = yield :footer

@@ -1,3 +1,7 @@
+body {
+  padding-top:60px;
+}
+
 .item {
   min-height:12px;
   cursor:default;
@@ -117,15 +121,12 @@ h2.completed {
   width:500px;
 }
 
-#footer {
-  @extend .row;
-  
-  .key {
-    background:#fafafa;
-    padding:0 5px;
-    -moz-border-radius:5px;
-    border-radius:5px;
-    border:1px solid #ccc;
-    font-family:monospace;
-  }
+
+.key {
+  background:#fafafa;
+  padding:0 5px;
+  -moz-border-radius:5px;
+  border-radius:5px;
+  border:1px solid #ccc;
+  font-family:monospace;
 }
