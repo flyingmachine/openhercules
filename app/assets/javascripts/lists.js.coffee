@@ -248,33 +248,37 @@ class App.backbone.ItemFormView extends Backbone.View
     "keydown input": "handleInputKey"
 
   submit: ->
-    prev = @model.previous()?.id
+    @stopEditing()
+    App.mainList.view.newItem()
+    false
+    
+  stopEditing: ->
     val = @$("input").val()
     @model.set body: val
     @model.save()
     @model.view.switchToShow()
-    App.mainList.view.newItem()
-    false
 
   handleKey: (event) ->
-    if event.keyCode == "27"
-      @submit()
-    else if event.keyCode == "13"
-      @submit()
+    keyCode = event.keyCode.toString()
+    if keyCode == "27"
+      @stopEditing()
+    else if keyCode == "13"
+      @stopEditing()
       App.mainList.view.newItem()
 
   handleInputKey: (event) ->
-    if event.keyCode == "38"
+    keyCode = event.keyCode.toString()
+    if keyCode == "38"
       prev = App.selection().previous()
       if prev
-        @submit()
+        @stopEditing()
         prev.select()
         prev.view.switchToForm()
       false
-    else if event.keyCode == "40"
+    else if keyCode == "40"
       next = App.selection().next()
       if next
-        @submit()
+        @stopEditing()
         next.select()
         next.view.switchToForm()
       false
