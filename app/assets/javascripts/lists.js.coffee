@@ -253,6 +253,7 @@ class App.backbone.ItemFormView extends Backbone.View
     @model.set body: val
     @model.save()
     @model.view.switchToShow()
+    App.mainList.view.newItem()
     false
 
   handleKey: (event) ->
@@ -421,7 +422,7 @@ class App.backbone.ListView extends Backbone.View
       else if placement == "previous"
         item.insertBefore selection
         $(item.view.el).insertBefore selection.view.el
-      else
+      else # insert after
         item.insertAfter selection
         $(item.view.el).insertAfter selection.view.el
     else

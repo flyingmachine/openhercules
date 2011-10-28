@@ -26,4 +26,4 @@ group :test do
   gem "rspec-rails", :group => "test"  
 end
 
-gem "ruby-debug", :group => [:test, :development]
+gem "ruby-debug19", :group => [:test, :development]

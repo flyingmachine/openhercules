@@ -5,11 +5,18 @@
     = stylesheet_link_tag 'application'
     = javascript_include_tag 'jquery-1.4.4.js', 'jquery.hotkeys.js', 'underscore.js', 'backbone.js'
     = javascript_include_tag 'application'
-    = yield :extra_javascripts
     = csrf_meta_tag
   %body
-    #wrapper
-      #navigation        
-      = yield
-    #footer
-      = yield :footer
+    .topbar
+      .fill
+        .container
+          %a.brand{:href => "#"} A Stroke of a Different Color
+          %form.pull-right{:action => ""}
+            %input.input-small{:placeholder => "Username", :type => "text"}/
+            %input.input-small{:placeholder => "Password", :type => "password"}/
+            %button.btn{:type => "submit"} Sign in
+    .container
+      .content
+        = yield
+        #footer
+          = yield :footer

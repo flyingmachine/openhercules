@@ -2,7 +2,7 @@ class List
   include Mongoid::Document
   
   field :items, type: Array
-  field :name, type: String
+  field :name,  type: String
   field :notes, type: String
   
   class << self
