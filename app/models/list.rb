@@ -1,6 +1,9 @@
 class List
-  include MongoThing::Document
-  self.properties = [:items, :name, :notes]
+  include Mongoid::Document
+  
+  field :items, type: Array
+  field :name, type: String
+  field :notes, type: String
   
   class << self
     def create_default

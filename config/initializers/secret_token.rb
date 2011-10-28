@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-Checklisthub::Application.config.secret_token = 'be8a97bbb228c27749c9681cb8dfee49ce08ded8e5ae8e2b144415464af174691f7471dbeb6c36893fdf89c4d0e5af040612e5be915f8c38053bbb5872b2ec17'
+Checklisthub::Application.config.secret_token = 'f727ce6e74701ea1b2fc6e8f0bc01982f73f3a3bbf7497cc06079bfde5efdc8c458f25a2650ae2e290042644c5bb04e0f0bc022bb7c6717614cd7094124e6830'

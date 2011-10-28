@@ -3,7 +3,7 @@ class ListsController < ApplicationController
   end
   
   def show
-    @list = List.find_one(params[:id])
+    @list = List.find(params[:id])
   end
   
   def new
@@ -12,8 +12,8 @@ class ListsController < ApplicationController
   end
   
   def update
-    @list = List.find_one(params[:id])
-    @list.attributes = params.slice(*List.properties)
+    @list = List.find(params[:id])
+    @list.update_attributes(params[:list])
     @list.save
     render :status => 200, :text => "success"
   end
