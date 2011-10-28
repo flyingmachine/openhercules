@@ -423,15 +423,21 @@ class App.backbone.ListView extends Backbone.View
     itemView = new App.backbone.ItemView(model: item)
     itemView.render()
     if selection
-      if placement == "indent"
-        item.insertAfter selection
-        item.indent true
-      else if placement == "previous"
+      if placement == "previous"
         item.insertBefore selection
         $(item.view.el).insertBefore selection.view.el
-      else # insert after
-        item.insertAfter selection
-        $(item.view.el).insertAfter selection.view.el
+      else
+        if selection.children.size() > 0
+          selection = selection.children.first()
+          item.insertBefore selection
+          $(item.view.el).insertBefore selection.view.el
+        else
+          if placement == "indent"
+            item.insertAfter selection
+            item.indent()
+          else # insert after
+            item.insertAfter selection
+            $(item.view.el).insertAfter selection.view.el
     else
       $(@el).append itemView.el
     item.select()
