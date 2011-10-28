@@ -8,10 +8,6 @@ gem 'rails', '3.1.0'
 gem 'mongoid'
 gem 'bson_ext'
 
-gem 'json'
-gem 'haml'
-gem 'rspec-rails'
-
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -21,12 +17,13 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem "haml-rails"
 
-# Use unicorn as the web server
-# gem 'unicorn'
+group :test do
+  gem "factory_girl_rails", :group => "test"
+  gem "cucumber-rails", :group => "test"
+  gem "capybara", :group => "test"
+  gem "rspec-rails", :group => "test"  
+end
 
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'ruby-debug'
+gem "ruby-debug", :group => [:test, :development]
