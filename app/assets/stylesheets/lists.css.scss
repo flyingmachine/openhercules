@@ -150,13 +150,15 @@ h2.completed {
     padding-left:20px;
     padding-top:20px;
     background:#fafafa;
+    border-right:1px solid #ccc;
+    border-bottom:1px solid #ccc;
     
-    ul {
+    ul.lists {
       margin:0;
       padding:0;
       
       li {
-        list-style:disc;
+        list-style:none;
         list-style-position:inside;
         
         a {
