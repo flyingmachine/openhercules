@@ -2,8 +2,46 @@
 :javascript
   App.setup(#{JSON.generate(@list.attributes.to_hash)})
   
-%h5= @list.name
+%h2
+  = @list.name
+  .pull-right
+    %button.btn.settings{:href => "#", "data-controls-modal" => "settings", "data-backdrop" => "true"}
+      %img{:src => "/assets/158-wrench-2.png"}
 #app
+#settings.modal
+  .modal-header
+    %a.close{:href => "#"}x
+    %h3 List Settings
+  .modal-body
+    %form.form-stacked
+      .clearfix
+        %label{:for => "name"} List Name
+        .input
+          %input.xlarge
+      .clearfix
+        %label{:for => "notes"} Notes
+        .input
+          %textarea.xlarge{:rows => 4}
+      %h4 Access
+      %table#access
+        %thead
+          %tr
+            %th User
+            %th Read
+            %th Read + Write
+            %th Admin
+            %th No Access
+        %tbody
+          %tr
+            %td everyone
+            %td.option
+            %td.option
+            %td.option.selected= image_tag("258-checkmark.png")
+            %td.option
+  .modal-footer
+    %a.btn.primary{:href => "#"}Save
+    %a.btn.secondary.cancel{:href => "#"}Cancel
+  
 #commands
   %p Commands
   %table
@@ -49,4 +87,4 @@
     %h5 Lists
     %ul.lists
       - @lists.each do |list|
-        %li= link_to list.name, list_path(list), class: ("selected" if @list == list)
+        %li{class: ("selected" if @list == list)}= link_to list.name, list_path(list)
