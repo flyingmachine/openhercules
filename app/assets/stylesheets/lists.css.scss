@@ -2,6 +2,11 @@ body {
   padding-top:60px;
 }
 
+/* for tapbar*/
+.listfill {
+  background:#555;
+}
+
 .item {
   min-height:12px;
   cursor:default;
@@ -165,7 +170,8 @@ h2.completed {
         margin-left:-20px;
         
         &.selected, &:hover {
-          @include vertical-gradient(#dedce3, #ceccd5);
+/*          @include vertical-gradient(#dedce3, #ceccd5);*/
+          background: #dedce3;
           border:1px solid #b9b6c2;
           border-left-style:none;
           border-right-style:none;
@@ -195,7 +201,7 @@ h2.completed {
   }
 }
 
-#settings {
+#properties-form {
   display:none;
 }
 

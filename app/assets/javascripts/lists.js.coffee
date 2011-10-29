@@ -34,10 +34,18 @@ App =
       @selected = App.root.children.first()
     @selected
 
-class App.backbone.List extends Backbone.Model
-  change: -> @save()
+class App.backbone.List extends Backbone.Model      
+  changeProperties: (properties) ->
+    @setItems()
+    @set(properties)
+    @propertiesView.render()
+    @save()
   
   updateItems: ->
+    @setItems()
+    @save
+    
+  setItems: ->
     @set items: App.root.asJson().children
 
 class App.backbone.Lists extends Backbone.Collection
@@ -373,6 +381,35 @@ class App.backbone.ItemChildrenView extends Backbone.View
 
     this
 
+class App.backbone.ListPropertiesView extends Backbone.View  
+  render: ->
+    @$(".name").text(@model.get("name"))
+    $(".list-#{@model.get("id")} a").text(@model.get("name"))
+    @$(".notes").text(@model.get("notes"))
+    this
+
+class App.backbone.ListPropertiesFormView extends Backbone.View  
+  events:
+    "click .primary": "submit"
+    "form submit": "submit"
+    "click .cancel": "cancel"
+  
+  render: ->
+    @$(".name").val(@model.get("name"))
+    @$(".notes").val(@model.get("notes"))
+    this
+  
+  submit: ->
+    @model.changeProperties
+      name: @$(".name").val()
+      notes: @$(".notes").val()
+    $("#properties-form").modal("hide")
+    false
+  
+  cancel: ->
+    @render()
+    $("#properties-form").modal("hide")
+
 class App.backbone.ListView extends Backbone.View
   tagName: "ul"
   className: "item-list"
@@ -498,6 +535,8 @@ App.setupList = (list) ->
   App.mainList = App.lists.at(0)
   App.setupItems list.items
   App.mainList.view = new App.backbone.ListView(collection: App.root.children)
+  App.mainList.propertiesView = new App.backbone.ListPropertiesView(model: App.mainList, el: $("#properties"))
+  App.mainList.propertiesFormView = new App.backbone.ListPropertiesFormView(model: App.mainList, el: $("#properties-form"))
 
 App.setupItems = (items) ->
   App.root = new App.backbone.Item()

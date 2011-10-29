@@ -1,14 +1,18 @@
 - @body_id = "list"
 :javascript
   App.setup(#{JSON.generate(@list.attributes.to_hash)})
-  
-%h2
-  = @list.name
-  .pull-right
-    %button.btn.settings{:href => "#", "data-controls-modal" => "settings", "data-backdrop" => "true"}
-      %img{:src => "/assets/158-wrench-2.png"}
+
+#properties
+  %h2
+    %span.name= @list.name
+    .pull-right
+      %button.btn.settings{:href => "#", "data-controls-modal" => "properties-form", "data-backdrop" => "true"}
+        %img{:src => "/assets/158-wrench-2.png"}
+  .notes
+    = @list.notes
+
 #app
-#settings.modal
+#properties-form.modal
   .modal-header
     %a.close{:href => "#"}x
     %h3 List Settings
@@ -17,11 +21,11 @@
       .clearfix
         %label{:for => "name"} List Name
         .input
-          %input.xlarge
+          %input.span8.input.name{:name => "name", :value => @list.name}
       .clearfix
         %label{:for => "notes"} Notes
         .input
-          %textarea.xlarge{:rows => 4}
+          %textarea.span8.notes{:rows => 4, :name => "notes"}
       %h4 Access
       %table#access
         %thead
@@ -87,4 +91,4 @@
     %h5 Lists
     %ul.lists
       - @lists.each do |list|
-        %li{class: ("selected" if @list == list)}= link_to list.name, list_path(list)
+        %li{class: "#{("selected" if @list == list)} list-#{list.id}"}= link_to list.name, list_path(list)
