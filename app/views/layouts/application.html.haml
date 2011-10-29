@@ -6,6 +6,7 @@
     = javascript_include_tag 'jquery-1.4.4.js', 'jquery.hotkeys.js', 'underscore.js', 'backbone.js', "bootstrap-modal"
     = javascript_include_tag 'application'
     = csrf_meta_tag
+    %link{:rel => "icon", :type => "image/png", :href => "/assets/259-list.png"}
   %body{:id => @body_id}
     .topbar
       .listfill
@@ -13,7 +14,11 @@
           %a.brand{:href => "#"} Checklist Hub
           - if user_signed_in?
             .pull-right
-              %p== logged in as #{link_to current_user.email, edit_user_registration_path(current_user)}
+              %p
+                == logged in as #{link_to current_user.email, edit_user_registration_path(current_user)}
+                &bull;
+                = link_to "logout", destroy_user_session_path
+              
           - else
             %form.pull-right{:action => ""}
               %input.input-small{:placeholder => "Username", :type => "text"}/

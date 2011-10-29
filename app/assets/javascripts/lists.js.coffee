@@ -1,27 +1,3 @@
-# Initial Setup: App.setupItems(itemsJson)
-# where itemsJson is an array of objects with the attributes:
-#   id: Integer
-#   body: String
-#   status: 'incomplete'|'complete'
-#   parent_id: Integer - parent must be 
-#   item_type: String - each item will have its item type added as a class
-# example:
-#   [{"status":"incomplete","body":"note 1","item_type":"note","id":1764,"parent_id":null},
-#   {"status":"incomplete","body":"note 2","item_type":"note","id":1765,"parent_id":null},
-#   {"status":"incomplete","body":"note 3","item_type":"note","id":1766,"parent_id":null},
-#   {"status":"incomplete","body":"note 4 - child","item_type":"note","id":1767,"parent_id":1766},
-#   {"status":"complete","body":"note 5","item_type":"note","id":1771,"parent_id":null}]
-# 
-# "REST" api:
-# POST   /items              - create; return item JSON
-# PUT    /items/:id          - update; return item JSON
-# PUT    /items/:id/reparent - change parent of item; returnn nothing
-# PUT    /items/:id/move?direction=[up|down] - move the item up or down; return nothing
-# DELETE /items/:id          - delete
-#
-# If you don't want to use "/items", change App.url
-# Needs container div with id #appl; change App.appId
-
 App =
   # Config
   lists: null

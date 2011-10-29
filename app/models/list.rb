@@ -8,8 +8,8 @@ class List
   belongs_to :user
   
   class << self
-    def create_default
-      create(:name => "New List", :items => [{:body => "", :completed_at => nil}])
+    def create_default(user)
+      create(:name => "New List", :items => [{:body => "", :completed_at => nil}], :user => user)
     end
   end
 end

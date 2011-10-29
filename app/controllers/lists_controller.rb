@@ -2,6 +2,7 @@ class ListsController < ApplicationController
   before_filter :authenticate_user!
   
   def index
+    redirect_to current_users.lists.first
   end
   
   def show
@@ -10,7 +11,7 @@ class ListsController < ApplicationController
   end
   
   def new
-    list = List.create_default
+    list = List.create_default(current_user)
     redirect_to(list)
   end
   
