@@ -5,9 +5,11 @@ class List
   field :name,  type: String
   field :notes, type: String
   
+  belongs_to :user
+  
   class << self
     def create_default
-      create(:name => "New List", :items => [{:body => "", :completed_at => nil}])
+      create(:name => "New List (click this text to edit list name)", :items => [{:body => "", :completed_at => nil}])
     end
   end
 end

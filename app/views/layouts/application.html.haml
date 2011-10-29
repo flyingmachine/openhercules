@@ -6,18 +6,24 @@
     = javascript_include_tag 'jquery-1.4.4.js', 'jquery.hotkeys.js', 'underscore.js', 'backbone.js'
     = javascript_include_tag 'application'
     = csrf_meta_tag
-  %body
+  %body{:id => @body_id}
     .topbar
       .topbar-inner
         .container-fluid
           %a.brand{:href => "#"} Checklist Hub
-          %form.pull-right{:action => ""}
-            %input.input-small{:placeholder => "Username", :type => "text"}/
-            %input.input-small{:placeholder => "Password", :type => "password"}/
-            %button.btn{:type => "submit"} Sign in
+          - if user_signed_in?
+            .pull-right
+              %p== logged in as #{link_to current_user.email, edit_user_registration_path(current_user)}
+          - else
+            %form.pull-right{:action => ""}
+              %input.input-small{:placeholder => "Username", :type => "text"}/
+              %input.input-small{:placeholder => "Password", :type => "password"}/
+              %button.btn{:type => "submit"} Sign in
     .container-fluid
       .sidebar
         .well
-          content
+          = yield :sidebar
       .content
-        = yield
+        .row
+          .span14
+            = yield
