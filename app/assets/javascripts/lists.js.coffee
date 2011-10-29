@@ -35,18 +35,17 @@ App =
     @selected
 
 class App.backbone.List extends Backbone.Model      
+  change: -> @save()
+
   changeProperties: (properties) ->
-    @setItems()
-    @set(properties)
+    @set($.extend properties, items: App.root.asJson().children)
     @propertiesView.render()
     @save()
   
   updateItems: ->
-    @setItems()
+    @set items: App.root.asJson().children
     @save
     
-  setItems: ->
-    @set items: App.root.asJson().children
 
 class App.backbone.Lists extends Backbone.Collection
   model: App.backbone.List
