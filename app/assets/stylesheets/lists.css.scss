@@ -22,6 +22,10 @@ body {
   &.selected {
     background:#e1f7fc;
     border-color:#e1f7fc;
+    
+    &:hover {
+      border-color:#96e9fc;
+    }
   }
   
   form {
@@ -33,13 +37,13 @@ body {
   margin:0 0 0 1em;
   padding:0;
   
+  &.item-list {
+    margin-left:0;
+    margin-top:1em;
+  }
+  
   ul {
     margin-left:20px;
-    
-    &.item-list {
-      margin-left:0;
-      margin-top:1em;
-    }
   }
   
   li {
