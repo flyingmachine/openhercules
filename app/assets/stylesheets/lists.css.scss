@@ -175,15 +175,16 @@ h2.completed {
           border:1px solid #b9b6c2;
           border-left-style:none;
           border-right-style:none;
-          text-decoration:none;
         }
-
         
         a {
           display:block;
           padding:5px 20px 5px 42px;
           color:#666;
           background:url(/assets/259-list.png) 20px 8px no-repeat;
+          &:hover {
+            text-decoration:none;
+          }
         }
       }
     }
@@ -192,6 +193,8 @@ h2.completed {
 
 .settings.btn {
   padding:5px 8px;
+  background-image:none;
+  background-color:#fafafa;
   
   &:active img{
     position:relative;

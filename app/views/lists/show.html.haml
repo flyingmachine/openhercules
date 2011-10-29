@@ -25,7 +25,7 @@
       .clearfix
         %label{:for => "notes"} Notes
         .input
-          %textarea.span8.notes{:rows => 4, :name => "notes"}
+          %textarea.span8.notes{:rows => 4, :name => "notes"}= @list.notes
       %h4 Access
       %table#access
         %thead

@@ -9,7 +9,7 @@ class List
   
   class << self
     def create_default
-      create(:name => "New List (click this text to edit list name)", :items => [{:body => "", :completed_at => nil}])
+      create(:name => "New List", :items => [{:body => "", :completed_at => nil}])
     end
   end
 end
