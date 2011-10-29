@@ -140,3 +140,43 @@ h2.completed {
 #list h1:hover {
   background:#e1f7fc;
 }
+
+.container-fluid .sidebar {
+  margin-left:-20px;
+  margin-top:-20px;
+  width:240px;
+  
+  .organizer {
+    padding-left:20px;
+    padding-top:20px;
+    background:#fafafa;
+    
+    ul {
+      margin:0;
+      padding:0;
+      
+      li {
+        list-style:disc;
+        list-style-position:inside;
+        
+        a {
+          display:block;
+          margin-left:-20px;
+          padding:5px 20px;
+          color:#666;
+          border:1px solid #fafafa;
+          border-left-style:none;
+          border-right-style:none;
+          
+          &.selected, &:hover {
+            @include vertical-gradient(#dedce3, #ceccd5);
+            border:1px solid #b9b6c2;
+            border-left-style:none;
+            border-right-style:none;
+            text-decoration:none;
+          }
+        }
+      }
+    }
+  }
+}

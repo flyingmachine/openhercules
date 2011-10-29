@@ -2,7 +2,7 @@
 :javascript
   App.setup(#{JSON.generate(@list.attributes.to_hash)})
   
-%h1
+%strong
   = @list.name
 #app
 #commands
@@ -46,7 +46,8 @@
       %td outdent
 
 - content_for :sidebar do
-  %h5 Lists
-  %ul
-    - @lists.each do |list|
-      %li= link_to list.name, list_path(list)
+  .organizer
+    %h5 Lists
+    %ul
+      - @lists.each do |list|
+        %li= link_to list.name, list_path(list), class: ("selected" if @list == list)
