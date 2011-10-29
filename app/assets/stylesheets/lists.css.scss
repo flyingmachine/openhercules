@@ -15,49 +15,45 @@ body {
   border-radius:10px;
   border:1px solid #fff;
   
+  &:hover {
+    border-color:#96e9fc;
+  }
+  
+  &.selected {
+    background:#e1f7fc;
+  }
+  
   form {
     margin:0;
   }
 }
 
-.item:hover {
-  border-color:#96e9fc;
-}
-
-.item.selected {
-  background:#e1f7fc;
-}
-
-li {
-  list-style-type:circle;
-}
-
 #app ul {
   margin:0 0 0 1em;
   padding:0;
+  
+  ul {
+    margin-left:20px;
+    
+    &.item-list {
+      margin-left:0;
+      margin-top:1em;
+    }
+  }
+  
+  li {
+    list-style-type:none;
+    position:relative;
+    padding:0;
+  }
+  
+  input[type=checkbox] {
+    position:absolute;
+    left:8px;
+    top:4px;
+  }
+  
 }
-
-#app ul ul {
-  margin-left:20px;
-}
-
-#app ul.item-list {
-  margin-left:0;
-  margin-top:1em;
-}
-
-#app li {
-  list-style-type:none;
-  position:relative;
-  padding:0;
-}
-
-#app input[type=checkbox] {
-  position:absolute;
-  left:5px;
-  top:3px;
-}
-
 #app input[type=checkbox]:checked {
   opacity:0.3;
 }
