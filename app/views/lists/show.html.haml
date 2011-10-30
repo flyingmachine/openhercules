@@ -11,7 +11,7 @@
         = link_to "sign up", edit_anonymous_user_registration_path(current_user)
       - else
         = link_to "sign up", new_user_registration_path
-    You'll keep all the lists you've made and get access to more features.
+    You'll keep all the lists you've made and receive access to more features.
 
 #properties
   %h2
@@ -104,3 +104,6 @@
       %ul.lists
         - @lists.each do |list|
           %li{class: "#{("selected" if @list == list)} list-#{list.id}"}= link_to list.name, list_path(list)
+      
+      .add
+        = link_to "+ Add", new_list_path

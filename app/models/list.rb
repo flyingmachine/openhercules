@@ -1,11 +1,14 @@
 class List
   include Mongoid::Document
+  include Mongoid::Timestamps
   
   field :items, type: Array
   field :name,  type: String
   field :notes, type: String
   
   belongs_to :user
+  
+  default_scope order_by([[:created_at, :desc]])
   
   class << self
     def create_default(user)

@@ -12,12 +12,12 @@
       .listfill
         .container-fluid
           %a.brand{:href => "#"} Checklist Hub
-          - if user_signed_in? && !anonymous?
+          - if user_signed_in?
             .pull-right
               - if anonymous?
                 %p
                   anonymous mode &bull;
-                  = link_to "sign up", new_user_registration_path
+                  = link_to "sign up", edit_anonymous_user_registration_path(current_user)
                   &bull;
                   = link_to "log in", new_user_session_path
               - else
