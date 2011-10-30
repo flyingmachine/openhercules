@@ -2,6 +2,10 @@ class ListsController < ApplicationController
   before_filter :authenticate_user!
   
   def index
+    if current_user.lists.empty?
+      List.create_default(current_user)
+    end
+    
     redirect_to current_user.lists.first
   end
   
