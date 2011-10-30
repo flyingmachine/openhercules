@@ -1,0 +1,59 @@
+.container
+  .content.start
+    .page-header
+      %h1 
+        Checklist Hub
+        %br
+        %small
+          A home for checklist junkies
+    .row.start-now
+      .span5
+        %p= link_to "Create Checklist Now", new_list_path, :class => "btn success large"
+        %p Create public checklists that you can share with anyone.
+        
+  .content
+    .row
+      .span5
+        %h3 Sign up
+        
+        %p 
+          Access your lists from any browser and create private lists.
+        
+        = form_tag user_registration_path, :class => "form-stacked" do
+          .clearfix
+            %label{:for => "user_email"} Email
+            .input#user_email= text_field_tag 'user[email]', ""
+
+          .clearfix
+            %label{:for => "user_password"} Password
+            .input#user_password= password_field_tag 'user[password]', ""
+
+          .clearfix
+            %label{:for => "user_password_confirmation"} Password Confirmation
+            .input#user_password= password_field_tag 'user[password_confirmation]', ""
+
+          .clearfix
+            %input.primary.btn{:type => "submit", :value => "Sign up"}
+  
+  .content
+    .row
+      .span5
+        %h3 Sign in
+        = form_tag user_session_path, :class => "form-stacked" do
+          .clearfix
+            %label{:for => "user_email"} Email
+            .input#user_email= text_field_tag 'user[email]', ""
+
+          .clearfix
+            %label{:for => "user_password"} Password
+            .input#user_password= password_field_tag 'user[password]', ""
+
+          .clearfix
+            %label{:for => "user_remember_me"}
+              = check_box_tag 'user[remember_me]', :id => "user_remember_me"
+              Remember Me
+
+          .clearfix= link_to "Forgot your password?", new_password_path('user')
+          
+          .clearfix
+            %input.primary.btn{:type => "submit", :value => "Sign in"}
