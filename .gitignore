@@ -5,3 +5,4 @@ tmp/
 doc
 .rvmrc
 .DS_Store
+*.tmproj

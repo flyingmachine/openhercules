@@ -1,4 +1,6 @@
 class AnonymousUserRegistrationsController < ApplicationController
+  layout "spare"
+  
   def create
     user = User.create_anonymous_user
     sign_in_and_redirect(user)

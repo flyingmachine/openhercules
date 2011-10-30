@@ -2,6 +2,17 @@
 :javascript
   App.setup(#{JSON.generate(@list.attributes.to_hash)})
 
+- if anonymous?
+  .alert-message.block-message
+    %strong Hi anonymous user!
+    Thanks for trying out the site. If you like it, please do
+    = succeed "." do
+      - if user_signed_in?
+        = link_to "sign up", edit_anonymous_user_registration_path(current_user)
+      - else
+        = link_to "sign up", new_user_registration_path
+    You'll keep all the lists you've made and get access to more features.
+
 #properties
   %h2
     %span.name= @list.name
@@ -87,8 +98,9 @@
       %td outdent
 
 - content_for :sidebar do
-  .organizer
-    %h5 Lists
-    %ul.lists
-      - @lists.each do |list|
-        %li{class: "#{("selected" if @list == list)} list-#{list.id}"}= link_to list.name, list_path(list)
+  - if @lists
+    .organizer
+      %h5 Lists
+      %ul.lists
+        - @lists.each do |list|
+          %li{class: "#{("selected" if @list == list)} list-#{list.id}"}= link_to list.name, list_path(list)

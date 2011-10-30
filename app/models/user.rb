@@ -5,10 +5,11 @@ class User
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
          
-  field :anonymous, type: Boolean
-  field :username,  type: String
+  field :anonymous,           type: Boolean
+  field :username,            type: String
+  field :last_viewed_list_id, type: Integer
   
-  has_many :lists
+  has_many    :lists
   
   validates_presence_of :username, :if => :username_required?
   validates_length_of :username, :within => 4..24, :allow_blank => true
@@ -29,6 +30,10 @@ class User
   
   def username_required?
     !anonymous
+  end
+  
+  def last_viewed_list
+    List.find(last_viewed_list_id) if last_viewed_list_id
   end
     
 end
