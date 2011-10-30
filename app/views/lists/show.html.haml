@@ -21,7 +21,16 @@
         %img{:src => "/assets/158-wrench-2.png"}
   .notes
     = @list.notes
-
+#new.modal
+  .modal-header
+    %a.close{:href => "#"}x
+    %h3 New List
+  .modal-body
+    = form_tag lists_path, :method => "post", :class => "form-stacked" do
+      = render :partial => 'form'
+  .modal-footer
+    %a.btn.primary{:href => "#"}Save
+    %a.btn.secondary.cancel{:href => "#"}Cancel
 #app
 #properties-form.modal
   .modal-header
@@ -29,14 +38,7 @@
     %h3 List Settings
   .modal-body
     %form.form-stacked
-      .clearfix
-        %label{:for => "name"} List Name
-        .input
-          %input.span8.input.name{:name => "name", :value => @list.name}
-      .clearfix
-        %label{:for => "notes"} Notes
-        .input
-          %textarea.span8.notes{:rows => 4, :name => "notes"}= @list.notes
+      = render :partial => 'form'
       %h4 Access
       %table#access
         %thead
@@ -106,4 +108,4 @@
           %li{class: "#{("selected" if @list == list)} list-#{list.id}"}= link_to list.name, list_path(list)
       
       .add
-        = link_to "+ Add", new_list_path
+        %a{:href => "#", "data-controls-modal" => "new", "data-backdrop" => "true"}+ Add

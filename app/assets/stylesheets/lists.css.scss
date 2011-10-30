@@ -156,17 +156,25 @@ h2.completed {
       
       li {
         list-style-type:none;
-        border:1px solid #fafafa;
-        border-left-style:none;
-        border-right-style:none;
+        border-top:1px solid #fafafa;
         margin-left:-20px;
         
         &.selected, &:hover {
 /*          @include vertical-gradient(#dedce3, #ceccd5);*/
           background: #dedce3;
-          border:1px solid #b9b6c2;
-          border-left-style:none;
-          border-right-style:none;
+          border-top:1px solid #b9b6c2;
+        }
+        
+        &.selected + li, &:hover + li {
+          border-top:1px solid #b9b6c2;
+        }
+        
+        &:last-child {
+          border-bottom:1px solid #fafafa;
+        }
+        
+        &.selected:last-child, &:hover:last-child {
+          border-bottom:1px solid #b9b6c2;
         }
         
         a {
@@ -219,3 +227,6 @@ h2.completed {
   padding-left:0;
 }
 
+#new {
+  display:none;
+}

@@ -519,5 +519,8 @@ App.setupItems = (items) ->
 $ ->
   $(".cookie-user").click ->
     confirm "Are you sure? You will not be able to recover your data unless you modify your account first."
+  $("#new").bind "shown", -> $("#new .name").focus()
+  $("#new .primary").click -> $("#new form").submit()
+  $("#new .cancel").click -> $("#new").modal("hide")
 
 window.App = App

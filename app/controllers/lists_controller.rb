@@ -1,5 +1,5 @@
 class ListsController < ApplicationController
-  before_filter :authenticate_user!, :only => [:update, :new, :index]
+  before_filter :authenticate_user!
    
   def index
     if current_user.lists.empty?
@@ -16,9 +16,9 @@ class ListsController < ApplicationController
       @lists = current_user.lists
     end
   end
-  
-  def new
-    list = List.create_default(current_user)
+    
+  def create
+    list = current_user.lists.create(name: params[:name], notes: params[:notes])
     redirect_to(list)
   end
   
