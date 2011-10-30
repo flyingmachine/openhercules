@@ -9,7 +9,13 @@
     .row.start-now
       .span5
         %h3 Sign Up
-        = form_for current_user, :as => :user, :url => registration_path(current_user), :html => {:class => "form-stacked"} do |f|
+        %p You're about to unlock some Checklist Hub features. Woohoo!
+        = form_for current_user, :as => :user, :url => anonymous_user_registration_path(current_user), :html => {:class => "form-stacked", :method => "put"} do |f|
+          .clearfix
+            = f.label :username
+            .input
+              = f.text_field :username
+              
           .clearfix
             = f.label :email
             .input
@@ -25,5 +31,7 @@
             .input
               = f.password_field :password_confirmation
           .clearfix
-            %input.primary.btn{:type => "submit", :value => "Sign up"}
-          
+            .row
+              .span5
+                %input.primary.btn{:type => "submit", :value => "Sign up"}
+                = link_to "Cancel", lists_path, :class => "btn secondary pull-right"

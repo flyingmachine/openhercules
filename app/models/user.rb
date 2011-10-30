@@ -12,11 +12,12 @@ class User
   has_many    :lists
   
   validates_presence_of :username, :if => :username_required?
+  validates_uniqueness_of :username
   validates_length_of :username, :within => 4..24, :allow_blank => true
   
   class << self
     def create_anonymous_user
-      create(anonymous: true, remember_me: true)
+      create(anonymous: true, remember_me: true, password: "anonymous", password_confirmation: "anonymous")
     end
   end
   

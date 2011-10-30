@@ -1,14 +1,12 @@
 html {
-  height:100%;
+  background:#eee;
 }
 body {
-  height:100%;
   padding-top:60px;
 }
 
 #spare {
   background:#eee;
-  
   .content {
     background:white;
     margin:0 auto 20px;
@@ -19,5 +17,8 @@ body {
       padding-bottom:5px;
     }
   }  
-  
+ 
+  input[type="text"], input[type="password"] {
+    @extend .span5;
+  }
 }
