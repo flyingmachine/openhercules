@@ -17,7 +17,7 @@ class User
   
   class << self
     def create_anonymous_user
-      create(anonymous: true, remember_me: true, password: "anonymous", password_confirmation: "anonymous")
+      create(anonymous: true, remember_me: true, password: "anonymous", password_confirmation: "anonymous", email: nil)
     end
   end
   
