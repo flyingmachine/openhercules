@@ -497,6 +497,7 @@ App.setup = (list) ->
     $(App.appId).append App.mainList.view.render().el
     App.keyBindings()
     App.mainList.view.selectNext()
+    App.mainList.view.switchItem()
 
 App.setupList = (list) ->
   App.lists = new App.backbone.Lists([ 
