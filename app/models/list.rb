@@ -4,7 +4,7 @@ class List
   
   field :items, type: Array
   field :name,  type: String
-  field :notes, type: String
+  field :description, type: String
   
   belongs_to :user
   
@@ -25,6 +25,17 @@ class List
     end
     
     def create_first(user)
+      items = [
+        "This is your first list. It's a tutorial on using Checklist Hub. Try editing this text and hitting the 'escape' key.",
+        "Escape toggles between editing mode and organization mode.",
+        "Now hit the down arrow until this line of text is highlighted in blue. Then hit 'x'. This line should be indented.",
+        "Now highlight this line and hit backspace or delete.",
+        "The previous line should be deleted.",
+        "You can hit 'enter' to add a new line, 'shift + enter' to add a new line before this one, and 'control + enter' to add a new line and indent it.",
+        "Finally, you can press 'control + up' or 'control + down' to move a line up or down.",
+        "That's it!"
+      ]
+      
       create(
         name:  "First List!",
         user:  user,

@@ -19,6 +19,9 @@ class App.backbone.List extends Backbone.Model
   
   updateItems: ->
     @set items: App.root.asJson().children
+  
+  isEmpty: ->
+    @get('items').length == 1 && @get('items')[0].body == ""
     
 
 class App.backbone.Lists extends Backbone.Collection
@@ -358,7 +361,7 @@ class App.backbone.ListPropertiesView extends Backbone.View
   render: ->
     @$(".name").text(@model.get("name"))
     $(".list-#{@model.get("id")} a").text(@model.get("name"))
-    @$(".notes").text(@model.get("notes"))
+    @$(".description").text(@model.get("description"))
     this
 
 class App.backbone.ListPropertiesFormView extends Backbone.View  
@@ -369,13 +372,13 @@ class App.backbone.ListPropertiesFormView extends Backbone.View
   
   render: ->
     @$(".name").val(@model.get("name"))
-    @$(".notes").val(@model.get("notes"))
+    @$(".description").val(@model.get("description"))
     this
   
   submit: ->
     @model.changeProperties
       name: @$(".name").val()
-      notes: @$(".notes").val()
+      description: @$(".description").val()
     $("#properties-form").modal("hide")
     false
   
@@ -497,13 +500,13 @@ App.setup = (list) ->
     $(App.appId).append App.mainList.view.render().el
     App.keyBindings()
     App.mainList.view.selectNext()
-    App.mainList.view.switchItem()
+    App.mainList.view.switchItem() if App.mainList.isEmpty()
 
 App.setupList = (list) ->
   App.lists = new App.backbone.Lists([ 
     id: list._id
     name: list.name
-    notes: list.notes
+    description: list.description
     items: list.items
   ])
   App.mainList = App.lists.at(0)

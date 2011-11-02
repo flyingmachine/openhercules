@@ -3,7 +3,7 @@ class ListsController < ApplicationController
    
   def index
     if current_user.lists.empty?
-      List.create_default(current_user)
+      List.create_first(current_user)
     end
     
     redirect_to current_user.last_viewed_list || current_user.lists.first
@@ -18,7 +18,7 @@ class ListsController < ApplicationController
   end
     
   def create
-    list = current_user.lists.create(name: params[:name], notes: params[:notes])
+    list = current_user.lists.create(name: params[:name], description: params[:description])
     redirect_to(list)
   end
   

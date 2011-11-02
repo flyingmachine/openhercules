@@ -3,6 +3,6 @@
   .input
     %input.span8.input.name{:name => "name", :value => @list.name}
 .clearfix
-  %label{:for => "notes"} Notes
+  %label{:for => "description"} List Description
   .input
-    %textarea.span8.notes{:rows => 4, :name => "notes"}= @list.notes
+    %textarea.span8.description{:rows => 4, :name => "description"}= @list.description

@@ -65,11 +65,11 @@ function edit_in_place(){
   // textareas
   $("#organization_address").editable(default_location, text_area_options("organization_address"));
   $("#organization_contact_info").editable(default_location, text_area_options("organization_contact_info"));
-  $("#notes").editable(default_location, edit_options({
+  $("#description").editable(default_location, edit_options({
     type    : "textarea",
     height  : "none",
     style   : "display:block",
-    loadurl : opportunity_edit_loadurl("notes")
+    loadurl : opportunity_edit_loadurl("description")
   }));
   $("#listing_text").editable(default_location, edit_options({
     type    : "textarea",
