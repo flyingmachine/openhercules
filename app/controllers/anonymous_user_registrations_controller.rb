@@ -5,7 +5,8 @@ class AnonymousUserRegistrationsController < ApplicationController
   
   def create
     user = User.create_anonymous_user
-    sign_in_and_redirect(user)
+    sign_in(user)
+    redirect_to lists_path
   end
   
   def edit

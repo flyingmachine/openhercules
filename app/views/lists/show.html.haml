@@ -2,17 +2,6 @@
 :javascript
   App.setup(#{JSON.generate(@list.attributes.to_hash)})
 
-- if anonymous?
-  .alert-message.block-message
-    %strong Hi anonymous user!
-    Thanks for trying out the site. If you like it, please do
-    = succeed "." do
-      - if user_signed_in?
-        = link_to "sign up", edit_anonymous_user_registration_path(current_user)
-      - else
-        = link_to "sign up", new_user_registration_path
-    You'll keep all the lists you've made and receive access to more features.
-
 #properties
   %h2
     %span.name= @list.name
@@ -109,4 +98,26 @@
           %li{class: "#{("selected" if @list == list)} list-#{list.id}"}= link_to list.name, list_path(list)
       
       .add
-        %a{:href => "#", "data-controls-modal" => "new", "data-backdrop" => "true"}+ Add
+        %a{:href => "#", "data-controls-modal" => "new", "data-backdrop" => "true"}+ Add List
+  - else
+    = form_tag anonymous_user_registration_path, :class => "form-stracked" do
+      %p
+        %button.success.btn.large Create Checklist Now
+    
+  - if anonymous?
+    #to-anonymous.alert-message.block-message
+      %p
+        %strong Hi anonymous user!
+      %p As an anonymous user, you can add lists and share them with others by giving them your list's URL.
+      
+      %p
+        If you like Checklist Hub, please do
+        = succeed "." do
+          = contextual_sign_up
+        All the lists you've made will stay with your new account, and you'll be able to:
+      
+      %ul
+        %li Log in from any browser
+        %li Create private lists
+        %li Keep track of other people's lists
+        %li Privately share your lists with others

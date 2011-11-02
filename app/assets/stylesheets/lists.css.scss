@@ -59,7 +59,7 @@
   background:#fff;
   border:2px solid #96e9fc;
   font-family: verdana, arial, helvetica, sans-serif;
-  font-size:   13px;
+  font-size:   12px;
   padding:0 2px 2px 5px;
   -moz-border-radius:8px;
   border-radius:8px;
@@ -193,6 +193,10 @@ h2.completed {
   .add {
     padding: 5px 0;
   }
+  
+  form {
+    margin:1em;
+  }
 }
 
 .settings.btn {
@@ -229,4 +233,11 @@ h2.completed {
 
 #new {
   display:none;
+}
+
+#to-anonymous {
+  margin:1em 0 1em 1em;
+  p {
+    margin-bottom:1em;
+  }
 }

@@ -15,11 +15,26 @@
           - if user_signed_in?
             .pull-right
               - if anonymous?
+                #log-out-forever.hide.modal
+                  .modal-header
+                    %a.close{:href => "#"}x
+                    %h3 Log out forever?
+                  .modal-body
+                    Are you sure you want to log out? Since you don't have an account, you won't be able to access your lists again. If you
+                    = succeed "," do
+                      = contextual_sign_up
+                    your lists can be retrieved and you'll be able to sign in again.
+                  .modal-footer
+                    %a.btn.danger{:href => destroy_user_session_path}Log Out Forever
+                    %a.btn.secondary.cancel{:href => "#"}Cancel
+                  
                 %p
                   anonymous mode &bull;
                   = link_to "sign up", edit_anonymous_user_registration_path(current_user)
                   &bull;
                   = link_to "log in", new_user_session_path
+                  &bull;
+                  %a{:href => "#", "data-controls-modal" => "log-out-forever", "data-backdrop" => "true"}log out forever
               - else
                 %p
                   == logged in as #{link_to current_user.email, edit_user_registration_path(current_user)}
