@@ -20,10 +20,10 @@ group :assets do
 end
 
 group :test do
-  gem "factory_girl_rails", :group => "test"
-  gem "cucumber-rails", :group => "test"
-  gem "capybara", :group => "test"
-  gem "rspec-rails", :group => "test"  
+  gem "factory_girl_rails"
+  gem "cucumber-rails"
+  gem "capybara"
+  gem "rspec-rails"
 end
 
 gem "ruby-debug19", :group => [:test, :development]
