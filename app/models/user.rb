@@ -10,7 +10,7 @@ class User
   field :email,               type: String
   field :last_viewed_list_id, type: Integer
   field :organized_lists,     type: Array
-  field :list_invitations,    type: Array
+  field :list_invitations,    type: Array,  default: []
   
   has_many :lists
   
@@ -45,13 +45,32 @@ class User
     List.find(last_viewed_list_id) if last_viewed_list_id
   end
   
-  def add_list_invitation(list, permission)
-    self.list_invitations ||= []
-    self.list_invitations << {
+  def receive_list(list, permission)
+    list_info = {
       list_id: list.id.to_s,
       permission: permission
     }
+    
+    if has_received_list?(list)
+      update_shared_list(list_info)
+    else
+      add_list_invitation(list_info)
+    end
     save
+  end
+  
+  def add_list_invitation(list_info)
+    self.list_invitations ||= []
+    self.list_invitations << list_info
+  end
+  
+  def update_shared_list(list_info)
+    invitation = self.list_invitations.find{|i| i[:list_id] == list_info[:list_id]}
+    invitation[:permission] = list_info[:permission]
+  end
+  
+  def has_received_list?(list)
+    self.list_invitations.collect{|i| i[:list_id]}.include? list.id.to_s
   end
     
 end
