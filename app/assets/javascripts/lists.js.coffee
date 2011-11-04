@@ -1,15 +1,3 @@
-App =
-  # Config
-  lists: null
-  appId: "#app"
-  backbone: {}
-  selection: (item) ->
-    if (item)
-      @selected = item
-    else if !@selected
-      @selected = App.root.children.first()
-    @selected
-
 class App.backbone.List extends Backbone.Model      
   change: -> @save()
 
@@ -494,13 +482,15 @@ App.keyBindings = ->
   $(document).bind "keydown", "p", ->
     $("#project").focus()
 
-App.setup = (list) ->
+  
+App.setup ->
   $ ->
-    App.setupList list
+    App.setupList App.data.list
     $(App.appId).append App.mainList.view.render().el
     App.keyBindings()
     App.mainList.view.selectNext()
     App.mainList.view.switchItem() if App.mainList.isEmpty()
+  
 
 App.setupList = (list) ->
   App.lists = new App.backbone.Lists([ 
@@ -517,8 +507,7 @@ App.setupList = (list) ->
 
 App.setupItems = (items) ->
   App.root = new App.backbone.Item()
-  _.each items, (item) ->
-    new App.backbone.Item(item)
+  new App.backbone.Item(item) for item in items
 
 $ ->
   $(".cookie-user").click ->
@@ -527,4 +516,3 @@ $ ->
   $("#new .primary").click -> $("#new form").submit()
   $(".modal .cancel").click -> $(this).parents(".modal").modal("hide")
 
-window.App = App

@@ -9,10 +9,11 @@ class ListSharesController < ApplicationController
       render :head => 409
     else
       user = User.find(params[:user_id])
-      user.add_list_invitation(list, params[:permission])
+      user.receive_list(list, params[:permission])
     end
   end
   
   def update
+    return create
   end
 end

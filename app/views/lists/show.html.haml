@@ -1,6 +1,7 @@
 - @body_id = "list"
 :javascript
-  App.setup(#{JSON.generate(@list.attributes.to_hash)})
+  App.data.list = #{JSON.generate(@list.attributes.to_hash)}
+  App.setup()
 
 #properties
   %h2
@@ -28,23 +29,22 @@
   .modal-body
     %form.form-stacked
       = render :partial => 'form'
-      %h4 Access
-      %table#access
-        %thead
-          %tr
-            %th User
-            %th Read
-            %th Read + Write
-            %th Admin
-            %th No Access
-        %tbody
-          %tr
-            %td everyone
-            %td.option
-            %td.option
-            %td.option.selected
-              %img{:src => "/images/258-checkmark.png"}
-            %td.option
+    %h4 Access
+    %table#access
+      %thead
+        %tr
+          %th User
+          %th Read
+          %th Read + Write
+          %th No Access
+      %tbody
+        %tr
+          %td everyone
+          %td.option
+          %td.option.selected
+            %img{:src => "/images/258-checkmark.png"}
+          %td.option
+    %input
   .modal-footer
     %a.btn.primary{:href => "#"}Save
     %a.btn.secondary.cancel{:href => "#"}Cancel
