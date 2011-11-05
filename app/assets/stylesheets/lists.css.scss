@@ -219,15 +219,23 @@ h2.completed {
 #access {
   td.option {
     text-align:center;
-    @include transition(.1s linear all);
+    @include transition(.1s linear background-color);
+    
     &:hover {
-      @include transition(.1s linear all);
+      @include transition(.1s linear background-color);
       background: #e1f7fc;
     }
-    
     &.selected {
       background:#e1f7fc url("/images/258-checkmark.png") center center no-repeat;
     }
+    
+    &.none:hover {
+      background: #ffe4e4 url("/images/218-trash2.png") center center no-repeat;
+    }
+  }
+  
+  .everyone .option.none:hover {
+    background-image:none;
   }
 }
 
