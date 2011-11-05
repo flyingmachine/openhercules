@@ -23,6 +23,8 @@ class User
     "read + write"
   ]
   
+  scope :username_like, ->(username) { where("username" => /^#{username}/)}
+  
   class << self
     def create_anonymous_user
       create(anonymous: true, remember_me: true, password: "anonymous", password_confirmation: "anonymous")

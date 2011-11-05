@@ -19,4 +19,5 @@ App.setup = (setupFunction) ->
   if setupFunction
     @setupFunctions.push(setupFunction)
   else
-    setup() for setup in @setupFunctions
+    $ ->
+      setup() for setup in App.setupFunctions
