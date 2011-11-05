@@ -479,9 +479,6 @@ App.keyBindings = ->
   $(document).bind "keydown", "del", App.mainList.view.deleteItem
   $(document).bind "keydown", "x", App.mainList.view.indentItem
   $(document).bind "keydown", "z", App.mainList.view.outdentItem
-  $(document).bind "keydown", "p", ->
-    $("#project").focus()
-
   
 App.setup ->
   $ ->

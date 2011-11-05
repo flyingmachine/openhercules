@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   def index
-    users = User.username_like(params[:q])
-    users = users.collect{|u| {id: u._id, username: u.username }}
+    users = params[:term].blank? ? [] : User.username_like(params[:term])
+    users = users.collect{|u| {id: u._id, username: u.username, permission: User::LIST_PERMISSIONS[0] }}
     render :json => users.to_json
   end
 end

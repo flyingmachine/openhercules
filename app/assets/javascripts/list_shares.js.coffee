@@ -16,6 +16,12 @@ class App.backbone.ListShares extends Backbone.Collection
   initialize: ->
     @.bind "add", (listShare) ->
       $("#access tbody").append listShare.view.render().el
+      
+  addUnique: (listShare) ->
+    exists = @.any (item) ->
+      item.get("id") == listShare.id
+    unless exists
+      @.add([listShare])
     
 class App.backbone.ListShareView extends Backbone.View
   tagName: "tr"
@@ -32,26 +38,40 @@ class App.backbone.ListShareView extends Backbone.View
       
     this
 
-App.setupListShares = ->
-  App.listShares = new App.backbone.ListShares(App.data.listShares)
+App.setupListSharesModal = ->
+  $("#properties-form").modal
+    backdrop: true
+    keyboard: true
+    
+  $("#properties-form").bind 'shown', ->
+    $("#properties-form .name").focus()
+    
+  $(document).bind "keyup", "p", ->
+    $("#properties-form").modal("show")
   
-  for listShare in App.listShares.model
-    $("#access").append(model.view.render().el)
-  
+App.setupListSharesUsernameAutocomplete = ->
   $("#username").autocomplete
     source: "/users.json"
-
     focus: (event, ui) ->
       console.log ui
       $("#username").val(ui.item.username)
       false
-
     select: (event, ui) ->
       console.log ui
-      App.listShares.add([ui.item])
+      App.listShares.addUnique(ui.item)
       
   $("#username").data("autocomplete")._renderItem = (ul, item) ->
     $( "<li></li>" ).data( "item.autocomplete", item ).append( "<a>" + item.username + "</a>" ).appendTo( ul );
+  
+
+App.setupListShares = ->
+  App.listShares = new App.backbone.ListShares(App.data.listShares)
+  for listShare in App.listShares.model
+    $("#access").append(model.view.render().el)
+
+  App.setupListSharesUsernameAutocomplete()
+  App.setupListSharesModal()
+
 
 App.setup(App.setupListShares)
   
