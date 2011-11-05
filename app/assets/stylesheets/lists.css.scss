@@ -220,9 +220,13 @@ h2.completed {
   td.option {
     text-align:center;
     @include transition(.1s linear all);
-    &.selected, &:hover {
+    &:hover {
       @include transition(.1s linear all);
       background: #e1f7fc;
+    }
+    
+    &.selected {
+      background:#e1f7fc url("/images/258-checkmark.png") center center no-repeat;
     }
   }
 }
