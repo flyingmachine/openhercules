@@ -7,12 +7,12 @@ class App.backbone.ListShare extends Backbone.Model
   initialize: ->
     @view = new App.backbone.ListShareView
       model: @
-    
   change: -> @save()
   
 class App.backbone.ListShares extends Backbone.Collection
   model: App.backbone.ListShare
   url:   "/users/#{App.data.current_user_id}/list_shares"
+  
   initialize: ->
     @.bind "add", (listShare) ->
       $("#access tbody").append listShare.view.render().el
@@ -24,7 +24,7 @@ class App.backbone.ListShares extends Backbone.Collection
       listShare.id = App.mainList.get("id")
       listShare.permission = "read"
       @.create(listShare)
-    
+          
 class App.backbone.ListShareView extends Backbone.View
   tagName: "tr"
   className: "list-share"
@@ -58,7 +58,6 @@ App.setupListSharesUsernameAutocomplete = ->
       $("#username").val(ui.item.username)
       false
     select: (event, ui) ->
-      console.log ui
       App.listShares.addUnique(ui.item)
       
   $("#username").data("autocomplete")._renderItem = (ul, item) ->

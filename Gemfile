@@ -10,6 +10,7 @@ gem 'bson_ext'
 gem 'jquery-rails'
 gem "haml-rails"
 gem 'devise'
+gem 'faker'
 
 # Gems used only for assets and not required
 # in production environments by default.

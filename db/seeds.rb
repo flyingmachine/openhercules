@@ -5,3 +5,12 @@
 #
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
+
+10.times do
+  User.create(
+    username: Faker::Name.first_name.downcase.gsub(/.[^a-zA-Z0-9]/, '_'),
+    password: 'pass123.',
+    password_confirmation: 'pass123.',
+    email: Faker::Internet.email
+  )
+end

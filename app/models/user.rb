@@ -36,7 +36,7 @@ class User
   end
   
   def password_required?
-    !anonymous || super
+    !anonymous && super
   end
   
   def username_required?
