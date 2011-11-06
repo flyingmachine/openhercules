@@ -74,5 +74,10 @@ class User
   def has_received_list?(list)
     self.list_invitations.collect{|i| i[:list_id]}.include? list.id.to_s
   end
+  
+  def permission_for(list)
+    invitation = self.list_invitations.find{|l| l[:list_id] == list.id.to_s}
+    invitation[:permission] if invitation
+  end
     
 end

@@ -22,6 +22,7 @@ class App.backbone.ListShares extends Backbone.Collection
       item.get("id") == listShare.id
     unless exists
       listShare.id = App.mainList.get("id")
+      listShare.permission = "read"
       @.create(listShare)
     
 class App.backbone.ListShareView extends Backbone.View
@@ -66,8 +67,8 @@ App.setupListSharesUsernameAutocomplete = ->
 
 App.setupListShares = ->
   App.listShares = new App.backbone.ListShares(App.data.listShares)
-  for listShare in App.listShares.model
-    $("#access").append(model.view.render().el)
+  for listShare in App.listShares.models
+    $("#access").append(listShare.view.render().el)
 
   App.setupListSharesUsernameAutocomplete()
   App.setupListSharesModal()
