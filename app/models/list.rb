@@ -65,4 +65,8 @@ class List
       ]
     end
   end
+  
+  def sharees
+    User.where('list_invitations.list_id' => self.id.to_s)
+  end
 end

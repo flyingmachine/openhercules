@@ -354,19 +354,23 @@ class App.backbone.ListPropertiesView extends Backbone.View
 
 class App.backbone.ListPropertiesFormView extends Backbone.View  
   events:
-    "click .primary": "submit"
-    "form submit": "submit"
-    "click .cancel": "cancel"
+    "click  .primary"     : "close"
+    "submit form"         : "close"
+    "blur   .name"        : "update"
+    "blur   .description" : "update"
   
   render: ->
     @$(".name").val(@model.get("name"))
     @$(".description").val(@model.get("description"))
     this
   
-  submit: ->
+  update: ->
     @model.changeProperties
       name: @$(".name").val()
       description: @$(".description").val()
+  
+  close: ->
+    @update()
     $("#properties-form").modal("hide")
     false
   

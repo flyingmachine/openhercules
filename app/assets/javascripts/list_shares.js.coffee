@@ -21,7 +21,8 @@ class App.backbone.ListShares extends Backbone.Collection
     exists = @.any (item) ->
       item.get("id") == listShare.id
     unless exists
-      @.add([listShare])
+      listShare.id = App.mainList.get("id")
+      @.create(listShare)
     
 class App.backbone.ListShareView extends Backbone.View
   tagName: "tr"
@@ -53,7 +54,6 @@ App.setupListSharesUsernameAutocomplete = ->
   $("#username").autocomplete
     source: "/users.json"
     focus: (event, ui) ->
-      console.log ui
       $("#username").val(ui.item.username)
       false
     select: (event, ui) ->
