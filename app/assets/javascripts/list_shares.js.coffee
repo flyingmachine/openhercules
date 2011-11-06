@@ -8,6 +8,8 @@ class App.backbone.ListShare extends Backbone.Model
     @view = new App.backbone.ListShareView
       model: @
   change: -> @save()
+  appendView: ->
+    $("#access tbody").append @view.render().el
   
 class App.backbone.ListShares extends Backbone.Collection
   model: App.backbone.ListShare
@@ -15,7 +17,7 @@ class App.backbone.ListShares extends Backbone.Collection
   
   initialize: ->
     @.bind "add", (listShare) ->
-      $("#access tbody").append listShare.view.render().el
+      listShare.appendView()
       
   addUnique: (listShare) ->
     exists = @.any (item) ->
@@ -23,7 +25,8 @@ class App.backbone.ListShares extends Backbone.Collection
     unless exists
       listShare.id = App.mainList.get("id")
       listShare.permission = "read"
-      @.create(listShare)
+      model = @.create(listShare)
+      model.appendView()
           
 class App.backbone.ListShareView extends Backbone.View
   tagName: "tr"

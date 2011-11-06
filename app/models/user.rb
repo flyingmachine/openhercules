@@ -23,7 +23,7 @@ class User
     "read + write"
   ]
   
-  scope :username_like, ->(username) { where("username" => /^#{username}/)}
+  scope :username_like, ->(username) { where("username" => /^#{username}/) }
   
   class << self
     def create_anonymous_user
@@ -76,8 +76,8 @@ class User
   end
   
   def permission_for(list)
-    invitation = self.list_invitations.find{|l| l[:list_id] == list.id.to_s}
-    invitation[:permission] if invitation
+    invitation = self.list_invitations.find{|l| l["list_id"] == list.id.to_s}
+    invitation["permission"] if invitation
   end
     
 end

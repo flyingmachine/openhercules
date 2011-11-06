@@ -37,5 +37,14 @@ describe User do
       }]
     end
   end
+  
+  describe "#permission_for" do
+    it "should report the correct permissions for a list" do
+      list = List.create_default(user)
+      user2.receive_list(list, User::LIST_PERMISSIONS[0])
+      
+      user2.permission_for(list).should == User::LIST_PERMISSIONS[0]
+    end
+  end
 
 end
