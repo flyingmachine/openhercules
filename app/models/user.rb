@@ -74,7 +74,7 @@ class User
   end
   
   def has_received_list?(list)
-    self.list_invitations.collect{|i| i[:list_id]}.include? list.id.to_s
+    self.list_invitations.collect{|i| i["list_id"]}.include? list.id.to_s
   end
   
   def permission_for(list)
