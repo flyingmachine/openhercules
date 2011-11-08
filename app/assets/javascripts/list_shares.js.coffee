@@ -32,6 +32,18 @@ class App.backbone.ListShareView extends Backbone.View
   tagName: "tr"
   className: "list-share"
   template: _.template "<td class='username'></td><td class='option read'></td><td class='option read-write'></td><td class='option none'></td>"
+  events:
+    "click .read"       : "setRead"
+    "click .read-write" : "setReadWrite"
+    "click .none"       : "remove"
+    
+  setRead: ->
+    @model.set permission: "read"
+    @render()
+  
+  setReadWrite: ->
+    @model.set permission: "read-write"
+    @render()
   
   render: ->
     $(@el).html @template()

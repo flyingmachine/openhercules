@@ -20,7 +20,7 @@ class User
   
   LIST_PERMISSIONS = [
     "read",
-    "read + write"
+    "read-write"
   ]
   
   scope :username_like, ->(username) { where("username" => /^#{username}/) }
@@ -67,8 +67,10 @@ class User
   end
   
   def update_shared_list(list_info)
-    invitation = self.list_invitations.find{|i| i[:list_id] == list_info[:list_id]}
-    invitation[:permission] = list_info[:permission]
+    User.collection.update(
+      {_id: self.id,  'list_invitations.list_id' => list_info[:list_id]},
+      {"$set" => {"list_invitations.$.permission" => list_info[:permission]}}
+    )
   end
   
   def has_received_list?(list)

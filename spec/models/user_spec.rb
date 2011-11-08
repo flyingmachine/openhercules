@@ -31,9 +31,9 @@ describe User do
       user2.receive_list(list, User::LIST_PERMISSIONS[0])
       user2.receive_list(list, User::LIST_PERMISSIONS[1])
       
-      user2.list_invitations.should == [{
-        list_id: list.id.to_s,
-        permission: User::LIST_PERMISSIONS[1]
+      user2.reload.list_invitations.should == [{
+        "list_id" => list.id.to_s,
+        "permission" => User::LIST_PERMISSIONS[1]
       }]
     end
   end
@@ -43,7 +43,7 @@ describe User do
       list = List.create_default(user)
       user2.receive_list(list, User::LIST_PERMISSIONS[0])
       
-      user2.permission_for(list).should == User::LIST_PERMISSIONS[0]
+      user2.reload.permission_for(list).should == User::LIST_PERMISSIONS[0]
     end
   end
 
