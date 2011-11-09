@@ -16,7 +16,7 @@ class User
   
   validates_presence_of   :username, :if => :username_required?
   validates_uniqueness_of :username, :allow_blank => true
-  validates_length_of :username, :within => 4..24, :allow_blank => true
+  validates_length_of     :username, :within => 4..24, :allow_blank => true
   
   LIST_PERMISSIONS = [
     "read",
