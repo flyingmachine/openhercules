@@ -10,6 +10,7 @@ class List
   
   default_scope order_by([[:created_at, :desc]])
   before_save :ensure_item_exists
+  before_create :add_to_list_organizer
   
   class << self
     def create_default(user)
@@ -56,6 +57,10 @@ class List
     end
   end
   
+  def sharees
+    User.where('lists_organized.list_id' => self.id.to_s).and(:'lists_organized.permission'.ne => User::LIST_PERMISSIONS[2])
+  end
+  
   def ensure_item_exists
     if items.blank?
       self.items = [
@@ -66,7 +71,7 @@ class List
     end
   end
   
-  def sharees
-    User.where('lists_organized.list_id' => self.id.to_s)
+  def add_to_list_organizer
+    self.user.receive_list(self, User::LIST_PERMISSIONS[2])
   end
 end
