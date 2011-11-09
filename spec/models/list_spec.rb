@@ -17,4 +17,13 @@ describe List do
       list.sharees.should_not include(user)
     end
   end
+  
+  describe "after_create" do
+    it "should add the list to the owner's lists_organized" do
+      list.user.lists_organized.should == [{
+        "list_id"    => list.id.to_s,
+        "permission" => User::LIST_PERMISSIONS[2]
+      }]
+    end
+  end
 end

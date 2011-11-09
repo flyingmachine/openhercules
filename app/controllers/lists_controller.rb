@@ -5,7 +5,6 @@ class ListsController < ApplicationController
     if current_user.lists.empty?
       List.create_first(current_user)
     end
-    
     redirect_to current_user.last_viewed_list || current_user.lists.first
   end
   
@@ -13,7 +12,7 @@ class ListsController < ApplicationController
     @list = List.find(params[:id])
     if user_signed_in?
       current_user.update_attribute(:last_viewed_list_id, @list.id)
-      @lists = current_user.lists
+      @lists = current_user.lists_organized.collect{|l| List.find(l["list_id"])}
     end
   end
     

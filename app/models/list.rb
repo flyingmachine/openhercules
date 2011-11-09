@@ -9,8 +9,8 @@ class List
   belongs_to :user
   
   default_scope order_by([[:created_at, :desc]])
-  before_save :ensure_item_exists
-  before_create :add_to_list_organizer
+  before_save  :ensure_item_exists
+  after_create :add_to_list_organizer
   
   class << self    
     def create_first(user)

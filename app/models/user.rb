@@ -14,8 +14,8 @@ class User
   
   has_many :lists
   
-  validates_presence_of :username, :if => :username_required?
-  validates_uniqueness_of :username
+  validates_presence_of   :username, :if => :username_required?
+  validates_uniqueness_of :username, :allow_blank => true
   validates_length_of :username, :within => 4..24, :allow_blank => true
   
   LIST_PERMISSIONS = [
@@ -63,7 +63,6 @@ class User
   end
   
   def add_list_invitation(list_info)
-    self.lists_organized ||= []
     self.lists_organized << list_info
   end
   
