@@ -10,7 +10,7 @@ class User
   field :email,               type: String
   field :last_viewed_list_id, type: Integer
   field :organized_lists,     type: Array
-  field :list_invitations,    type: Array,  default: []
+  field :list_organizer,      type: Array,  default: []
   
   has_many :lists
   
@@ -46,11 +46,11 @@ class User
   def last_viewed_list
     List.find(last_viewed_list_id) if last_viewed_list_id
   end
-  
+    
   def receive_list(list, permission)
     list_info = {
-      list_id: list.id.to_s,
-      permission: permission
+      "list_id" => list.id.to_s,
+      "permission" => permission
     }
     
     if has_received_list?(list)
@@ -62,23 +62,23 @@ class User
   end
   
   def add_list_invitation(list_info)
-    self.list_invitations ||= []
-    self.list_invitations << list_info
+    self.list_organizer ||= []
+    self.list_organizer << list_info
   end
   
   def update_shared_list(list_info)
     User.collection.update(
-      {_id: self.id,  'list_invitations.list_id' => list_info[:list_id]},
-      {"$set" => {"list_invitations.$.permission" => list_info[:permission]}}
+      {_id: self.id,  'list_organizer.list_id' => list_info["list_id"]},
+      {"$set" => {"list_organizer.$.permission" => list_info["permission"]}}
     )
   end
   
   def has_received_list?(list)
-    self.list_invitations.collect{|i| i["list_id"]}.include? list.id.to_s
+    self.list_organizer.collect{|i| i["list_id"]}.include? list.id.to_s
   end
   
   def permission_for(list)
-    invitation = self.list_invitations.find{|l| l["list_id"] == list.id.to_s}
+    invitation = self.list_organizer.find{|l| l["list_id"] == list.id.to_s}
     invitation["permission"] if invitation
   end
     
