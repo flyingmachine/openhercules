@@ -12,19 +12,7 @@ class List
   before_save :ensure_item_exists
   before_create :add_to_list_organizer
   
-  class << self
-    def create_default(user)
-      create(
-        name:  "New List",
-        user:  user,
-        items: [{
-          body: "",
-          completed_at: nil
-        }]
-        
-      )
-    end
-    
+  class << self    
     def create_first(user)
       items = [
         "Try hitting 'escape' and editing this text. Hit 'escape' to save.",
