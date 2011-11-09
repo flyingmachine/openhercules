@@ -67,6 +67,6 @@ class List
   end
   
   def sharees
-    User.where('list_organizer.list_id' => self.id.to_s)
+    User.where('lists_organized.list_id' => self.id.to_s)
   end
 end
