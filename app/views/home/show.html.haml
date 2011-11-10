@@ -27,6 +27,11 @@
             .input#user_email= text_field_tag 'user[email]', ""
 
           .clearfix
+            %label{:for => "user_username"} Username
+            .input#user_email= text_field_tag 'user[username]', ""
+
+
+          .clearfix
             %label{:for => "user_password"} Password
             .input#user_password= password_field_tag 'user[password]', ""
 
@@ -43,8 +48,8 @@
         %h3 Log in
         = form_tag user_session_path, :class => "form-stacked" do
           .clearfix
-            %label{:for => "user_email"} Email
-            .input#user_email= text_field_tag 'user[email]', ""
+            %label{:for => "user_username"} Username
+            .input#user_email= text_field_tag 'user[username]', ""
 
           .clearfix
             %label{:for => "user_password"} Password
