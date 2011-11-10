@@ -1,7 +1,7 @@
 .row
   .span10
     .content
-      %h2 Sign in
+      %h2 Log in
 
       = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => "form-stacked"}) do |f|
         .clearfix
@@ -18,6 +18,6 @@
               = f.check_box :remember_me
               Remember Me
 
-        = f.submit "Sign in", :class => "primary btn"
+        = f.submit "Log in", :class => "primary btn"
 
       = render :partial => "devise/shared/links"
