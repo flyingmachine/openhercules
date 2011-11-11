@@ -199,16 +199,31 @@ h2.completed {
   }
 }
 
-.settings.btn {
-  padding:5px 8px;
-  background-image:none;
-  background-color:#fafafa;
-  
-  &:active img{
+.view-selector {
+  li.btn {
+    display:block;
+    float:right;
+    background-image:none;
+    background-color:#fafafa;
+    height:30px;
+    width:30px;
     position:relative;
-    top:2px;
-    left:2px;
-    @include transition(.1s linear all);
+    background-position:center;
+    padding:0;
+    margin-left:4px;
+    
+    &.list {
+      background-image:url(/images/259-list.png);
+    }
+    
+    &.settings {
+      background-image:url(/images/158-wrench-2.png);
+    }
+    
+    &.active {
+      background-color:#f1fafc;
+    }
+    
   }
 }
 
