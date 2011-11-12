@@ -7,47 +7,35 @@
 #properties
   %h2
     %span.name= @list.name
-    %ul.pull-right.view-selector
+    %ul.pull-right.page-selector
       %li.btn.settings
       %li.btn.list.active
   .description
     = @list.description
-#new.modal
-  .modal-header
-    %a.close{:href => "#"}x
-    %h3 New List
-  .modal-body
-    = form_tag lists_path, :method => "post", :class => "form-stacked" do
-      = render :partial => 'form'
-  .modal-footer
-    %a.btn.primary{:href => "#"}Save
-    %a.btn.secondary.cancel{:href => "#"}Cancel
-#app
-#properties-form.modal
-  .modal-header
-    %a.close{:href => "#"}x
-    %h3 List Settings
-  .modal-body
-    %form.form-stacked
-      = render :partial => 'form'
-    %h4 Access
-    %table#access
-      %thead
-        %tr
-          %th User
-          %th Read
-          %th Read + Write
-          %th No Access
-      %tbody
-        %tr.everyone
-          %td everyone
-          %td.option
-          %td.option.selected
-          %td.option.none
-    %p Enter username to share this list
-    %input#username
-  .modal-footer
-    %a.btn.primary{:href => "#"}Done
+.row
+  #pages.span
+    .row
+      #app.page.span14
+      #properties-form.page.span14
+        %h3 List Settings
+        %form.form-stacked
+          = render :partial => 'form'
+        %h4 Access
+        %table#access
+          %thead
+            %tr
+              %th User
+              %th Read
+              %th Read + Write
+              %th No Access
+          %tbody
+            %tr.everyone
+              %td everyone
+              %td.option
+              %td.option.selected
+              %td.option.none
+        %p Enter username to share this list
+        %input#username
   
 #commands
   %p Commands
@@ -88,6 +76,18 @@
     %tr 
       %td <span class="key">z</span>
       %td outdent
+
+#new.modal
+  .modal-header
+    %a.close{:href => "#"}x
+    %h3 New List
+  .modal-body
+    = form_tag lists_path, :method => "post", :class => "form-stacked" do
+      = render :partial => 'form'
+  .modal-footer
+    %a.btn.primary{:href => "#"}Save
+    %a.btn.secondary.cancel{:href => "#"}Cancel
+
 
 - content_for :sidebar do
   - if @lists

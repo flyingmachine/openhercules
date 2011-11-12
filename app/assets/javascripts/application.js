@@ -5,8 +5,10 @@
 // the compiled file.
 //
 //= require 'app'
+//= require 'slice'
 //= require 'lists'
 //= require 'list_shares'
+//= require 'slice_manager'
 
 $(document).ajaxSend(function(e, xhr, options) {
   var token = $("meta[name='csrf-token']").attr("content");

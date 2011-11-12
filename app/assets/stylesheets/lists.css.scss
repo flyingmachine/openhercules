@@ -199,7 +199,7 @@ h2.completed {
   }
 }
 
-.view-selector {
+.page-selector {
   li.btn {
     display:block;
     float:right;
@@ -225,10 +225,6 @@ h2.completed {
     }
     
   }
-}
-
-#properties-form {
-  display:none;
 }
 
 #access {
@@ -266,5 +262,28 @@ h2.completed {
   margin:1em 0 1em 1em;
   p {
     margin-bottom:1em;
+  }
+}
+
+#commands {
+  display:none;
+}
+
+
+
+#main {
+  @extend .content;
+  & > .row > .span14 {
+    overflow:hidden;
+  }
+  
+  #pages {
+    @include columns(28);
+    @include transition(.2s ease all);
+    position:relative;
+    
+    .page {
+      float:left;
+    }
   }
 }
