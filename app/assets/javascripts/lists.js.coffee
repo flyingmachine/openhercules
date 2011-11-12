@@ -271,10 +271,10 @@ class App.backbone.ItemView extends Backbone.View
     @model.view = this
 
   events: 
-    "change input[type=\"checkbox\"]:first": "changeStatus"
+    "change input[type=\"checkbox\"]": "changeStatus"
     "click .item.selected": "preventFurtherClicks"
-    "click .item:first": "click"
-    "dblclick .item:first": "switchToForm"
+    "click .item": "click"
+    "dblclick .item": "switchToForm"
 
   changeStatus: ->
     if @status.is(":checked")
@@ -286,6 +286,7 @@ class App.backbone.ItemView extends Backbone.View
     @model.select()
     
   preventFurtherClicks: (e) ->
+    console.log 'test'
     e.stopImmediatePropagation()
 
   dblclick: ->
@@ -462,53 +463,62 @@ class App.backbone.ListView extends Backbone.View
         $(that.el).append lv.render().el
 
     this
-
-App.keyBindings = ->
-  $(document).bind "keydown", "up", App.mainList.view.selectPrevious
-  $(document).bind "keydown", "down", App.mainList.view.selectNext
-  $(document).bind "keydown", "esc", App.mainList.view.switchItem
-  $(document).bind "keydown", "ctrl+up", App.mainList.view.moveSelectionUp
-  $(document).bind "keydown", "ctrl+down", App.mainList.view.moveSelectionDown
-  $(document).bind "keydown", "space", App.mainList.view.toggleStatus
-  $(document).bind "keydown", "return", ->
-    App.mainList.view.newItem()
-
-  $(document).bind "keydown", "ctrl+return", ->
-    App.mainList.view.newItem "indent"
-
-  $(document).bind "keydown", "shift+return", ->
-    App.mainList.view.newItem "previous"
-
-  $(document).bind "keydown", "backspace", App.mainList.view.deleteItem
-  $(document).bind "keydown", "del", App.mainList.view.deleteItem
-  $(document).bind "keydown", "x", App.mainList.view.indentItem
-  $(document).bind "keydown", "z", App.mainList.view.outdentItem
   
-App.setup ->
-  $ ->
-    App.setupList App.data.list
+  
+App.listSlice = new App.Slice
+  keyBindings: 
+    "up"           : ->
+      App.mainList.view.selectPrevious()
+    "down"         : ->
+      App.mainList.view.selectNext()
+    "esc"          : ->
+      App.mainList.view.switchItem()
+    "ctrl+up"      : ->
+      App.mainList.view.moveSelectionUp()
+    "ctrl+down"    : ->
+      App.mainList.view.moveSelectionDown()
+    "space"        : ->
+      App.mainList.view.toggleStatus()
+    "return"       : ->
+        App.mainList.view.newItem()
+    "ctrl+return"  : ->
+        App.mainList.view.newItem "indent"        
+    "shift+return" : ->
+        App.mainList.view.newItem "previous"        
+    "backspace"    : ->
+      App.mainList.view.deleteItem()
+    "del"          : ->
+      App.mainList.view.deleteItem()
+    "x"            : ->
+      App.mainList.view.indentItem()
+    "z"            : ->
+      App.mainList.view.outdentItem()
+  
+  setupItems: (items) ->
+    App.root = new App.backbone.Item()
+    new App.backbone.Item(item) for item in items
+  
+  setup: ->
+    list = App.data.list
+    App.lists = new App.backbone.Lists([ 
+      id: list._id
+      name: list.name
+      description: list.description
+      items: list.items
+    ])
+    App.mainList = App.lists.at(0)
+    @setupItems list.items
+    App.mainList.view = new App.backbone.ListView(collection: App.root.children)
+    App.mainList.propertiesView = new App.backbone.ListPropertiesView(model: App.mainList, el: $("#properties"))
+    App.mainList.propertiesFormView = new App.backbone.ListPropertiesFormView(model: App.mainList, el: $("#properties-form"))
+    
     $(App.appId).append App.mainList.view.render().el
-    App.keyBindings()
     App.mainList.view.selectNext()
     App.mainList.view.switchItem() if App.mainList.isEmpty()
-  
-
-App.setupList = (list) ->
-  App.lists = new App.backbone.Lists([ 
-    id: list._id
-    name: list.name
-    description: list.description
-    items: list.items
-  ])
-  App.mainList = App.lists.at(0)
-  App.setupItems list.items
-  App.mainList.view = new App.backbone.ListView(collection: App.root.children)
-  App.mainList.propertiesView = new App.backbone.ListPropertiesView(model: App.mainList, el: $("#properties"))
-  App.mainList.propertiesFormView = new App.backbone.ListPropertiesFormView(model: App.mainList, el: $("#properties-form"))
-
-App.setupItems = (items) ->
-  App.root = new App.backbone.Item()
-  new App.backbone.Item(item) for item in items
+    App.sliceManager.activateSlice(App.listSlice)
+    
+  activate: ->
+    console.log "activated"
 
 $ ->
   $(".cookie-user").click ->

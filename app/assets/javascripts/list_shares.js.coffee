@@ -93,6 +93,5 @@ App.setup(App.setupListShares)
 App.setup ->
   $($(".page-selector .btn").get().reverse()).each (index) ->
     this.pageNum = index
-    console.log index
     $(this).click ->
       $("#pages").css("left", "#{-840 * this.pageNum}px")
