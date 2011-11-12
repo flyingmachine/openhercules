@@ -274,6 +274,7 @@ class App.backbone.ItemView extends Backbone.View
     "change input[type=\"checkbox\"]": "changeStatus"
     "click .item.selected": "preventFurtherClicks"
     "click .item": "click"
+    "dblclick .item.selected input": "preventFurtherClicks"
     "dblclick .item": "switchToForm"
 
   changeStatus: ->
