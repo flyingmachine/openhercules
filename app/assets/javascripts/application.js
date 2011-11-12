@@ -5,9 +5,11 @@
 // the compiled file.
 //
 //= require 'app'
+//= require 'pages'
 //= require 'slice'
 //= require 'slice_manager'
 //= require 'lists'
+//= require 'settings'
 //= require 'list_shares'
 
 $(document).ajaxSend(function(e, xhr, options) {

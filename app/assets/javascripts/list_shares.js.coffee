@@ -64,7 +64,7 @@ App.setupListSharesModal = ->
     $("#properties-form .name").focus()
     
   $(document).bind "keyup", "p", ->
-    $("#properties-form").modal("show")
+    App.Pages.activatePage('settings')
   
 App.setupListSharesUsernameAutocomplete = ->
   $("#username").autocomplete
@@ -89,9 +89,3 @@ App.setupListShares = ->
 
 
 App.setup(App.setupListShares)
-
-App.setup ->
-  $($(".page-selector .btn").get().reverse()).each (index) ->
-    this.pageNum = index
-    $(this).click ->
-      $("#pages").css("left", "#{-840 * this.pageNum}px")

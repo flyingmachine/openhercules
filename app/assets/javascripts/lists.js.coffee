@@ -286,7 +286,6 @@ class App.backbone.ItemView extends Backbone.View
     @model.select()
     
   preventFurtherClicks: (e) ->
-    console.log 'test'
     e.stopImmediatePropagation()
 
   dblclick: ->
@@ -465,7 +464,8 @@ class App.backbone.ListView extends Backbone.View
     this
   
   
-App.listSlice = new App.Slice
+new App.Slice  
+  name: 'list'
   keyBindings: 
     "up"           : ->
       App.mainList.view.selectPrevious()
@@ -480,11 +480,11 @@ App.listSlice = new App.Slice
     "space"        : ->
       App.mainList.view.toggleStatus()
     "return"       : ->
-        App.mainList.view.newItem()
+      App.mainList.view.newItem()
     "ctrl+return"  : ->
-        App.mainList.view.newItem "indent"        
+      App.mainList.view.newItem "indent"        
     "shift+return" : ->
-        App.mainList.view.newItem "previous"        
+      App.mainList.view.newItem "previous"        
     "backspace"    : ->
       App.mainList.view.deleteItem()
     "del"          : ->
@@ -515,7 +515,7 @@ App.listSlice = new App.Slice
     $(App.appId).append App.mainList.view.render().el
     App.mainList.view.selectNext()
     App.mainList.view.switchItem() if App.mainList.isEmpty()
-    App.sliceManager.activateSlice(App.listSlice)
+    App.sliceManager.activateSlice('list')
     
   activate: ->
-    
+    App.Pages.activatePage('list')
