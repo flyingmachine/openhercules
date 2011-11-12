@@ -518,12 +518,4 @@ App.listSlice = new App.Slice
     App.sliceManager.activateSlice(App.listSlice)
     
   activate: ->
-    console.log "activated"
-
-$ ->
-  $(".cookie-user").click ->
-    confirm "Are you sure? You will not be able to recover your data unless you modify your account first."
-  $("#new").bind "shown", -> $("#new .name").focus()
-  $("#new .primary").click -> $("#new form").submit()
-  $(".modal .cancel").click -> $(this).parents(".modal").modal("hide")
-
+    

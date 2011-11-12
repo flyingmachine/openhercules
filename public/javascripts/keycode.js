@@ -147,7 +147,7 @@ if(is_konqueror) {
 
 var key_names = {
     32: 'space',
-    13: 'enter',
+    13: 'return',
     9: 'tab',
     8: 'backspace',
     16: 'shift',
