@@ -106,11 +106,12 @@ class App.backbone.ItemView extends Backbone.View
     # TODO handle selected
 
   select: ->
-    $(".selected").removeClass("selected")
+    if App.selection()
+      App.selection().deselect()
     @item.addClass "selected"
 
   deselect: ->
-    @form.submit() if @$("form").length
+    @form.stopEditing() if @$("form").length
     @item.removeClass "selected"
 
   setBody: ->
