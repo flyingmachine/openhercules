@@ -85,7 +85,7 @@ class App.backbone.ItemView extends Backbone.View
   handleDrag: ->
     App.mainList.updateItems()
     @select()
-    e.stopImmediatePropagation()
+    return false;
         
   changeStatus: ->
     App.mainList.updateItems()
@@ -131,6 +131,9 @@ class App.backbone.ItemView extends Backbone.View
     if index < all.length - 1
       index++
     all[index].view
+    
+  nextSibling: ->
+    $(@el).next()[0]?.view
 
   previous: ->
     all = $("#app li").toArray()
@@ -138,6 +141,12 @@ class App.backbone.ItemView extends Backbone.View
     if index > 0
       index--
     all[index].view
+  
+  previousSibling: ->
+    $(@el).prev()[0]?.view
+  
+  parent: ->
+    $(@el).parents("li")[0]?.view
 
   indent: ->
     if $(@el).prev("li").length
@@ -313,7 +322,17 @@ class App.backbone.ListView extends Backbone.View
       App.selection().switchToForm()
 
   deleteItem: ->
-    App.selection().remove()
+    toDelete = App.selection()
+    if toDelete != toDelete.nextSibling() && toDelete.nextSibling()
+      toSelect = toDelete.nextSibling()
+    else if toDelete != toDelete.previousSibling() && toDelete.previousSibling()
+      toSelect = toDelete.previousSibling()
+    else
+      toSelect = toDelete.parent()
+    console.log toSelect
+    toSelect?.select()
+    toDelete.remove()
+    App.mainList.updateItems()
     false
 
   render: ->
@@ -379,6 +398,8 @@ new App.Slice
       items: 'li'
       tolerance: 'pointer'
       toleranceElement: '> div'
+      start: (event, ui) ->
+        $(ui.helper).addClass("dragging")
       stop: (event, ui) ->
         $(ui.item['0']).trigger('drag')
 
