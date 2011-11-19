@@ -1,15 +1,13 @@
 App =
   # Config
-  lists: null
   appId: "#app"
   backbone: {}
   data: {}
   selection: (item) ->
-    if (item)
-      @selected = item
-    else if !@selected
-      @selected = App.root.children.first()
-    @selected
+    @selected = $("#app .selected").parents("li")
+    unless @selected.length
+      @selected = $("#app>ol>li:first-child")
+    @selected[0].view
 
 window.App = App
 
@@ -29,4 +27,3 @@ App.setup ->
   $("#new").bind "shown", -> $("#new .name").focus()
   $("#new .primary").click -> $("#new form").submit()
   $(".modal .cancel").click -> $(this).parents(".modal").modal("hide")
-

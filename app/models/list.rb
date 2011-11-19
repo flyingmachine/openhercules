@@ -44,6 +44,15 @@ class List
       )
     end
   end
+
+  def as_json(options = {})
+    {
+      id: id,
+      name: name,
+      description: description,
+      items: items
+    }
+  end
   
   def sharees
     User.where('lists_organized.list_id' => self.id.to_s).and(:'lists_organized.permission'.ne => User::LIST_PERMISSIONS[2])

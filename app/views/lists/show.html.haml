@@ -1,6 +1,6 @@
 - @body_id = "list"
 :javascript
-  App.data.list = #{JSON.generate(@list.attributes.to_hash)}
+  App.data.list = #{@list.to_json}
   App.data.listShares = #{JSON.generate(list_shares(@list))}
   App.setup()
 

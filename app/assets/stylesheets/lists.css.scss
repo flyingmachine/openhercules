@@ -24,16 +24,20 @@
   }
 }
 
-#app ul {
+.drag-drop-placeholder {
+  background:#84def3;
+  @include border-radius(8px)
+}
+
+#app ol {
   margin:0 0 0 1em;
   padding:0;
   
   &.item-list {
     margin-left:0;
-    margin-top:1em;
   }
   
-  ul {
+  ol {
     margin-left:20px;
   }
   
@@ -61,8 +65,7 @@
   font-family: verdana, arial, helvetica, sans-serif;
   font-size:   12px;
   padding:0 2px 2px 5px;
-  -moz-border-radius:8px;
-  border-radius:8px;
+  @include border-radius(8px);
   outline:none;
 }
 
