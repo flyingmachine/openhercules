@@ -24,7 +24,10 @@ class App.backbone.ItemFormView extends Backbone.View
     keydown: "handleKey"
     "keydown input": "handleInputKey"
     "blur input": "stopEditing"
-
+  
+  initialize: (itemData) ->
+    @itemData = itemData
+    
   submit: ->
     @stopEditing()
     App.mainList.view.newItem()
@@ -32,9 +35,8 @@ class App.backbone.ItemFormView extends Backbone.View
 
   stopEditing: ->
     val = @$("input").val()
-    @model.set body: val
-    @model.save()
-    @model.view.switchToShow()
+    @itemData.body = val
+    $(@el).parents("li")[0].view.switchToShow()
 
   handleKey: (event) ->
     keyCode = event.keyCode.toString()
@@ -66,7 +68,7 @@ class App.backbone.ItemFormView extends Backbone.View
 
   render: ->
     $(@el).html @template()
-    @$("input:first").val @model.get("body")
+    @$("input:first").val @itemData.body
     this
 
 class App.backbone.ItemView extends Backbone.View
@@ -89,6 +91,7 @@ class App.backbone.ItemView extends Backbone.View
   changeStatus: ->
 
   click: ->
+    @select()
 
   preventFurtherClicks: (e) ->
     e.stopImmediatePropagation()
@@ -159,7 +162,7 @@ class App.backbone.ItemView extends Backbone.View
     this
 
   switchToForm: ->
-    @form = new App.backbone.ItemFormView(model: @model)
+    @form = new App.backbone.ItemFormView(@itemData)
     @body.replaceWith @form.render().el
     $(@form.el).find("input").focus()
 
