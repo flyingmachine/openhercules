@@ -1,12 +1,9 @@
 class App.backbone.List extends Backbone.Model
   change: -> @save()
 
-  changeProperties: (properties) ->
-    @set($.extend properties, items: App.root.asJson().children)
-    @propertiesView.render()
-
   updateItems: ->
-    @set items: App.root.asJson().children
+    @set
+      items: App.mainList.view.serialize()
 
   isEmpty: ->
     @get('items').length == 1 && @get('items')[0].body == ""
@@ -86,9 +83,12 @@ class App.backbone.ItemView extends Backbone.View
     "drag": "handleDrag"
 
   handleDrag: ->
-    console.log 'test drag'
-
+    App.mainList.updateItems()
+    @select()
+    e.stopImmediatePropagation()
+        
   changeStatus: ->
+    App.mainList.updateItems()
 
   click: ->
     @select()
@@ -119,9 +119,11 @@ class App.backbone.ItemView extends Backbone.View
 
   moveUp: ->
     $(@el).insertBefore $(@el).prev()
+    App.mainList.updateItems()
 
   moveDown: ->
     $(@el).insertAfter $(@el).next()
+    App.mainList.updateItems()
 
   next: ->
     all = $("#app li").toArray()
@@ -140,10 +142,12 @@ class App.backbone.ItemView extends Backbone.View
   indent: ->
     if $(@el).prev("li").length
       $($(@el).prev("li")[0].view.childrenView.el).append @el
+      App.mainList.updateItems()
 
   outdent: ->
     if $(@el).parents("li").length
       $(@el).insertAfter $(@el).parents("li")[0]
+      App.mainList.updateItems()
 
   render: ->
     that = this
@@ -152,7 +156,7 @@ class App.backbone.ItemView extends Backbone.View
     @body = @item.children(".body")
     @setBody()
     @status = $("<input type='checkbox' />")
-    if @itemData.status == "complete"
+    if @itemData.status == "checked"
       @status.attr "checked", true
     else
       @status.attr "checked", false
@@ -171,6 +175,7 @@ class App.backbone.ItemView extends Backbone.View
   switchToShow: ->
     @setBody()
     $(@form.el).replaceWith @body
+    App.mainList.updateItems()
 
 class App.backbone.ItemChildrenView extends Backbone.View
   tagName: "ol"
@@ -206,7 +211,7 @@ class App.backbone.ListPropertiesFormView extends Backbone.View
     this
 
   update: ->
-    @model.changeProperties
+    @model.set
       name: @$(".name").val()
       description: @$(".description").val()
 
@@ -225,6 +230,22 @@ class App.backbone.ListView extends Backbone.View
 
   initialize: ->
     _.bindAll @, "selectPrevious", "selectNext", "switchItem", "toggleStatus", "moveSelectionUp", "moveSelectionDown", "indentItem", "outdentItem", "newItem", "deleteItem"
+
+  serialize: ->
+    items = []
+    
+    serializer = (el)->
+      item = {}
+      item.body = $(el).children(".item").text()
+      item.status = $(el).find(">.item input[type=checkbox]")[0].checked ? "checked" : ""
+      item.children = []
+      item.children.push(serializer(child)) for child in $(el).find(">ol>li").toArray()
+      item
+      
+    @$(">li").each (i, el) ->
+      items.push serializer(el)
+    
+    items
 
   firstChild: ->
     @el.firstChild.view
@@ -268,7 +289,7 @@ class App.backbone.ListView extends Backbone.View
     selection = App.selection()
     itemView = new App.backbone.ItemView
       body: ""
-      status: "incomplete"
+      status: ""
       children: []
 
     itemView.render()
@@ -350,7 +371,6 @@ new App.Slice
     App.mainList.view.selectNext()
     App.mainList.view.switchItem() if App.mainList.isEmpty()
     App.sliceManager.activateSlice('list')
-
     $("#app ol.item-list").nestedSortable
       placeholder: "drag-drop-placeholder"
       forcePlaceholderSize: true
@@ -360,7 +380,6 @@ new App.Slice
       tolerance: 'pointer'
       toleranceElement: '> div'
       stop: (event, ui) ->
-        console.log 'save new structure'
         $(ui.item['0']).trigger('drag')
 
   activate: ->
