@@ -24,10 +24,10 @@ class App.backbone.ItemFormView extends Backbone.View
     keydown: "handleKey"
     "keydown input": "handleInputKey"
     "blur input": "stopEditing"
-  
+
   initialize: (itemData) ->
     @itemData = itemData
-    
+
   submit: ->
     @stopEditing()
     App.mainList.view.newItem()
@@ -56,14 +56,14 @@ class App.backbone.ItemFormView extends Backbone.View
       if prev
         @stopEditing()
         prev.select()
-        prev.view.switchToForm()
+        prev.switchToForm()
       false
     else if keyCode == "40"
       next = App.selection().next()
       if next
         @stopEditing()
         next.select()
-        next.view.switchToForm()
+        next.switchToForm()
       false
 
   render: ->
@@ -116,34 +116,35 @@ class App.backbone.ItemView extends Backbone.View
 
   setBody: ->
     @body.html @itemData.body + "&nbsp;"
-    
+
   moveUp: ->
     $(@el).insertBefore $(@el).prev()
-  
+
   moveDown: ->
     $(@el).insertAfter $(@el).next()
-    
+
   next: ->
     all = $("#app li").toArray()
     index = all.indexOf(@el)
-    if index < all.length - 1 
+    if index < all.length - 1
       index++
     all[index].view
-    
+
   previous: ->
     all = $("#app li").toArray()
     index = all.indexOf(@el)
     if index > 0
       index--
     all[index].view
-    
+
   indent: ->
-    $(@childrenView.el).append @el
-    
+    if $(@el).prev("li").length
+      $($(@el).prev("li")[0].view.childrenView.el).append @el
+
   outdent: ->
     if $(@el).parents("li").length
-      $(@el).insertAfter $(el).parents("li")[0]
-    
+      $(@el).insertAfter $(@el).parents("li")[0]
+
   render: ->
     that = this
     $(@el).html @template(@itemData)
@@ -224,7 +225,7 @@ class App.backbone.ListView extends Backbone.View
 
   initialize: ->
     _.bindAll @, "selectPrevious", "selectNext", "switchItem", "toggleStatus", "moveSelectionUp", "moveSelectionDown", "indentItem", "outdentItem", "newItem", "deleteItem"
-  
+
   firstChild: ->
     @el.firstChild.view
 
@@ -238,7 +239,7 @@ class App.backbone.ListView extends Backbone.View
   selectNext: ->
     if not App.selected and App.selection()
       App.selection().select()
-    else 
+    else
       App.selection()?.next()?.select()
     false
 
@@ -265,33 +266,30 @@ class App.backbone.ListView extends Backbone.View
 
   newItem: (placement) ->
     selection = App.selection()
-    if selection
-      parent = selection.parent
-    else
-      parent = App.root
-    itemView = new App.backbone.ItemView(item)
+    itemView = new App.backbone.ItemView
+      body: ""
+      status: "incomplete"
+      children: []
+
     itemView.render()
     if selection
       if placement == "previous"
-        item.insertBefore selection
-        $(item.view.el).insertBefore selection.view.el
+        $(itemView.el).insertBefore selection.el
       else
-        if selection.children.size() > 0
-          selection = selection.children.first()
-          item.insertBefore selection
-          $(item.view.el).insertBefore selection.view.el
+        if $(selection.el).children("li").size() > 0
+          selection = $(selection.el).children("li")[0]
+          $(itemView.el).insertBefore selection
         else
           if placement == "indent"
-            item.insertAfter selection
-            item.indent()
+            $(itemView.el).insertAfter selection.el
+            itemView.indent()
           else # insert after
-            item.insertAfter selection
-            $(item.view.el).insertAfter selection.view.el
+            $(itemView.el).insertAfter selection.el
     else
       $(@el).append itemView.el
-    item.select()
+    itemView.select()
     _.defer ->
-      App.selection().view.switchToForm()
+      App.selection().switchToForm()
 
   deleteItem: ->
     App.selection().remove()
@@ -337,7 +335,7 @@ new App.Slice
       App.mainList.view.outdentItem()
 
   setupItems: (items) ->
-    
+
 
   setup: ->
     list = App.data.list
