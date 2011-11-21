@@ -19,8 +19,8 @@ class App.backbone.ItemFormView extends Backbone.View
   events:
     submit: "submit"
     keydown: "handleKey"
-    "keydown input": "handleInputKey"
-    "blur input": "stopEditing"
+    "keydown input"     : "handleInputKey"
+    "blur input"        : "stopEditing"
 
   initialize: (itemData) ->
     @itemData = itemData
@@ -86,7 +86,7 @@ class App.backbone.ItemView extends Backbone.View
     App.mainList.updateItems()
     @select()
     return false;
-        
+
   changeStatus: ->
     App.mainList.updateItems()
 
@@ -131,7 +131,7 @@ class App.backbone.ItemView extends Backbone.View
     if index < all.length - 1
       index++
     all[index].view
-    
+
   nextSibling: ->
     $(@el).next()[0]?.view
 
@@ -141,10 +141,10 @@ class App.backbone.ItemView extends Backbone.View
     if index > 0
       index--
     all[index].view
-  
+
   previousSibling: ->
     $(@el).prev()[0]?.view
-  
+
   parent: ->
     $(@el).parents("li")[0]?.view
 
@@ -242,7 +242,7 @@ class App.backbone.ListView extends Backbone.View
 
   serialize: ->
     items = []
-    
+
     serializer = (el)->
       item = {}
       item.body = $(el).children(".item").text()
@@ -250,10 +250,10 @@ class App.backbone.ListView extends Backbone.View
       item.children = []
       item.children.push(serializer(child)) for child in $(el).find(">ol>li").toArray()
       item
-      
+
     @$(">li").each (i, el) ->
       items.push serializer(el)
-    
+
     items
 
   firstChild: ->
@@ -329,7 +329,6 @@ class App.backbone.ListView extends Backbone.View
       toSelect = toDelete.previousSibling()
     else
       toSelect = toDelete.parent()
-    console.log toSelect
     toSelect?.select()
     toDelete.remove()
     App.mainList.updateItems()
@@ -398,6 +397,7 @@ new App.Slice
       items: 'li'
       tolerance: 'pointer'
       toleranceElement: '> div'
+      revert: 300
       start: (event, ui) ->
         $(ui.helper).addClass("dragging")
       stop: (event, ui) ->

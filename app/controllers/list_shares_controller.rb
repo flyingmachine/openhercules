@@ -10,8 +10,7 @@ class ListSharesController < ApplicationController
     if list.user != current_user
       render :head => 401, :nothing => true
     else
-      user = User.find(params[:list_share][:user_id])
-      user.receive_list(list, params[:list_share][:permission])
+      list.add_sharee(params[:list_share][:user_id], params[:list_share][:permission])
       render :head => 200, :nothing => true
     end
   end

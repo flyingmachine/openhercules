@@ -29,14 +29,14 @@
   opacity:0.7;
 }
 
-.drag-drop-placeholder {
-  background:#84def3;
-  @include border-radius(8px)
-}
-
 #app ol {
   margin:0 0 0 1em;
   padding:0;
+
+  .drag-drop-placeholder {
+    background:#84def3;
+    @include border-radius(8px)
+  }
   
   &.item-list {
     margin-left:0;
@@ -166,6 +166,7 @@ h2.completed {
         list-style-type:none;
         border-top:1px solid #fafafa;
         margin-left:-20px;
+        display:block;
         
         &.selected, &:hover {
 /*          @include vertical-gradient(#dedce3, #ceccd5);*/

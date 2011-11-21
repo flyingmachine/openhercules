@@ -18,29 +18,17 @@ describe User do
 
   describe "#receive_list" do
     it "should add a list to list invitations if the user doesn't already have the list" do
-      user2.receive_list(list, User::LIST_PERMISSIONS[0])
+      user2.receive_list(list)
       user2.lists_organized.should == [{
-        "list_id"    => list.id.to_s,
-        "permission" => User::LIST_PERMISSIONS[0]
+        "list_id"    => list.id.to_s
       }]
-    end
-    
-    it "should update list permissions if the user already has the list" do
-      user2.receive_list(list, User::LIST_PERMISSIONS[0])
-      user2.reload
-      user2.receive_list(list, User::LIST_PERMISSIONS[1])
-      
-      user2.reload.lists_organized.should == [{
-        "list_id"    => list.id.to_s,
-        "permission" => User::LIST_PERMISSIONS[1]
-      }]
-    end
+    end    
   end
   
   describe "#permission_for" do
     it "should report the correct permissions for a list" do
-      user2.receive_list(list, User::LIST_PERMISSIONS[0])
-      user2.reload.permission_for(list).should == User::LIST_PERMISSIONS[0]
+      list.add_sharee(user2, 'read')
+      user2.permission_for(list).should == User::LIST_PERMISSIONS[0]
     end
   end
 

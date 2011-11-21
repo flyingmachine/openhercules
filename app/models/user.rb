@@ -48,15 +48,12 @@ class User
     List.find(last_viewed_list_id) if last_viewed_list_id
   end
       
-  def receive_list(list, permission)
+  def receive_list(list)
     list_info = {
-      "list_id" => list.id.to_s,
-      "permission" => permission
+      "list_id" => list.id.to_s
     }
     
-    if has_received_list?(list)
-      update_shared_list(list_info)
-    else
+    if !has_received_list?(list)
       add_list_invitation(list_info)
     end
     save
@@ -64,22 +61,18 @@ class User
   
   def add_list_invitation(list_info)
     self.lists_organized << list_info
-  end
-  
-  def update_shared_list(list_info)
-    User.collection.update(
-      {_id: self.id,  'lists_organized.list_id' => list_info["list_id"]},
-      {"$set" => {"lists_organized.$.permission" => list_info["permission"]}}
-    )
-  end
+  end  
   
   def has_received_list?(list)
     self.lists_organized.collect{|i| i["list_id"]}.include? list.id.to_s
   end
   
   def permission_for(list)
-    invitation = self.lists_organized.find{|l| l["list_id"] == list.id.to_s}
-    invitation["permission"] if invitation
+    if list.readers.include? self.id.to_s
+      LIST_PERMISSIONS[0]
+    elsif list.writers.include? self.id.to_s
+      LIST_PERMISSIONS[1]
+    end
   end
     
 end

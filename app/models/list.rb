@@ -5,6 +5,8 @@ class List
   field :items, type: Array
   field :name,  type: String
   field :description, type: String
+  field :readers, type: Array, default: []
+  field :writers, type: Array, default: []
   
   belongs_to :user
   
@@ -45,6 +47,28 @@ class List
     end
   end
 
+  def add_sharee(user_or_id, permission)
+    id, user = if user_or_id.respond_to?(:id)
+      [user_or_id.id.to_s, user_or_id]
+    else
+      [user_or_id, User.find(user_or_id)]
+    end
+
+    return if user == self.user
+    
+    if permission == User::LIST_PERMISSIONS[0]
+      self.readers |= [id]
+      self.writers -= [id]
+    else
+      self.writers |= [id]
+      self.readers -= [id]
+    end
+    save
+
+    user.receive_list(self)
+  end
+  
+
   def as_json(options = {})
     {
       id: id,
@@ -55,7 +79,7 @@ class List
   end
   
   def sharees
-    User.where('lists_organized.list_id' => self.id.to_s).and(:'lists_organized.permission'.ne => User::LIST_PERMISSIONS[2])
+    (readers + writers).collect{|uid| User.find(uid)}
   end
   
   def ensure_item_exists
@@ -69,6 +93,6 @@ class List
   end
   
   def add_to_list_organizer
-    self.user.receive_list(self, User::LIST_PERMISSIONS[2])
+    self.user.receive_list(self)
   end
 end
