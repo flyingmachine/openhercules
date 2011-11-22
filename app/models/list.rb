@@ -48,12 +48,7 @@ class List
   end
 
   def add_sharee(user_or_id, permission)
-    id, user = if user_or_id.respond_to?(:id)
-      [user_or_id.id.to_s, user_or_id]
-    else
-      [user_or_id, User.find(user_or_id)]
-    end
-
+    id, user = User.user_and_id(user_or_id)
     return if user == self.user
     
     if permission == User::LIST_PERMISSIONS[0]
@@ -66,6 +61,16 @@ class List
     save
 
     user.receive_list(self)
+  end
+
+  def remove_sharee(user_or_id)
+    id, user = User.user_and_id(user_or_id)
+    return if user == self.user
+    
+    self.readers -= [id]
+    self.writers -= [id]
+
+    user.remove_list(self)
   end
   
 

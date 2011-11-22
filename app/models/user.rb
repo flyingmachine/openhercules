@@ -30,6 +30,14 @@ class User
     def create_anonymous_user
       create(anonymous: true, remember_me: true, password: "anonymous", password_confirmation: "anonymous")
     end
+
+    def user_and_id(user_or_id)
+      if user_or_id.respond_to?(:id)
+        [user_or_id.id.to_s, user_or_id]
+      else
+        [user_or_id, find(user_or_id)]
+      end
+    end
   end
   
   def email_required?
@@ -65,6 +73,11 @@ class User
   
   def has_received_list?(list)
     self.lists_organized.collect{|i| i["list_id"]}.include? list.id.to_s
+  end
+
+  def remove_list(list)
+    self.lists_organized = self.lists_organized.reject{ |l| l["list_id"] == list.id.to_s }
+    save
   end
   
   def permission_for(list)

@@ -17,12 +17,20 @@ describe User do
   end
 
   describe "#receive_list" do
-    it "should add a list to list invitations if the user doesn't already have the list" do
+    it "should add a list to the list organizer if the user doesn't already have the list" do
       user2.receive_list(list)
       user2.lists_organized.should == [{
         "list_id"    => list.id.to_s
       }]
     end    
+  end
+
+  describe "#remove_list" do
+    it "should remove a list from the list organizer" do
+      user2.receive_list(list)
+      user2.remove_list(list)
+      user2.lists_organized.should == []
+    end
   end
   
   describe "#permission_for" do

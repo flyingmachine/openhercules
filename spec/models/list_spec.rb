@@ -16,6 +16,15 @@ describe List do
       list.add_sharee(user, User::LIST_PERMISSIONS[0])
       list.sharees.should_not include(user)
     end
+
+    describe "#remove_sharee" do
+      it "should remove a user from readers and writers, and remove the list from that person's organizer" do
+        list.add_sharee(user2, User::LIST_PERMISSIONS[0])
+        list.remove_sharee(user2)
+        list.sharees.should_not include(user)
+        user2.lists_organized.should == []
+      end
+    end
   end
   
   describe "after_create" do
