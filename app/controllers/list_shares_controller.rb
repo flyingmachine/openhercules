@@ -16,10 +16,11 @@ class ListSharesController < ApplicationController
   end
 
   def destroy
+    list = List.find(params[:id])
     if list.user != current_user
       render :head => 401, :nothing => true
     else
-      list.remove_sharee(params[:list_share][:user_id])
+      list.remove_sharee(params[:user_id])
       render :head => 200, :nothing => true
     end
   end

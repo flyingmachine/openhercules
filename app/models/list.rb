@@ -71,6 +71,7 @@ class List
     self.writers -= [id]
 
     user.remove_list(self)
+    save
   end
   
 

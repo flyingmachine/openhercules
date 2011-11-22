@@ -7,18 +7,20 @@ class App.backbone.ListShare extends Backbone.Model
   initialize: ->
     @view = new App.backbone.ListShareView
       model: @
+  url: ->
+    "/users/#{@get("user_id")}/list_shares/#{@get("id")}"
+
   change: -> @save()
   appendView: ->
     $("#access tbody").append @view.render().el
-  
+
 class App.backbone.ListShares extends Backbone.Collection
   model: App.backbone.ListShare
-  url:   "/users/#{App.data.current_user_id}/list_shares"
-  
+
   initialize: ->
     @.bind "add", (listShare) ->
       listShare.appendView()
-      
+
   addUnique: (listShare) ->
     exists = @.any (item) ->
       item.get("id") == listShare.id
@@ -27,7 +29,7 @@ class App.backbone.ListShares extends Backbone.Collection
       listShare.permission = "read"
       model = @.create(listShare)
       model.appendView()
-          
+
 class App.backbone.ListShareView extends Backbone.View
   tagName: "tr"
   className: "list-share"
@@ -35,16 +37,20 @@ class App.backbone.ListShareView extends Backbone.View
   events:
     "click .read"       : "setRead"
     "click .read-write" : "setReadWrite"
-    "click .none"       : "remove"
-    
+    "click .none"       : "delete"
+
   setRead: ->
     @model.set permission: "read"
     @render()
-  
+
   setReadWrite: ->
     @model.set permission: "read-write"
     @render()
-  
+
+  delete: ->
+    @model.destroy()
+    @remove()
+
   render: ->
     $(@el).html @template()
     @$(".username").text @model.get("username")
@@ -52,20 +58,20 @@ class App.backbone.ListShareView extends Backbone.View
       @$(".read").addClass("selected")
     else
       @$(".read-write").addClass("selected")
-      
+
     this
 
 App.setupListSharesModal = ->
   $("#properties-form").modal
     backdrop: true
     keyboard: true
-    
+
   $("#properties-form").bind 'shown', ->
     $("#properties-form .name").focus()
-    
+
   $(document).bind "keyup", "p", ->
     App.Pages.activatePage('settings')
-  
+
 App.setupListSharesUsernameAutocomplete = ->
   $("#username").autocomplete
     source: "/users.json"
@@ -74,10 +80,10 @@ App.setupListSharesUsernameAutocomplete = ->
       false
     select: (event, ui) ->
       App.listShares.addUnique(ui.item)
-      
+
   $("#username").data("autocomplete")._renderItem = (ul, item) ->
     $( "<li></li>" ).data( "item.autocomplete", item ).append( "<a>" + item.username + "</a>" ).appendTo( ul );
-  
+
 
 App.setupListShares = ->
   App.listShares = new App.backbone.ListShares(App.data.listShares)
