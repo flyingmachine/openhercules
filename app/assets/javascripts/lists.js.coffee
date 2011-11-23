@@ -1,5 +1,7 @@
 class App.backbone.List extends Backbone.Model
-  change: -> @save()
+  change: ->
+    @save()
+    @propertiesView.render()
 
   updateItems: ->
     @set
@@ -203,7 +205,7 @@ class App.backbone.ItemChildrenView extends Backbone.View
 class App.backbone.ListPropertiesView extends Backbone.View
   render: ->
     @$(".name").text(@model.get("name"))
-    $(".list-#{@model.get("id")} a").text(@model.get("name"))
+    $("li[data-list-id=#{@model.get("id")}] a").text(@model.get("name"))
     @$(".description").text(@model.get("description"))
     this
 
