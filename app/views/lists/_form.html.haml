@@ -1,8 +1,10 @@
+- name ||= nil
+- description ||= nil
 .clearfix
   %label{:for => "name"} List Name
   .input
-    %input.span8.input.name{:name => "name", :value => @list.name}
+    %input.span8.input.name{:name => "name", :value => name || @list.name}
 .clearfix
   %label{:for => "description"} List Description
   .input
-    %textarea.span8.description{:rows => 4, :name => "description"}= @list.description
+    %textarea.span8.description{:rows => 4, :name => "description"}= description || @list.description

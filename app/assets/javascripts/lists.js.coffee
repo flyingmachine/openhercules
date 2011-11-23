@@ -221,7 +221,7 @@ class App.backbone.ListPropertiesFormView extends Backbone.View
 
   update: ->
     @model.set
-      name: @$(".name").val()
+      name:        @$(".name").val()
       description: @$(".description").val()
 
   close: ->
