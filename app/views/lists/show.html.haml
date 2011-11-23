@@ -2,6 +2,7 @@
 :javascript
   App.data.list = #{@list.to_json}
   App.data.listShares = #{JSON.generate(list_shares(@list))}
+  App.data.user = #{current_user.to_json}
   App.setup()
 
 #properties
@@ -95,7 +96,7 @@
       %h5 Lists
       %ul.lists
         - @lists.each do |list|
-          %li{class: "#{("selected" if @list == list)} list-#{list.id}"}= link_to list.name, list_path(list)
+          %li{"data-list-id" => list.id, class: "#{("selected" if @list == list)}"}= link_to list.name, list_path(list)
       
       .add
         %a{:href => "#", "data-controls-modal" => "new", "data-backdrop" => "true"}+ Add List

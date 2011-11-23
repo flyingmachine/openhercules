@@ -27,3 +27,5 @@ App.setup ->
   $("#new").bind "shown", -> $("#new .name").focus()
   $("#new .primary").click -> $("#new form").submit()
   $(".modal .cancel").click -> $(this).parents(".modal").modal("hide")
+
+  App.user = new App.backbone.User App.data.user

@@ -9,7 +9,6 @@ class User
   field :username,            type: String
   field :email,               type: String
   field :last_viewed_list_id, type: Integer
-  field :organized_lists,     type: Array
   field :lists_organized,     type: Array,  default: []
   
   has_many :lists
@@ -50,6 +49,13 @@ class User
   
   def username_required?
     !anonymous
+  end
+
+  def as_json(options = {})
+    {
+      id: id,
+      lists_organized: lists_organized
+    }
   end
   
   def last_viewed_list
