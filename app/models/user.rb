@@ -91,6 +91,8 @@ class User
       LIST_PERMISSIONS[0]
     elsif list.writers.include? self.id.to_s
       LIST_PERMISSIONS[1]
+    elsif list.user = self
+      LIST_PERMISSIONS[2]
     end
   end
     

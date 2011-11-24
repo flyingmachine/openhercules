@@ -9,4 +9,9 @@ module ListsHelper
       }
     end
   end
+
+  def permission_for(list)
+    return User::LIST_PERMISSIONS[0] unless user_signed_in?
+    current_user.permission_for(@list)
+  end
 end

@@ -302,3 +302,12 @@ h2.completed {
     margin-bottom:1em;
   }
 }
+
+.sidebar {
+  form.create {
+    margin-right:0;
+    .btn {
+      width:100%;
+    }
+  }
+}

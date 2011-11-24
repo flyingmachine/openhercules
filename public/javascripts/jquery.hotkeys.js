@@ -31,9 +31,11 @@
 				 event.target.type === "text") ) {
 				return;
 			}
+        
+      var hotKey = KeyCode.hot_key(KeyCode.translate_event(event.orginalEvent));
       
 			for ( var i = 0, l = keys.length; i < l; i++ ) {
-				if ( KeyCode.hot_key(KeyCode.translate_event(event.orginalEvent)) == keys[i] ) {
+				if ( hotKey == keys[i] ) {
 					return origHandler.apply( this, arguments );
 				}
 			}
