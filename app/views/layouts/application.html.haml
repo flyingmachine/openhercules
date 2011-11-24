@@ -34,7 +34,7 @@
                   &bull;
                   = link_to "log in", new_user_session_path
                   &bull;
-                  %a{:href => "#", "data-controls-modal" => "log-out-forever", "data-backdrop" => "true"}log out forever
+                  %a{:href => "#", "data-controls-modal" => "log-out-forever", "data-backdrop" => "true"}log out
               - else
                 %p
                   == logged in as #{link_to current_user.email, edit_user_registration_path(current_user)}

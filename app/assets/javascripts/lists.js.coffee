@@ -117,7 +117,10 @@ class App.backbone.ItemView extends Backbone.View
     @item.removeClass "selected"
 
   setBody: ->
-    @body.html @itemData.body + "&nbsp;"
+    if @itemData.body.length
+      @body.html @itemData.body
+    else
+      @body.html "&nbsp;"
 
   moveUp: ->
     $(@el).insertBefore $(@el).prev()
