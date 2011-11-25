@@ -77,7 +77,7 @@ class App.backbone.ItemView extends Backbone.View
     @itemData = itemData
 
   events:
-    "change input[type=\"checkbox\"]": "changeStatus"
+    "click input[type=\"checkbox\"]": "changeStatus"
     "click .item.selected": "preventFurtherClicks"
     "click .item": "click"
     "dblclick .item.selected input": "preventFurtherClicks"
@@ -89,17 +89,22 @@ class App.backbone.ItemView extends Backbone.View
     @select()
     return false;
 
+  toggleStatus: ->
+    @status.attr "checked", (!@status.attr "checked")
+    @changeStatus();
+
   changeStatus: ->
-    if $(@el).find(">.item input[type=checkbox]").attr("checked")
-      $(@el).find("input[type=checkbox]").attr("checked", true)
-      @itemData.status = "checked"
+    @updateHierarchyStatus()
+    App.mainList.updateItems() unless App.mainList.updatingHierarchyStatus
+
+  updateHierarchyStatus: ->
+    if @status.attr "checked"
+      $(@el).find(".item").addClass("checked").children("input").attr("checked", true)
     else
+      $(@el).children(".item").removeClass("checked")
       $(@el).parents("li").each (i, li) ->
         $(li).find(">.item input[type=checkbox]").attr("checked", false)
-      @itemData.status = ""
-    @setClasses()
-    App.mainList.updateItems()
-
+        $(li).find(">.item").removeClass("checked")
 
   click: ->
     @select()
