@@ -90,7 +90,16 @@ class App.backbone.ItemView extends Backbone.View
     return false;
 
   changeStatus: ->
+    if $(@el).find(">.item input[type=checkbox]").attr("checked")
+      $(@el).find("input[type=checkbox]").attr("checked", true)
+      @itemData.status = "checked"
+    else
+      $(@el).parents("li").each (i, li) ->
+        $(li).find(">.item input[type=checkbox]").attr("checked", false)
+      @itemData.status = ""
+    @setClasses()
     App.mainList.updateItems()
+
 
   click: ->
     @select()
