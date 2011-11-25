@@ -251,7 +251,7 @@ class App.backbone.ListView extends Backbone.View
     serializer = (el)->
       item = {}
       item.body = $(el).children(".item").text()
-      item.status = $(el).find(">.item input[type=checkbox]")[0].checked ? "checked" : ""
+      item.status = $(el).find(">.item input[type=checkbox]")[0].checked && "checked" || ""
       item.children = []
       item.children.push(serializer(child)) for child in $(el).find(">ol>li").toArray()
       item

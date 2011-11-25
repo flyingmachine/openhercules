@@ -47,6 +47,11 @@ class List
     end
   end
 
+  def clone(user)
+    json = self.as_json
+    json.gsub
+  end
+  
   def add_sharee(user_or_id, permission)
     id, user = User.user_and_id(user_or_id)
     return if user == self.user

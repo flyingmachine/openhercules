@@ -27,4 +27,9 @@ class ListsController < ApplicationController
     @list.save
     render :status => 200, :text => "success"
   end
+
+  def clone
+    @list = List.find(params[:id])
+    @list.clone(current_user)
+  end
 end
