@@ -38,7 +38,7 @@ describe List do
   describe "clone" do
     it "should return a new list where each status is not checked" do
       list.items = [{"body" => "", "status" => "checked", "children" => [{"body" => "", "status" => "checked"}]}]
-      new_list = list.clone(user)
+      new_list = list.clone(user, 'list', 'description')
       new_list.items.first["status"].should == ""
       new_list.items.first["children"].first["status"].should == ""
     end

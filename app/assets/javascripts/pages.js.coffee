@@ -10,8 +10,6 @@ App.setup ->
       App.Pages.pages[name] = @
       @index = index
       @btn   = $($(".page-selector .btn").get().reverse()[index])
-      @btn.twipsy
-        placement: 'below'
       @btn.click =>
         App.sliceManager.activateSlice(name)
 
@@ -22,3 +20,4 @@ App.setup ->
 
   new App.Page('list', 0)
   new App.Page('settings', 1)
+  new App.Page('clone', 2)

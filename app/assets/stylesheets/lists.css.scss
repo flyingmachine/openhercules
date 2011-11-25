@@ -302,7 +302,7 @@ h2.completed {
   }
   
   #pages {
-    @include columns(28);
+    @include columns(42);
     @include transition(.2s ease all);
     position:relative;
     

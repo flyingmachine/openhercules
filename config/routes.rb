@@ -5,7 +5,12 @@ Checklisthub::Application.routes.draw do
     resources :list_shares
   end
     
-  resources :lists
+  resources :lists do
+    member do
+      put 'clone'
+    end
+  end
+  
   resource  :home, :anonymous_user_registration
   root :to => "home#show"
 end

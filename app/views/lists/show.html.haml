@@ -39,6 +39,12 @@
               %td.option.none
         %p Enter username to share this list
         %input#username
+      #clone.page.span14
+        %h3 Clone List
+        = form_tag clone_list_path(@list), :method => "put", :class => "form-stacked" do
+          = render :partial => 'form'
+          %input.btn.primary{:type => "submit", :value => "Clone List"}
+        
   
 #commands
   %p Commands
@@ -82,7 +88,7 @@
 
 #new.modal
   .modal-header
-    %a.close{:href => "#"}x
+    %a.close{:href => "#"} x
     %h3 New List
   .modal-body
     = form_tag lists_path, :method => "post", :class => "form-stacked" do
@@ -98,7 +104,7 @@
       %h5 Lists
       %ul.lists
         - @lists.each do |list|
-          %li{"data-list-id" => list.id, class: "#{("selected" if @list == list)}x"}= link_to list.name, list_path(list)
+          %li{"data-list-id" => list.id, class: "#{("selected" if @list == list)}"}= link_to list.name, list_path(list)
       
       .add
         %a{:href => "#", "data-controls-modal" => "new", "data-backdrop" => "true"}+ Create New List

@@ -30,7 +30,7 @@ class ListsController < ApplicationController
 
   def clone
     @list = List.find(params[:id])
-    new_list = @list.clone(current_user)
+    new_list = @list.clone(current_user, params[:name], params[:description])
     redirect_to(new_list)
   end
 end
