@@ -29,3 +29,5 @@ App.setup ->
   $(".modal .cancel").click -> $(this).parents(".modal").modal("hide")
 
   App.user = new App.backbone.User App.data.user
+  $(".page-selector li.btn").twipsy
+    placement: "below"

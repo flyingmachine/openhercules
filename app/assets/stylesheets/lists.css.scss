@@ -208,31 +208,46 @@ h2.completed {
 }
 
 .page-selector {
-  li.btn {
+  li {
     display:block;
     float:right;
     background-image:none;
-    background-color:#fafafa;
     height:30px;
     width:30px;
-    position:relative;
-    background-position:center;
     padding:0;
     margin-left:4px;
-    @include border-radius(20px);
-    
-    &.list {
-      background-image:url(/images/259-list.png);
+
+    &.separator {
+      text-align:center;
+      vertical-align:middle;
+      line-height:30px;
     }
+          
     
-    &.settings {
-      background-image:url(/images/158-wrench-2.png);
+    &.btn {
+      background-color:#fafafa;
+      
+      position:relative;
+      background-position:center;
+      @include border-radius(20px);
+
+      &.list {
+        background-image:url(/images/259-list.png);
+      }
+
+      &.settings {
+        background-image:url(/images/158-wrench-2.png);
+      }
+
+      &.clone {
+        background-image:url(/images/copy2.png);
+      }
+
+      &.active {
+        background-color:#f1fafc;
+      }
+
     }
-    
-    &.active {
-      background-color:#f1fafc;
-    }
-    
   }
 }
 
