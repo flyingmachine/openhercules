@@ -2,8 +2,7 @@
   min-height:12px;
   cursor:default;
   padding:2px 0 3px 25px;
-  -moz-border-radius:10px;
-  border-radius:10px;
+  @include border-radius(10px);  
   border:1px solid #fff;
   background:white;
   
@@ -35,7 +34,7 @@
 
   .drag-drop-placeholder {
     background:#84def3;
-    @include border-radius(8px)
+    @include border-radius(10px)
   }
   
   &.item-list {
@@ -220,6 +219,7 @@ h2.completed {
     background-position:center;
     padding:0;
     margin-left:4px;
+    @include border-radius(20px);
     
     &.list {
       background-image:url(/images/259-list.png);
