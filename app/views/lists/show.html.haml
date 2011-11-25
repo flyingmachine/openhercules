@@ -101,7 +101,7 @@
           %li{"data-list-id" => list.id, class: "#{("selected" if @list == list)}x"}= link_to list.name, list_path(list)
       
       .add
-        %a{:href => "#", "data-controls-modal" => "new", "data-backdrop" => "true"}+ Add List
+        %a{:href => "#", "data-controls-modal" => "new", "data-backdrop" => "true"}+ Create New List
   - else
     = form_tag anonymous_user_registration_path, :class => "form-stacked create" do
       %p

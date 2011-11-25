@@ -5,7 +5,7 @@ FactoryGirl.define do
     name 'New List'
     items [{
       body: "",
-      completed_at: nil
+      status: "",
     }]
   end
 end

@@ -48,8 +48,15 @@ class List
   end
 
   def clone(user)
-    json = self.as_json
-    json.gsub
+    json = self.to_json
+    json.gsub!(/"status":"checked"/, '"status":""')
+    clone_attributes = JSON.parse(json)
+    List.create(
+      name: clone_attributes["name"],
+      description: clone_attributes["description"],
+      user: user,
+      items: clone_attributes["items"]
+    )          
   end
   
   def add_sharee(user_or_id, permission)
