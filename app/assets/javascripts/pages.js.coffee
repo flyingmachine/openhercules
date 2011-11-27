@@ -2,7 +2,7 @@ App.setup ->
   App.Pages =
     activatePage: (name)->
       @pages[name].activate()
-    buttons: $(".page-selector .btn")
+    buttons: $($(".page-selector .btn").get().reverse())
     pages: {}
 
   class App.Page
@@ -18,6 +18,5 @@ App.setup ->
       @btn.addClass('active')
       $("#pages").css("left", "#{-840 * @index}px")
 
-  new App.Page('list', 0)
-  new App.Page('settings', 1)
-  new App.Page('clone', 2)
+  App.Pages.buttons.each (i, el) ->
+    new App.Page($(el).attr('data-page-name'), i)

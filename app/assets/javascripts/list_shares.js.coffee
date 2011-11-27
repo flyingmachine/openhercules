@@ -86,12 +86,13 @@ App.setupListSharesUsernameAutocomplete = ->
 
 
 App.setupListShares = ->
-  App.listShares = new App.backbone.ListShares(App.data.listShares)
-  for listShare in App.listShares.models
-    $("#access").append(listShare.view.render().el)
+  if App.data.listShares
+    App.listShares = new App.backbone.ListShares(App.data.listShares)
+    for listShare in App.listShares.models
+      $("#access").append(listShare.view.render().el)
 
-  App.setupListSharesUsernameAutocomplete()
-  App.setupListSharesModal()
+    App.setupListSharesUsernameAutocomplete()
+    App.setupListSharesModal()
 
 
 App.setup(App.setupListShares)
