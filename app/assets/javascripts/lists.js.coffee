@@ -1,6 +1,6 @@
 class App.backbone.List extends Backbone.Model
   change: ->
-    @save()
+    @save() if App.data.listShares
     @propertiesView.render()
 
   updateItems: ->
