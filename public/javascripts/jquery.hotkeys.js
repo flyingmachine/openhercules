@@ -31,7 +31,7 @@
 				 event.target.type === "text") ) {
 				return;
 			}
-        
+      firefoxHackEvent = event.originalEvent
       var hotKey = KeyCode.hot_key(KeyCode.translate_event(event.orginalEvent));
       
 			for ( var i = 0, l = keys.length; i < l; i++ ) {

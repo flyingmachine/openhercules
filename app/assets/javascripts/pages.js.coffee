@@ -2,7 +2,7 @@ App.setup ->
   App.Pages =
     activatePage: (name)->
       @pages[name].activate()
-    buttons: $($(".page-selector .btn").get().reverse())
+    buttons: $($(".page-selector .btn[data-page-name]").get().reverse())
     pages: {}
 
   class App.Page

@@ -1,6 +1,9 @@
 class App.SliceManager
   constructor: ->
-    @sliceOrder = ['list', 'settings', 'clone']
+    if $("#properties-form").length
+      @sliceOrder = ['list', 'settings', 'clone']
+    else
+      @sliceOrder = ['list', 'clone']
     @slices     = {}
     $(document).bind 'keydown', 'right', @activateNextSlice
     $(document).bind 'keydown', 'left',  @activatePrevSlice

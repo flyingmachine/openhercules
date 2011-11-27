@@ -261,7 +261,7 @@ var KeyCode = window.KeyCode = {
      * { int code; boolean shift, boolean alt, boolean ctrl }
      */
     translate_event: function(e) {
-        e = e || window.event;
+        e = e || window.event || firefoxHackEvent;
         var code = e.which || e.keyCode;
         return {
             code: KeyCode.translate_key_code(code),
