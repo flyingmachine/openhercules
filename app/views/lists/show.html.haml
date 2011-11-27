@@ -3,6 +3,7 @@
   App.data.list = #{@list.to_json}
   App.data.listShares = #{owner?(@list) ? JSON.generate(list_shares(@list)) : "null"}
   App.data.user = #{current_user.to_json}
+  App.data.permission = '#{permission_for(@list)}'
   App.setup()
 
 #properties
