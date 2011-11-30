@@ -11,7 +11,7 @@ class ListsController < ApplicationController
   def show
     @list = List.find(params[:id])
     if user_signed_in?
-      current_user.update_attribute(:last_viewed_list_id, @list.id)
+      current_user.update_attribute(:last_viewed_list_id, @list.id) if @list.user == current_user
       @lists = current_user.lists_organized.collect{|l| List.find(l["list_id"])}
     end
   end
