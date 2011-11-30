@@ -232,19 +232,23 @@ h2.completed {
       @include border-radius(20px);
 
       &.list {
-        background-image:url(/images/259-list.png);
+        background-image: url(/images/259-list.png);
       }
 
       &.settings {
-        background-image:url(/images/158-wrench-2.png);
+        background-image: url(/images/158-wrench-2.png);
       }
 
       &.clone {
-        background-image:url(/images/copy2.png);
+        background-image: url(/images/copy2.png);
       }
 
       &.active {
-        background-color:#f1fafc;
+        background-color: #f1fafc;
+      }
+
+      &.delete {
+        background-image: url("/images/trash-btn.png");
       }
 
     }

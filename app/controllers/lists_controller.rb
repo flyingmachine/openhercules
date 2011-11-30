@@ -23,9 +23,27 @@ class ListsController < ApplicationController
   
   def update
     @list = List.find(params[:id])
-    @list.update_attributes(params[:list])
-    @list.save
-    render :status => 200, :text => "success"
+    if User::LIST_PERMISSIONS[1..2].include? current_user.permission_for(@list)
+      # ensure that read-write user doesn't try to modify something
+      # other than items
+      if current_user.permission_for(@list) == User::LIST_PERMISSIONS
+        list_params = params[:list]
+      else
+        list_params = {items: params[:list][:items]}
+      end
+      
+      @list.update_attributes(list_params)
+      @list.save
+      render :status => 200, :text => "success"
+    else
+      render :status => 401, :text => "insufficient permissions"
+    end
+  end
+
+  def destroy
+    @list = current_user.lists.find(params[:id])
+    @list.destroy
+    redirect_to :index
   end
 
   def clone
