@@ -24,6 +24,11 @@ describe List do
         list.sharees.should_not include(user)
         user2.lists_organized.should == []
       end
+
+      it "should not remove a list from the owner's lists_organized" do
+        list.remove_sharee(user)
+        user.reload.lists_organized.should_not be_blank
+      end
     end
   end
   
@@ -35,12 +40,19 @@ describe List do
     end
   end
 
-  describe "clone" do
+  describe "#clone" do
     it "should return a new list where each status is not checked" do
       list.items = [{"body" => "", "status" => "checked", "children" => [{"body" => "", "status" => "checked"}]}]
       new_list = list.clone(user, 'list', 'description')
       new_list.items.first["status"].should == ""
       new_list.items.first["children"].first["status"].should == ""
+    end
+  end
+
+  describe "#destroy" do
+    it "should remove the list from all sharee's 'lists_organized'" do
+      list.destroy
+      user.reload.lists_organized.should == []
     end
   end
 end

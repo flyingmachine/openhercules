@@ -13,6 +13,7 @@ class List
   
   default_scope order_by([[:created_at, :desc]])
   before_save  :ensure_item_exists
+  before_destroy :remove_all_sharees
   after_create :add_to_list_organizer
   
   class << self    
@@ -85,6 +86,11 @@ class List
 
     user.remove_list(self)
     save
+  end
+
+  def remove_all_sharees
+    sharees.each{|s| remove_sharee(s)}
+    self.user.remove_list(self)
   end
   
 

@@ -59,7 +59,11 @@ class User
   end
   
   def last_viewed_list
-    List.find(last_viewed_list_id) if last_viewed_list_id
+    begin
+      List.find(last_viewed_list_id) if last_viewed_list_id
+    rescue Mongoid::Errors::DocumentNotFound
+      nil
+    end
   end
       
   def receive_list(list)

@@ -422,5 +422,8 @@ new App.Slice
       stop: (event, ui) ->
         $(ui.item['0']).trigger('drag')
 
+    $(".btn.delete").click ->
+      f = $("<form method='post'><input type='hidden' name='_method' value='delete'/><input type='hidden' name='authenticity_token' value='#{$('meta[name="csrf-token"]').attr('content');}' /></form>")
+      f.submit()
   activate: ->
     App.Pages.activatePage('list')

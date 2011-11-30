@@ -43,7 +43,7 @@ class ListsController < ApplicationController
   def destroy
     @list = current_user.lists.find(params[:id])
     @list.destroy
-    redirect_to :index
+    redirect_to lists_path
   end
 
   def clone
