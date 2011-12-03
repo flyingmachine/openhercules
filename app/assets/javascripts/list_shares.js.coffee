@@ -10,9 +10,20 @@ class App.backbone.ListShare extends Backbone.Model
   url: ->
     "/users/#{@get("user_id")}/list_shares/#{@get("id")}"
 
-  change: -> @save()
+  change: ->
+    @save()
+
   appendView: ->
     $("#access tbody").append @view.render().el
+
+  hasPermission: ->
+    App.data.permission == 'owner' && !App.data.anonymous
+
+  save: (attrs, options) ->
+    Backbone.Model.prototype.save.call(@, attrs, options) if @hasPermission();
+
+  destroy: (options) ->
+    Backbone.Model.prototype.destroy.call(@, options) if @hasPermission();
 
 class App.backbone.ListShares extends Backbone.Collection
   model: App.backbone.ListShare

@@ -4,6 +4,7 @@
   App.data.listShares = #{owner?(@list) ? JSON.generate(list_shares(@list)) : "null"}
   App.data.user = #{current_user.to_json}
   App.data.permission = '#{permission_for(@list)}'
+  App.data.anonymous  = #{anonymous? ? "true" : "false"}
   App.setup()
 
 #properties
@@ -28,8 +29,12 @@
         #properties-form.page.span14
           %h3 List Settings
           %form.form-stacked
-            = render :partial => 'form'
+            = render :partial => 'form'          
           %h4 Access
+          - if anonymous?
+            .alert-message.block-message
+              %p Once you've signed up, your Access settings will be saved. In the mean time, the interface will continue to work so you can get a feel for it.
+
           %table#access
             %thead
               %tr
