@@ -20,7 +20,8 @@ class User
   LIST_PERMISSIONS = [
     "read",
     "read-write",
-    "owner"
+    "owner",
+    "none"
   ]
   
   scope :username_like, ->(username) { where("username" => /^#{username}/) }

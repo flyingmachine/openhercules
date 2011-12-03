@@ -275,8 +275,13 @@ h2.completed {
     }
   }
   
-  .everyone .option.none:hover {
-    background-image:none;
+  .everyone .option.none {
+    &.selected {
+      background-color:#ffe4e4;
+    }
+    &:hover {
+      background-image:none;
+    }
   }
 }
 

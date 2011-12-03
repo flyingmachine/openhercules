@@ -425,5 +425,16 @@ new App.Slice
     $(".btn.delete").click ->
       f = $("<form method='post'><input type='hidden' name='_method' value='delete'/><input type='hidden' name='authenticity_token' value='#{$('meta[name="csrf-token"]').attr('content');}' /></form>")
       f.submit()
+
+
+    $("#access .everyone td").click ->
+      permission = 'read' if $(@).hasClass 'read'
+      permission = 'read-write' if $(@).hasClass 'read-write'
+      permission = 'none' if $(@).hasClass 'none'
+      App.mainList.set(global_permission: permission)
+
+      $("#access .everyone td").removeClass 'selected'
+      $(@).addClass 'selected'
+
   activate: ->
     App.Pages.activatePage('list')

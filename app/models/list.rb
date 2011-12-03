@@ -7,13 +7,14 @@ class List
   field :description, type: String
   field :readers, type: Array, default: []
   field :writers, type: Array, default: []
-  field :global_permission, type: String
+  field :global_permission, type: String, default: User::LIST_PERMISSIONS[0]
   
   belongs_to :user
   
   default_scope order_by([[:created_at, :desc]])
   before_save  :ensure_item_exists
   before_destroy :remove_all_sharees
+  before_create  :set_global_permission
   after_create :add_to_list_organizer
   
   class << self    
@@ -120,5 +121,9 @@ class List
   
   def add_to_list_organizer
     self.user.receive_list(self)
+  end
+
+  def set_global_permission
+    self.global_permission == (self.user && !self.user.anonymous? && User::LIST_PERMISSIONS[0]) || User::LIST_PERMISSIONS[1]
   end
 end

@@ -45,9 +45,9 @@
             %tbody
               %tr.everyone
                 %td everyone
-                %td.option
-                %td.option.selected
-                %td.option.none
+                %td.option.read{:class => ("selected" if @list.global_permission == User::LIST_PERMISSIONS[0])}
+                %td.option.read-write{:class => ("selected" if @list.global_permission == User::LIST_PERMISSIONS[1])}
+                %td.option.none{:class => ("selected" if @list.global_permission == User::LIST_PERMISSIONS[3])}
           %p Enter username to share this list
           %input#username
       #clone.page.span14
