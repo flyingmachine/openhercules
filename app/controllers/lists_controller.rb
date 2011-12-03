@@ -11,8 +11,11 @@ class ListsController < ApplicationController
   def show
     @list = List.find(params[:id])
     if user_signed_in?
+      redirect_back_or_home if current_user.permission_for(@list) == User::LIST_PERMISSIONS[3]
       current_user.update_attribute(:last_viewed_list_id, @list.id) if @list.user == current_user
       @lists = current_user.lists_organized.collect{|l| List.find(l["list_id"])}
+    else
+      redirect_back_or_home if @list.global_permission = User::LIST_PERMISSIONS[3]
     end
   end
     
