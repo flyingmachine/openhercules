@@ -92,13 +92,24 @@ class User
   end
   
   def permission_for(list)
-    if list.readers.include? self.id.to_s
-      LIST_PERMISSIONS[0]
+    return User::LIST_PERMISSIONS[2] if list.user == self
+    return User::LIST_PERMISSIONS[3] if list.global_permission == User::LIST_PERMISSIONS[3]
+    
+    list_permission_index = if list.readers.include? self.id.to_s
+      0
     elsif list.writers.include? self.id.to_s
-      LIST_PERMISSIONS[1]
+      1
     elsif list.user = self
-      LIST_PERMISSIONS[2]
+      2
     end
+
+    global_permission_index = User::LIST_PERMISSIONS.index(list.global_permission)
+    
+    if global_permission_index > list_permission_index
+      User::LIST_PERMISSIONS[global_permission_index]
+    else
+      User::LIST_PERMISSIONS[list_permission_index]
+    end                         
   end
     
 end
