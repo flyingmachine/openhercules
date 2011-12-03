@@ -99,6 +99,7 @@ class List
       id: id,
       name: name,
       description: description,
+      global_permission: global_permission,
       items: items
     }
   end

@@ -26,7 +26,7 @@ class ListsController < ApplicationController
     if User::LIST_PERMISSIONS[1..2].include? current_user.permission_for(@list)
       # ensure that read-write user doesn't try to modify something
       # other than items
-      if current_user.permission_for(@list) == User::LIST_PERMISSIONS
+      if current_user.permission_for(@list) == User::LIST_PERMISSIONS[2]
         list_params = params[:list]
       else
         list_params = {items: params[:list][:items]}

@@ -1,10 +1,6 @@
 class ListSharesController < ApplicationController
   before_filter :authenticate_user!
-  
-  def create
-
-  end
-  
+    
   def update
     list = List.find(params[:id])
     if list.user != current_user
