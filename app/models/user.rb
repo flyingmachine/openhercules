@@ -16,14 +16,7 @@ class User
   validates_presence_of   :username, :if => :username_required?
   validates_uniqueness_of :username, :allow_blank => true
   validates_length_of     :username, :within => 4..24, :allow_blank => true
-  
-  LIST_PERMISSIONS = [
-    "read",
-    "read-write",
-    "owner",
-    "none"
-  ]
-  
+    
   scope :username_like, ->(username) { where("username" => /^#{username}/) }
   
   class << self
@@ -92,8 +85,8 @@ class User
   end
   
   def permission_for(list)
-    return User::LIST_PERMISSIONS[2] if list.user == self
-    return User::LIST_PERMISSIONS[3] if list.global_permission == User::LIST_PERMISSIONS[3]
+    return ListPermissions::OWNER if list.user == self
+    return ListPermissions::NONE if list.global_permission == ListPermissions::NONE
     
     list_permission_index = if list.readers.include? self.id.to_s
       0
@@ -103,12 +96,12 @@ class User
       2
     end
 
-    global_permission_index = User::LIST_PERMISSIONS.index(list.global_permission)
+    global_permission_index = ListPermissions.ordered.index(list.global_permission)
     
     if global_permission_index > list_permission_index
-      User::LIST_PERMISSIONS[global_permission_index]
+      ListPermissions.ordered[global_permission_index]
     else
-      User::LIST_PERMISSIONS[list_permission_index]
+      ListPermissions.ordered[list_permission_index]
     end                         
   end
     

@@ -11,11 +11,11 @@ class ListsController < ApplicationController
   def show
     @list = List.find(params[:id])
     if user_signed_in?
-      redirect_back_or_home if current_user.permission_for(@list) == User::LIST_PERMISSIONS[3]
+      redirect_back_or_home if current_user.permission_for(@list) == ListPermissions::NONE
       current_user.update_attribute(:last_viewed_list_id, @list.id) if @list.user == current_user
       @lists = current_user.lists_organized.collect{|l| List.find(l["list_id"])}
     else
-      redirect_back_or_home if @list.global_permission = User::LIST_PERMISSIONS[3]
+      redirect_back_or_home if @list.global_permission = ListPermissions::NONE
     end
   end
     
@@ -29,7 +29,7 @@ class ListsController < ApplicationController
     if User::LIST_PERMISSIONS[1..2].include? current_user.permission_for(@list)
       # ensure that read-write user doesn't try to modify something
       # other than items
-      if current_user.permission_for(@list) == User::LIST_PERMISSIONS[2]
+      if current_user.permission_for(@list) == ListPermissions::OWNER
         list_params = params[:list]
       else
         list_params = {items: params[:list][:items]}

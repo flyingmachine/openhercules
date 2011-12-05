@@ -15,7 +15,7 @@
         %li.btn.delete{:title => "Delete"}
           %li.separator &bull;
       %li.btn.clone{      "data-page-name" => "clone",    :title => "Clone"}
-      - if permission_for(@list) == User::LIST_PERMISSIONS[2]
+      - if permission_for(@list) == ListPermissions::OWNER
         %li.btn.settings{   "data-page-name" => "settings", :title => "Settings"}
       %li.btn.list.active{"data-page-name" => "list",     :title => "List"}
 
@@ -25,7 +25,7 @@
   #pages.span
     .row
       #app.page.span14
-      - if permission_for(@list) == User::LIST_PERMISSIONS[2]
+      - if permission_for(@list) == ListPermissions::OWNER
         #properties-form.page.span14
           %h3 List Settings
           %form.form-stacked
@@ -47,7 +47,7 @@
                 %td everyone
                 %td.option.read{:class => ("selected" if @list.global_permission == User::LIST_PERMISSIONS[0])}
                 %td.option.read-write{:class => ("selected" if @list.global_permission == User::LIST_PERMISSIONS[1])}
-                %td.option.none{:class => ("selected" if @list.global_permission == User::LIST_PERMISSIONS[3])}
+                %td.option.none{:class => ("selected" if @list.global_permission == ListPermissions::NONE)}
           %p Enter username to share this list
           %input#username
       #clone.page.span14
