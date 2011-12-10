@@ -1,11 +1,11 @@
 Feature: View List
   Users want to view some lists
 
-  Scenario Outline: A user tries to view his own public list 
+  Scenario Outline: A user tries to view his own publicly readable list 
     Given I am a <User Type> user
-    And I have a public list
+    And I have a publicly readable list
     When I try to view my list
-    Then I should see it
+    Then I should see my list
 
     Examples:
       | User Type  |
@@ -16,12 +16,11 @@ Feature: View List
     Given I am a <User Type> user
     And I have a non-readable list
     When I try to view my list
-    Then I should see it
+    Then I should see my list
 
     Examples:
       | User Type  |
       | registered |
-      | anonymous  |
 
   Scenario Outline: A user tries to view a non-findable list
     Given I am a <User Type> user
@@ -36,9 +35,9 @@ Feature: View List
       | anonymous  | non-readable |
       | anonymous  | non-existent |
 
-  Scenario Outline: A user tries to view a public list
+  Scenario Outline: A user tries to view a publicly readable list
     Given I am a <User Type> user
-    When I try to view a public list
+    When I try to view a publicly readable list
     Then I should see it
 
     Examples:
