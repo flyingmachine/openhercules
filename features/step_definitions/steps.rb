@@ -45,3 +45,7 @@ Then /^I should see my organizer$/ do
   page.should have_css('.organizer')
 end
 
+Then /^I should see a button reading "(.*?)"$/ do |message|
+  page.should have_content(message)
+end
+

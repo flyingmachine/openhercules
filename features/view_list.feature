@@ -46,14 +46,13 @@ Feature: View List
       | anonymous  |
       | guest      |
 
-  Scenario: A guest tries to view a non-readable list
+  Scenario Outline: A guest tries to view a non-findable list
     Given I am a guest user
-    When I try to view a non-readable list
-    Then I should be redirected to the home page
-    And I should see a warning which reads "That list could not be found."
+    When I try to view a <List Type> list
+    Then I should see a warning which reads "That list could not be found."
+    And I should see a button reading "Create Checklist Now"
 
-  Scenario: A guest tries to view a non-existent list
-    Given I am a guest user
-    When I try to view a non-existent list
-    Then I should be redirected to the home page
-    And I should see a warning which reads "That list could not be found."
+    Examples:
+      | List Type    |
+      | non-readable |
+      | non-existent |
