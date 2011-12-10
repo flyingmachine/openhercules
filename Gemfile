@@ -27,6 +27,7 @@ group :test do
   gem "database_cleaner"
   gem "capybara"
   gem "rspec-rails"
+  gem "launchy"
 end
 
 gem "ruby-debug19", :group => [:test, :development]

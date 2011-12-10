@@ -16,11 +16,11 @@ Given /^I have a (.*?) list$/ do |list_type|
   @list.save
 end
 
-When /^I try to view my list$/ do
+When /^I visit my list$/ do
   visit list_path(@list)
 end
 
-When /^I try to view a (.*?) list$/ do |list_type|
+When /^I visit a (.*?) list$/ do |list_type|
   if list_type == 'non-readable' || list_type == 'publicly readable'
     @other_user = FactoryGirl.create :user
     @list = FactoryGirl.create :list, :user => @other_user
@@ -49,3 +49,6 @@ Then /^I should see a button reading "(.*?)"$/ do |message|
   page.should have_content(message)
 end
 
+Then /^I should see the words "(.*?)"$/ do |words|
+  page.should have_content(words)
+end

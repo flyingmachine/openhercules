@@ -4,7 +4,7 @@ Feature: View List
   Scenario Outline: A user tries to view his own publicly readable list 
     Given I am a <User Type> user
     And I have a publicly readable list
-    When I try to view my list
+    When I visit my list
     Then I should see my list
 
     Examples:
@@ -15,7 +15,7 @@ Feature: View List
   Scenario Outline: A user tries to view his own non-readable list
     Given I am a <User Type> user
     And I have a non-readable list
-    When I try to view my list
+    When I visit my list
     Then I should see my list
 
     Examples:
@@ -24,7 +24,7 @@ Feature: View List
 
   Scenario Outline: A user tries to view a non-findable list
     Given I am a <User Type> user
-    When I try to view a <List Type> list
+    When I visit a <List Type> list
     Then I should see a warning which reads "That list could not be found."
     And I should see my organizer
 
@@ -37,7 +37,7 @@ Feature: View List
 
   Scenario Outline: A user tries to view a publicly readable list
     Given I am a <User Type> user
-    When I try to view a publicly readable list
+    When I visit a publicly readable list
     Then I should see the list
 
     Examples:
@@ -48,7 +48,7 @@ Feature: View List
 
   Scenario Outline: A guest tries to view a non-findable list
     Given I am a guest user
-    When I try to view a <List Type> list
+    When I visit a <List Type> list
     Then I should see a warning which reads "That list could not be found."
     And I should see a button reading "Create Checklist Now"
 
