@@ -1,8 +1,7 @@
 :javascript
   App.data.list = #{@list.to_json}
-  App.data.listShares = #{owner?(@list) ? JSON.generate(list_shares(@list)) : "null"}
+  App.data.listShares = #{can?(:modify_properties, @list) ? JSON.generate(list_shares(@list)) : "null"}
   App.data.user = #{current_user.to_json}
-  App.data.permission = '#{permission_for(@list)}'
   App.data.anonymous  = #{anonymous? ? "true" : "false"}
   App.setup()
 
@@ -10,11 +9,11 @@
   %h2
     %span.name= @list.name
     %ul.pull-right.page-selector
-      - if owner?(@list)
+      - if can?(:modify_properties, @list)
         %li.btn.delete{:title => "Delete"}
           %li.separator &bull;
       %li.btn.clone{      "data-page-name" => "clone",    :title => "Clone"}
-      - if permission_for(@list) == ListPermissions::OWNER
+      - if can?(:modify_properties, @list)
         %li.btn.settings{   "data-page-name" => "settings", :title => "Settings"}
       %li.btn.list.active{"data-page-name" => "list",     :title => "List"}
 
@@ -24,7 +23,7 @@
   #pages.span
     .row
       #app.page.span14
-      - if permission_for(@list) == ListPermissions::OWNER
+      - if can?(:modify_properties, @list)
         #properties-form.page.span14
           %h3 List Settings
           %form.form-stacked

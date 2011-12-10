@@ -14,13 +14,11 @@ class ListsController < ApplicationController
     rescue Mongoid::Errors::DocumentNotFound
       @list = nil
     end
-    if user_signed_in?
-      @list = nil unless can?(:read, @list)
-      current_user.update_attribute(:last_viewed_list_id, @list.id) if @list && @list.user == current_user
-      @lists = current_user.lists_organized.collect{|l| List.find(l["list_id"])}
-    else
-      redirect_back_or_home if @list.global_permission = ListPermissions::NONE
-    end
+
+    @list = nil unless can?(:read, @list)
+    current_user.update_attribute(:last_viewed_list_id, @list.id) if @list && @list.user == current_user
+    @lists = current_user.lists_organized.collect{|l| List.find(l["list_id"])} if user_signed_in?
+
   end
     
   def create

@@ -21,10 +21,11 @@ When /^I try to view my list$/ do
 end
 
 When /^I try to view a (.*?) list$/ do |list_type|
-  if list_type == 'non-readable'
+  if list_type == 'non-readable' || list_type == 'publicly readable'
     @other_user = FactoryGirl.create :user
     @list = FactoryGirl.create :list, :user => @other_user
-    @list.global_permission = ListPermissions::NONE
+    @list.global_permission = ListPermissions::NONE if list_type == 'non-readable'
+    @list.global_permission = ListPermissions::READ if list_type == 'publicly readable'
     @list.save
     visit list_path(@list)
   elsif list_type == 'non-existent'
@@ -32,7 +33,7 @@ When /^I try to view a (.*?) list$/ do |list_type|
   end
 end
 
-Then /^I should see my list$/ do
+Then /^I should see (?:the|my) list$/ do
   page.should have_content(@list.name)
 end
 

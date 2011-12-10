@@ -38,7 +38,7 @@ Feature: View List
   Scenario Outline: A user tries to view a publicly readable list
     Given I am a <User Type> user
     When I try to view a publicly readable list
-    Then I should see it
+    Then I should see the list
 
     Examples:
       | User Type  |
