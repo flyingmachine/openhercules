@@ -7,11 +7,13 @@ Given /^I am a (.*?) user$/ do |user_type|
 end
 
 Given /^I have a (.*?) list$/ do |list_type|
+  @list = FactoryGirl.create :list, :user => @current_user
   if list_type == 'publicly readable'
-    @list = FactoryGirl.create :list, :user => @current_user
     @list.global_permission = ListPermissions::READ
-    @list.save
+  elsif list_type == 'non-readable'
+    @list.global_permission = ListPermissions::NONE
   end
+  @list.save
 end
 
 When /^I try to view my list$/ do
