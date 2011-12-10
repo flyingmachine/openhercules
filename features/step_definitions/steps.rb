@@ -33,6 +33,13 @@ When /^I visit a (.*?) list$/ do |list_type|
   end
 end
 
+When /^I clone the list$/ do
+  within("#clone") do
+    fill_in "name", :with => "Cloned List"
+    click_on "Clone List"
+  end
+end
+
 Then /^I should see (?:the|my) list$/ do
   page.should have_content(@list.name)
 end
@@ -51,4 +58,13 @@ end
 
 Then /^I should see the words "(.*?)"$/ do |words|
   page.should have_content(words)
+end
+
+Then /^I should become an anonymous user$/ do
+  page.should have_content "end anonymous session"
+end
+  
+
+Then /^I should see the cloned list$/ do
+  page.should have_content "Cloned List"
 end
