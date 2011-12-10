@@ -7,7 +7,7 @@ class List
   field :description, type: String
   field :readers, type: Array, default: []
   field :writers, type: Array, default: []
-  field :global_permission, type: String, default: User::LIST_PERMISSIONS[0]
+  field :global_permission, type: String, default: ListPermissions::NONE
   
   belongs_to :user
   
@@ -124,6 +124,6 @@ class List
   end
 
   def set_global_permission
-    self.global_permission == (self.user && !self.user.anonymous? && User::LIST_PERMISSIONS[0]) || User::LIST_PERMISSIONS[1]
+    self.global_permission == (self.user && !self.user.anonymous? && ListPermissions::NONE) || ListPermissions::WRITE
   end
 end
