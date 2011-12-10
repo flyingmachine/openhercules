@@ -1,5 +1,6 @@
 class AnonymousUserRegistrationsController < ApplicationController
   before_filter :authenticate_user!, :only => [:update]
+  skip_before_filter :verify_authenticity_token
   
   layout "spare"
   
