@@ -9,10 +9,14 @@ class ListsController < ApplicationController
   end
   
   def show
-    @list = List.find(params[:id])
+    begin
+      @list = List.find(params[:id])
+    rescue Mongoid::Errors::DocumentNotFound
+      @list = nil
+    end
     if user_signed_in?
-      redirect_back_or_home if current_user.permission_for(@list) == ListPermissions::NONE
-      current_user.update_attribute(:last_viewed_list_id, @list.id) if @list.user == current_user
+      @list = nil unless can?(:read, @list)
+      current_user.update_attribute(:last_viewed_list_id, @list.id) if @list && @list.user == current_user
       @lists = current_user.lists_organized.collect{|l| List.find(l["list_id"])}
     else
       redirect_back_or_home if @list.global_permission = ListPermissions::NONE
@@ -26,10 +30,10 @@ class ListsController < ApplicationController
   
   def update
     @list = List.find(params[:id])
-    if User::LIST_PERMISSIONS[1..2].include? current_user.permission_for(@list)
+    if can?(:modify_items, @list)
       # ensure that read-write user doesn't try to modify something
       # other than items
-      if current_user.permission_for(@list) == ListPermissions::OWNER
+      if can?(:modify_properties, @list)
         list_params = params[:list]
       else
         list_params = {items: params[:list][:items]}

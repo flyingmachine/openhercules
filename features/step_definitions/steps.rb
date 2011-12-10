@@ -20,6 +20,27 @@ When /^I try to view my list$/ do
   visit list_path(@list)
 end
 
+When /^I try to view a (.*?) list$/ do |list_type|
+  if list_type == 'non-readable'
+    @other_user = FactoryGirl.create :user
+    @list = FactoryGirl.create :list, :user => @other_user
+    @list.global_permission = ListPermissions::NONE
+    @list.save
+    visit list_path(@list)
+  elsif list_type == 'non-existent'
+    visit list_path(:id => 'nonexistent')
+  end
+end
+
 Then /^I should see my list$/ do
   page.should have_content(@list.name)
 end
+
+Then /^I should see a warning which reads "(.*?)"$/ do |warning|
+  page.should have_content(warning)
+end
+
+Then /^I should see my organizer$/ do
+  page.should have_css('.organizer')
+end
+
