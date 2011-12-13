@@ -11,6 +11,7 @@ gem 'jquery-rails'
 gem "haml-rails"
 gem 'devise'
 gem 'faker'
+gem 'cancan'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -23,8 +24,10 @@ end
 group :test do
   gem "factory_girl_rails"
   gem "cucumber-rails"
+  gem "database_cleaner"
   gem "capybara"
   gem "rspec-rails"
+  gem "launchy"
 end
 
 gem "ruby-debug19", :group => [:test, :development]

@@ -8,4 +8,11 @@ class ApplicationController < ActionController::Base
       redirect_to root_path
     end
   end
+
+  def create_anonymous_user
+    unless user_signed_in?
+      user = User.create_anonymous_user
+      sign_in(user)
+    end
+  end
 end

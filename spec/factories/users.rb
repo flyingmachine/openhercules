@@ -10,8 +10,10 @@ FactoryGirl.define do
     end
     password "pass123."
     password_confirmation "pass123."
+    anonymous false
   end
   
   factory :anonymous_user, :class => User do
+    anonymous true
   end
 end

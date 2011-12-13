@@ -1,5 +1,5 @@
 class ListsController < ApplicationController
-  before_filter :authenticate_user!, :except => :show
+  before_filter :authenticate_user!, :except => [:show, :clone]
    
   def index
     if current_user.lists.empty?
@@ -9,14 +9,16 @@ class ListsController < ApplicationController
   end
   
   def show
-    @list = List.find(params[:id])
-    if user_signed_in?
-      redirect_back_or_home if current_user.permission_for(@list) == User::LIST_PERMISSIONS[3]
-      current_user.update_attribute(:last_viewed_list_id, @list.id) if @list.user == current_user
-      @lists = current_user.lists_organized.collect{|l| List.find(l["list_id"])}
-    else
-      redirect_back_or_home if @list.global_permission = User::LIST_PERMISSIONS[3]
+    begin
+      @list = List.find(params[:id])
+    rescue Mongoid::Errors::DocumentNotFound
+      @list = nil
     end
+
+    @list = nil unless can?(:read, @list)
+    current_user.update_attribute(:last_viewed_list_id, @list.id) if @list && @list.user == current_user
+    @lists = current_user.lists_organized.collect{|l| List.find(l["list_id"])} if user_signed_in?
+
   end
     
   def create
@@ -26,10 +28,10 @@ class ListsController < ApplicationController
   
   def update
     @list = List.find(params[:id])
-    if User::LIST_PERMISSIONS[1..2].include? current_user.permission_for(@list)
+    if can?(:modify_items, @list)
       # ensure that read-write user doesn't try to modify something
       # other than items
-      if current_user.permission_for(@list) == User::LIST_PERMISSIONS[2]
+      if can?(:modify_properties, @list)
         list_params = params[:list]
       else
         list_params = {items: params[:list][:items]}
@@ -50,6 +52,7 @@ class ListsController < ApplicationController
   end
 
   def clone
+    create_anonymous_user
     @list = List.find(params[:id])
     new_list = @list.clone(current_user, params[:name], params[:description])
     redirect_to(new_list)
