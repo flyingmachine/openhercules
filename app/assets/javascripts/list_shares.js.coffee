@@ -17,7 +17,7 @@ class App.backbone.ListShare extends Backbone.Model
     $("#access tbody").append @view.render().el
 
   hasPermission: ->
-    App.data.permission == 'owner' && !App.data.anonymous
+    App.data.permissions["modify-properties"]
 
   save: (attrs, options) ->
     Backbone.Model.prototype.save.call(@, attrs, options) if @hasPermission();
@@ -94,7 +94,6 @@ App.setupListSharesUsernameAutocomplete = ->
 
   $("#username").data("autocomplete")._renderItem = (ul, item) ->
     $( "<li></li>" ).data( "item.autocomplete", item ).append( "<a>" + item.username + "</a>" ).appendTo( ul );
-
 
 App.setupListShares = ->
   if App.data.listShares

@@ -9,7 +9,7 @@
 
 :javascript
   App.data.user = #{current_user.to_json}
-  App.data.anonymous  = #{anonymous? ? "true" : "false"}
+  App.data.permissions = #{permissions_for(@list).to_json}
   App.setup()
 
 #new.modal

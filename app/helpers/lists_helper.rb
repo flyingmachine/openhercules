@@ -10,12 +10,15 @@ module ListsHelper
     end
   end
 
-  def permission_for(list)
-    return User::LIST_PERMISSIONS[0] unless user_signed_in?
-    current_user.permission_for(@list)
-  end
-
   def owner?(list)
     permission_for(list) == ListPermissions::OWNER
+  end
+
+  def permissions_for(list)
+    @permissions ||= {
+      :read => can?(:read, list),
+      :modify_items => can?(:modify_items, list),
+      :modify_properties => can?(:modify_properties, list)
+    }
   end
 end
