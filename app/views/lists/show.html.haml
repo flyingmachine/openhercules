@@ -1,9 +1,16 @@
 - @body_id = "list"
-
 - if @list
+  :javascript
+    App.data.list = #{@list.to_json}
+    App.data.listShares = #{can?(:modify_properties, @list) ? JSON.generate(list_shares(@list)) : "null"}
   = render :partial => 'list'
 - else
   = render :partial => 'not_findable'
+
+:javascript
+  App.data.user = #{current_user.to_json}
+  App.data.anonymous  = #{anonymous? ? "true" : "false"}
+  App.setup()
 
 #new.modal
   .modal-header

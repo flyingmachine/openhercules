@@ -392,22 +392,21 @@ new App.Slice
     "z"            : ->
       App.mainList.view.outdentItem()
 
-  setupItems: (items) ->
-
-
   setup: ->
-    list = App.data.list
-    lists = new App.backbone.Lists([list])
-    App.mainList = lists.at(0)
-    @setupItems list.items
-    App.mainList.view = new App.backbone.ListView(collection: App.mainList.get("items"))
-    App.mainList.propertiesView = new App.backbone.ListPropertiesView(model: App.mainList, el: $("#properties"))
-    App.mainList.propertiesFormView = new App.backbone.ListPropertiesFormView(model: App.mainList, el: $("#properties-form"))
+    if App.data.list
+      list = App.data.list
+      lists = new App.backbone.Lists([list])
+      App.mainList = lists.at(0)
+      App.mainList.view = new App.backbone.ListView(collection: App.mainList.get("items"))
+      App.mainList.propertiesView = new App.backbone.ListPropertiesView(model: App.mainList, el: $("#properties"))
+      App.mainList.propertiesFormView = new App.backbone.ListPropertiesFormView(model: App.mainList, el: $("#properties-form"))
 
-    $(App.appId).append App.mainList.view.render().el
-    App.mainList.view.selectNext()
-    App.mainList.view.switchItem() if App.mainList.isEmpty()
-    App.sliceManager.activateSlice('list')
+      $(App.appId).append App.mainList.view.render().el
+      App.mainList.view.selectNext()
+      App.mainList.view.switchItem() if App.mainList.isEmpty()
+
+      App.sliceManager.activateSlice('list')
+
     $("#app ol.item-list").nestedSortable
       placeholder: "drag-drop-placeholder"
       forcePlaceholderSize: true
