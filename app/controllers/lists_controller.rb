@@ -1,5 +1,5 @@
 class ListsController < ApplicationController
-  before_filter :authenticate_user!, :except => :show
+  before_filter :authenticate_user!, :except => [:show, :clone]
    
   def index
     if current_user.lists.empty?
@@ -52,6 +52,7 @@ class ListsController < ApplicationController
   end
 
   def clone
+    create_anonymous_user
     @list = List.find(params[:id])
     new_list = @list.clone(current_user, params[:name], params[:description])
     redirect_to(new_list)
