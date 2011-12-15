@@ -10,6 +10,7 @@ class User
   field :email,               type: String
   field :last_viewed_list_id, type: Integer
   field :lists_organized,     type: Array,  default: []
+  field :preferences,         type: Hash, default: {}
   
   has_many :lists
   

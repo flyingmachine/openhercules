@@ -401,7 +401,7 @@ new App.Slice
       App.mainList.propertiesView = new App.backbone.ListPropertiesView(model: App.mainList, el: $("#properties"))
       App.mainList.propertiesFormView = new App.backbone.ListPropertiesFormView(model: App.mainList, el: $("#properties-form"))
 
-      $(App.appId).append App.mainList.view.render().el
+      $(App.appId).prepend App.mainList.view.render().el
       App.mainList.view.selectNext()
       App.mainList.view.switchItem() if App.mainList.isEmpty()
 

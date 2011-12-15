@@ -6,8 +6,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    current_user.lists_organized = params[:user][:lists_organized]
-    current_user.save
+    current_user.update_attributes params[:user]
     render :head => 200, :nothing => true
   end
 end

@@ -300,12 +300,6 @@ h2.completed {
   }
 }
 
-#commands {
-  display:none;
-}
-
-
-
 #main {
   @extend .content;
   & > .row > .span14 {

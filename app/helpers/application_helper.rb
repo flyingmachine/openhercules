@@ -10,4 +10,8 @@ module ApplicationHelper
       link_to "sign up", new_user_registration_path
     end
   end
+
+  def preferences
+    current_user.preferences
+  end
 end
