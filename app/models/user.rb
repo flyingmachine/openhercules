@@ -10,7 +10,9 @@ class User
   field :email,               type: String
   field :last_viewed_list_id, type: Integer
   field :lists_organized,     type: Array,  default: []
-  field :preferences,         type: Hash, default: {}
+  field :preferences,         type: Hash, default: {
+    "show-commands" => true
+  }
   
   has_many :lists
   
@@ -19,6 +21,8 @@ class User
   validates_length_of     :username, :within => 4..24, :allow_blank => true
     
   scope :username_like, ->(username) { where("username" => /^#{username}/) }
+
+  PreferenceNames = %w{show-commands}
   
   class << self
     def create_anonymous_user
@@ -49,7 +53,8 @@ class User
   def as_json(options = {})
     {
       id: id,
-      lists_organized: lists_organized
+      lists_organized: lists_organized,
+      preferences: preferences
     }
   end
   

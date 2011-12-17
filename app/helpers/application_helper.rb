@@ -12,6 +12,11 @@ module ApplicationHelper
   end
 
   def preferences
-    current_user.preferences
+    return @preferences if @preferences
+    @preferences = {}
+    User::PreferenceNames.each do |key|
+      @preferences[key] = current_user.preferences[key].nil? ? true : current_user.preferences[key]
+    end
+    @preferences
   end
 end
