@@ -20,7 +20,7 @@
           %p
             Keyboard Commands
             == (<a href="#" class="toggle">#{preferences["show-commands"] ? "hide" : "show"}</a>)    
-          %table{:style => ("display:none" unless preferences["show-commands"]) }
+          %table.bordered-table{:style => ("display:none" unless preferences["show-commands"]) }
             %tr
               %td <span class="key">enter</span>
               %td save current line and add new line below
@@ -67,7 +67,7 @@
             .alert-message.block-message
               %p Once you've signed up, your Access settings will be saved. In the mean time, the interface will continue to work so you can get a feel for it.
 
-          %table#access
+          %table.bordered-table#access
             %thead
               %tr
                 %th User
