@@ -7,7 +7,7 @@ class List
   field :description, type: String
   field :readers, type: Array, default: []
   field :writers, type: Array, default: []
-  field :global_permission, type: String, default: ListPermissions::NONE
+  field :global_permission, type: String
   
   belongs_to :user
   
