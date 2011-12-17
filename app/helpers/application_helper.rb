@@ -21,6 +21,6 @@ module ApplicationHelper
   end
 
   def add_error_class(object, attribute)
-    {:class => ("error" if object.errors[:attribute])}
+    {:class => ("error" unless object.errors[attribute].blank?)}
   end
 end
