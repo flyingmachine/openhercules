@@ -11,7 +11,7 @@ class User
   field :last_viewed_list_id, type: Integer
   field :lists_organized,     type: Array,  default: []
   field :preferences,         type: Hash, default: {
-    "show-commands" => true
+    "show-commands" => false
   }
   
   has_many :lists

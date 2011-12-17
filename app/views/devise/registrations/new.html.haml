@@ -6,6 +6,10 @@
   .clearfix{add_error_class(resource, :email)}
     %label{:for => "user_email"} Email
     = f.email_field :email
+    
+  .clearfix{add_error_class(resource, :username)}
+    %label{:for => "user_username"} Username
+    = f.text_field :username
 
   .clearfix{add_error_class(resource, :password)}
     %label{:for => "user_password"} Password
