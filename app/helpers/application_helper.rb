@@ -1,4 +1,13 @@
 module ApplicationHelper
+  def title
+    ((@title_pieces || []) << "Checklist Hub").join(" : ")
+  end
+
+  def add_title_piece(piece)
+    @title_pieces ||= []
+    @title_pieces << piece
+  end
+  
   def anonymous?
     !user_signed_in? || current_user.anonymous?
   end

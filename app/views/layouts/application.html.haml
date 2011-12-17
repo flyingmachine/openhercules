@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title== Checklist Hub
+    %title= title
     = stylesheet_link_tag 'application'
     = javascript_include_tag '/javascripts/jquery-1.7.min.js', '/javascripts/keycode.js', '/javascripts/jquery.hotkeys.js', '/javascripts/underscore.js', '/javascripts/backbone.js', "/javascripts/bootstrap-modal", '/javascripts/jquery-ui-1.8.16.custom.min.js', '/javascripts/jquery.nestedSortable.js', '/javascripts/bootstrap-twipsy.js'
     = javascript_include_tag 'application'
@@ -42,7 +42,7 @@
                   = link_to "logout", destroy_user_session_path
               
           - else
-            %form.pull-right{:action => ""}
+            %form.pull-right{:action => user_session_path, :method => "post"}
               %input.input-small{:placeholder => "Username", :type => "text"}/
               %input.input-small{:placeholder => "Password", :type => "password"}/
               %button.btn{:type => "submit"} Log in

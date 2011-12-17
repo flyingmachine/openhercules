@@ -1,5 +1,6 @@
 - @body_id = "list"
 - if @list
+  - add_title_piece(@list.name)
   :javascript
     App.data.list = #{@list.to_json}
     App.data.listShares = #{can?(:modify_properties, @list) ? JSON.generate(list_shares(@list)) : "null"}
