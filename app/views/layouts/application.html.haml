@@ -37,7 +37,7 @@
                   %a{:href => "#", "data-controls-modal" => "log-out-forever", "data-backdrop" => "true"}end anonymous session
               - else
                 %p
-                  == logged in as #{link_to current_user.email, edit_user_registration_path(current_user)}
+                  == logged in as #{link_to current_user.username, edit_user_registration_path(current_user)}
                   &bull;
                   = link_to "logout", destroy_user_session_path
               
