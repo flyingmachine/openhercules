@@ -18,14 +18,14 @@
                 #log-out-forever.hide.modal
                   .modal-header
                     %a.close{:href => "#"}x
-                    %h3 Log out forever?
+                    %h3 End your session?
                   .modal-body
                     Are you sure you want to end your session? Since you don't have an account, you won't be able to access your lists again. If you
                     = succeed "," do
                       = contextual_sign_up
                     your lists can be retrieved and you'll be able to sign in again.
                   .modal-footer
-                    %a.btn.danger{:href => destroy_user_session_path}Log Out Forever
+                    %a.btn.danger{:href => destroy_user_session_path}End Session
                     %a.btn.secondary.cancel{:href => "#"}Cancel
                   
                 %p

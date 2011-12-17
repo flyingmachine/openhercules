@@ -19,4 +19,8 @@ module ApplicationHelper
     end
     @preferences
   end
+
+  def add_error_class(object, attribute)
+    {:class => ("error" if object.errors[:attribute])}
+  end
 end
