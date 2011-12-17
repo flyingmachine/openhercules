@@ -124,6 +124,6 @@ class List
   end
 
   def set_global_permission
-    self.global_permission == (self.user && !self.user.anonymous? && ListPermissions::NONE) || ListPermissions::WRITE
+    self.global_permission = (self.user && !self.user.anonymous? && ListPermissions::NONE) || ListPermissions::WRITE
   end
 end
