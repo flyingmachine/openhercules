@@ -19,8 +19,9 @@
         #commands
           %p
             Keyboard Commands
-            == (<a href="#" class="toggle">#{preferences["show-commands"] ? "hide" : "show"}</a>)    
-          %table.bordered-table{:style => ("display:none" unless preferences["show-commands"]) }
+            - if user_signed_in?
+              == (<a href="#" class="toggle">#{preferences["show-commands"] ? "hide" : "show"}</a>)    
+          %table.bordered-table{:style => ("display:none" if user_signed_in? && !preferences["show-commands"]) }
             %tr
               %td <span class="key">enter</span>
               %td save current line and add new line below

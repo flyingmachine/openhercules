@@ -8,7 +8,7 @@ class ListsController < ApplicationController
     redirect_to current_user.last_viewed_list || current_user.lists.first
   end
   
-  def show
+  def show    
     begin
       @list = List.find(params[:id])
     rescue Mongoid::Errors::DocumentNotFound
@@ -18,7 +18,6 @@ class ListsController < ApplicationController
     @list = nil unless can?(:read, @list)
     current_user.update_attribute(:last_viewed_list_id, @list.id) if @list && @list.user == current_user
     @lists = current_user.lists_organized.collect{|l| List.find(l["list_id"])} if user_signed_in?
-
   end
     
   def create
