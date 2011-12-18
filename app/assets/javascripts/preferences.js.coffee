@@ -11,4 +11,5 @@ App.setup ->
       $("#commands table").show()
       $("#commands .toggle").text("hide")
     App.user.set(preferences:preferences)
+    App.user.save()
     false
