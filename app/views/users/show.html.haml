@@ -1,0 +1,6 @@
+%h2= @user.username
+
+- @lists.each do |list|
+  %h5= link_to list.name, list
+  - unless list.description.blank?
+    %p= list.description

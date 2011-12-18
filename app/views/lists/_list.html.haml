@@ -9,6 +9,9 @@
       - if can?(:modify_properties, @list)
         %li.btn.settings{   "data-page-name" => "settings", :title => "Settings"}
       %li.btn.list.active{"data-page-name" => "list",     :title => "List"}
+  .author
+    by
+    = author(@list)
 
   .description
     = @list.description

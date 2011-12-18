@@ -5,6 +5,11 @@ class UsersController < ApplicationController
     render :json => users.to_json
   end
 
+  def show
+    @user = User.find(params[:id])
+    @lists = @user.lists_organized_instantiated
+  end
+
   def update
     current_user.update_attributes params[:user]
     render :head => 200, :nothing => true

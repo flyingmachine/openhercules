@@ -17,7 +17,7 @@ class ListsController < ApplicationController
 
     @list = nil unless can?(:read, @list)
     current_user.update_attribute(:last_viewed_list_id, @list.id) if @list && @list.user == current_user
-    @lists = current_user.lists_organized.collect{|l| List.find(l["list_id"])} if user_signed_in?
+    @lists = current_user.lists_organized_instantiated if user_signed_in?
   end
     
   def create

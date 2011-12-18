@@ -32,4 +32,8 @@ module ApplicationHelper
   def add_error_class(object, attribute)
     {:class => ("error" unless object.errors[attribute].blank?)}
   end
+
+  def author(list)
+    list.user.anonymous? ? "anonymous" : link_to(list.user.username, user_path(list.user))
+  end
 end

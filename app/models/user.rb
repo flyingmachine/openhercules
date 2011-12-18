@@ -65,6 +65,10 @@ class User
       nil
     end
   end
+
+  def lists_organized_instantiated
+    @lists_organized_instantiated ||= lists_organized.collect{|l| List.find(l["list_id"])}
+  end
       
   def receive_list(list)
     list_info = {
