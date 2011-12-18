@@ -1,6 +1,6 @@
 class App.backbone.List extends Backbone.Model
   change: ->
-    @save() if App.data.permission == 'owner' || App.data.permission == 'read-write'
+    @save() if App.data.permissions["modify_items"]
     @propertiesView.render()
 
   updateItems: ->
