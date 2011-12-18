@@ -49,6 +49,7 @@
     list-style-type:none;
     position:relative;
     padding:0;
+    color:#666;
   }
   
   input[type=checkbox] {
@@ -344,3 +345,13 @@ h2.completed {
   margin-top:-5px;
   margin-bottom:5px;  
 }
+
+ul.sharing {
+  margin-left:0;
+  padding-left:0;
+    
+  label {
+    float:none;
+    color:#666;
+  }
+} 

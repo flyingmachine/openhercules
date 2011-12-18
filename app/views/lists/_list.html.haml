@@ -5,13 +5,17 @@
       - if can?(:modify_properties, @list)
         %li.btn.delete{:title => "Delete"}
           %li.separator &bull;
-      %li.btn.clone{      "data-page-name" => "clone",    :title => "Clone"}
+      %li.btn.clone{"data-page-name" => "clone", :title => "Clone"}
       - if can?(:modify_properties, @list)
-        %li.btn.settings{   "data-page-name" => "settings", :title => "Settings"}
-      %li.btn.list.active{"data-page-name" => "list",     :title => "List"}
+        %li.btn.settings{"data-page-name" => "settings", :title => "Settings"}
+      %li.btn.list.active{"data-page-name" => "list", :title => "List"}
   .author
     by
     = author(@list)
+
+  .shares
+    - if @list.show_tweet_this
+      %a.twitter-share-button{href: "https://twitter.com/share"}
 
   .description
     = @list.description
@@ -66,10 +70,21 @@
           %h3 List Settings
           %form.form-stacked
             = render :partial => 'form'          
-          %h4 Access
+          %h4 Sharing
           - if anonymous?
             .alert-message.block-message
               %p Once you've signed up, your Access settings will be saved. In the mean time, the interface will continue to work so you can get a feel for it.
+
+          %p  Buttons will be shown or hidden when you refresh the page.
+          %ul.sharing
+            %li
+              %label
+                %input#show-tweet-this{type: "checkbox", name:"show-tweet-this", checked: @list.show_tweet_this}
+                Show "tweet this" button
+            %li
+              %label
+                %input#show-facebook-like{type: "checkbox", name:"show-facebook-like", checked: @list.show_facebook_like}
+                Show "like this" facebook button
 
           %table.bordered-table#access
             %thead

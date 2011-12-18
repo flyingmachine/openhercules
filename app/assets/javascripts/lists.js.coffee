@@ -435,5 +435,17 @@ new App.Slice
       $("#access .everyone td").removeClass 'selected'
       $(@).addClass 'selected'
 
+    $("#show-facebook-like").change ->
+      if this.checked
+        App.mainList.set("show_facebook_like": true)
+      else
+        App.mainList.set("show_facebook_like": false)
+
+    $("#show-tweet-this").change ->
+      if this.checked
+        App.mainList.set("show_tweet_this": true)
+      else
+        App.mainList.set("show_tweet_this": false)
+
   activate: ->
     App.Pages.activatePage('list')

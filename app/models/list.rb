@@ -8,6 +8,8 @@ class List
   field :readers, type: Array, default: []
   field :writers, type: Array, default: []
   field :global_permission, type: String
+  field :show_tweet_this, type: Boolean, default: true
+  field :show_facebook_like, type: Boolean, default: true
   
   belongs_to :user
   
@@ -101,7 +103,9 @@ class List
       name: name,
       description: description,
       global_permission: global_permission,
-      items: items
+      items: items,
+      show_facebook_like: show_facebook_like,
+      show_tweet_this: show_tweet_this
     }
   end
   
