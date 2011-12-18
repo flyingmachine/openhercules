@@ -28,9 +28,10 @@
         js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=44575410254";
         fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
+      #fb-root
       .fb-like{"data-href" => list_url(@list), "data-send" => "true", "data-layout" => "button_count", "data-width" => "450"}
 
-  .description
+  .description.clearfix
     = @list.description
 .row
   #pages.span
