@@ -1,4 +1,4 @@
-Given /^I am a (.*?) user$/ do |user_type|
+Given /^I am an? (.*?) user$/ do |user_type|
   if user_type == 'anonymous'
     anonymous_user_login
   elsif user_type == 'registered'
@@ -37,6 +37,26 @@ When /^I clone the list$/ do
   within("#clone") do
     fill_in "name", :with => "Cloned List"
     click_on "Clone List"
+  end
+end
+
+When /^I add a user to my sharees$/ do
+  @added_user = FactoryGirl.create(:user)
+  find("li.btn.settings").click
+  fill_in "username", with: @added_user.username
+  find "li.ui-menu-item"
+  find("li.ui-menu-item a").click
+end
+
+When /^I refresh the page$/ do
+  visit list_path(@list)
+end
+
+Then /^I should( not | )see the user I added to my sharees$/ do |should_see|
+  if should_see.strip == 'not'
+    page.should_not have_content(@added_user.username)
+  else
+    page.should have_content(@added_user.username)
   end
 end
 

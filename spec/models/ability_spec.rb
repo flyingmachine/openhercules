@@ -3,9 +3,11 @@ require 'spec_helper'
 describe Ability do
   let(:user) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
+  let(:anonymous_user) { FactoryGirl.create(:anonymous_user) }
   let(:list) { FactoryGirl.create(:list, :user => user, global_permission: ListPermissions::NONE) }
   let(:user_ability) { Ability.new(user) }
   let(:user2_ability) { Ability.new(user2) }
+  let(:anonymous_user_ability) { Ability.new(anonymous_user) }
   
   describe "read" do
     it "should let a user read a list if the list's global permission is read" do
@@ -76,5 +78,21 @@ describe Ability do
     it "should not let the user modify properties if the user does not own the list" do
       user2_ability.should_not be_able_to(:modify_properties, list)
     end
+  end
+
+  describe "add_sharees" do
+    it "should let a user add sharees if he's registered and he owns the list" do
+      user_ability.should be_able_to(:add_sharees, list)
+    end
+
+    it "should not let a user add sharees if he's anonymous" do
+      list.update_attributes(user_id: anonymous_user.id)
+      anonymous_user_ability.should_not be_able_to(:add_sharees, list)
+    end
+
+    it "should not let a user add sharees if he doesn't own the list" do
+      user2_ability.should_not be_able_to(:add_sharees, list)
+    end
+      
   end
 end

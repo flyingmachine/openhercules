@@ -18,7 +18,8 @@ module ListsHelper
     @permissions ||= {
       :read => can?(:read, list),
       :modify_items => can?(:modify_items, list),
-      :modify_properties => can?(:modify_properties, list)
+      :modify_properties => can?(:modify_properties, list),
+      :add_sharees => can?(:add_sharees, list)
     }
   end
 end

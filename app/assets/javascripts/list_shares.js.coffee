@@ -17,7 +17,7 @@ class App.backbone.ListShare extends Backbone.Model
     $("#access tbody").append @view.render().el
 
   hasPermission: ->
-    App.data.permissions["modify_properties"]
+    App.data.permissions["add_sharees"]
 
   save: (attrs, options) ->
     Backbone.Model.prototype.save.call(@, attrs, options) if @hasPermission();

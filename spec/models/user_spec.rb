@@ -35,8 +35,8 @@ describe User do
   
   describe "#permission_for" do
     it "should report the correct permissions for a list" do
-      list.add_sharee(user2, 'read')
-      user2.permission_for(list).should == User::LIST_PERMISSIONS[0]
+      list.add_sharee(user2, ListPermissions::READ)
+      user2.permission_for(list).should == ListPermissions::READ
     end
   end
 

@@ -99,14 +99,15 @@ class User
   
   def permission_for(list)
     return ListPermissions::OWNER if list.user == self
-    return ListPermissions::NONE if list.global_permission == ListPermissions::NONE
     
     list_permission_index = if list.readers.include? self.id.to_s
-      0
-    elsif list.writers.include? self.id.to_s
       1
-    elsif list.user = self
+    elsif list.writers.include? self.id.to_s
       2
+    elsif list.user = self
+      3
+    else
+      0
     end
 
     global_permission_index = ListPermissions.ordered.index(list.global_permission)

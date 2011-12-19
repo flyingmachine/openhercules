@@ -18,5 +18,9 @@ class Ability
     end
 
     can :modify_properties, List, :user_id => user.id
+
+    can :add_sharees, List do |list|
+      list.user_id == user.id && !user.anonymous?
+    end
   end
 end
