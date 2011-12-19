@@ -87,10 +87,6 @@
           %form.form-stacked
             = render :partial => 'form'          
           %h4 Sharing
-          - if anonymous?
-            .alert-message.block-message
-              %p Once you've signed up, your Access settings will be saved. In the mean time, the interface will continue to work so you can get a feel for it.
-
           %p  Buttons will be shown or hidden when you refresh the page.
           %ul.sharing
             %li
@@ -101,7 +97,10 @@
               %label
                 %input#show-facebook-like{type: "checkbox", name:"show-facebook-like", checked: @list.show_facebook_like}
                 Show "like this" facebook button
-
+          %h4 Access
+          - if anonymous?
+            .alert-message.block-message
+              %p Once you've signed up, your Access settings will be saved. In the mean time, the interface will continue to work so you can get a feel for it.
           %table.bordered-table#access
             %thead
               %tr
