@@ -9,9 +9,11 @@
       - if can?(:modify_properties, @list)
         %li.btn.settings{"data-page-name" => "settings", :title => "Settings"}
       %li.btn.list.active{"data-page-name" => "list", :title => "List"}
-  .author
-    by
-    = author(@list)
+  
+  - unless owner?(@list)
+    .author
+      by
+      = author(@list)
 
   .shares
     - if @list.show_tweet_this

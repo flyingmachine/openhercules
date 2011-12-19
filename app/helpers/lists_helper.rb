@@ -11,7 +11,7 @@ module ListsHelper
   end
 
   def owner?(list)
-    permission_for(list) == ListPermissions::OWNER
+    list.user == @current_user
   end
 
   def permissions_for(list)
