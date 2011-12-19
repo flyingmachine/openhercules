@@ -34,6 +34,6 @@ module ApplicationHelper
   end
 
   def author(list)
-    list.user.anonymous? ? "anonymous" : link_to(list.user.username, user_path(list.user))
+    list.user.anonymous? ? "an anonymous user" : link_to(list.user.username, user_path(list.user))
   end
 end

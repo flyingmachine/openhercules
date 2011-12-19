@@ -14,3 +14,17 @@
     email: Faker::Internet.email
   )
 end
+
+User.create(
+  username: "test1",
+  password: "pass123.",
+  password_confirmation: "pass123.",
+  email: Faker::Internet.email
+)
+
+User.create(
+  username: "test2",
+  password: "pass123.",
+  password_confirmation: "pass123.",
+  email: Faker::Internet.email
+)

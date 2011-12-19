@@ -13,6 +13,9 @@ class User
   field :preferences,         type: Hash, default: {
     "show-commands" => false
   }
+
+  index :username, unique: true
+  index :email, unique: true
   
   has_many :lists
   
