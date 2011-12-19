@@ -68,7 +68,7 @@ class List
     id, user = User.user_and_id(user_or_id)
     return if user == self.user
     
-    if permission == User::LIST_PERMISSIONS[0]
+    if permission == ListPermissions::READ
       self.readers |= [id]
       self.writers -= [id]
     else

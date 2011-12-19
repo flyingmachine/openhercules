@@ -8,7 +8,7 @@ class Ability
     can :read, List, :global_permission => ListPermissions::WRITE
     can :read, List, :user_id => user.id
     can :read, List do |list|
-      list.sharees.include? User
+      list.sharees.include? user
     end
 
     can :modify_items, List, :global_permission => ListPermissions::WRITE

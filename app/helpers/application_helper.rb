@@ -33,7 +33,11 @@ module ApplicationHelper
     {:class => ("error" unless object.errors[attribute].blank?)}
   end
 
-  def author(list)
-    list.user.anonymous? ? "an anonymous user" : link_to(list.user.username, user_path(list.user))
+  def author(list, link = true)
+    html = "<div class='author'>by "
+    
+    html << (list.user.anonymous? ? "an anonymous user" : (link ? link_to(list.user.username, user_path(list.user)) : list.user.username))
+    html << "</div>"
+    html.html_safe
   end
 end
