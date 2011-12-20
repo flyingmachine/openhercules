@@ -12,6 +12,7 @@ gem "haml-rails"
 gem 'devise'
 gem 'faker'
 gem 'cancan'
+gem 'bitly'
 
 # Gems used only for assets and not required
 # in production environments by default.

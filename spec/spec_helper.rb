@@ -34,6 +34,7 @@ RSpec.configure do |config|
   
   config.before(:each) do
     Mongoid::Config.master.collections.select{|c| c.name !~ /^system\./}.each(&:remove)
+    Bitly::Client.any_instance.stub(:shorten)
   end
 
   config.after :suite do
