@@ -40,4 +40,8 @@ module ApplicationHelper
     html << "</div>"
     html.html_safe
   end
+
+  def plink(text)
+    "<a href='#'>#{text}</a>".html_safe
+  end
 end

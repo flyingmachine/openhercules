@@ -83,37 +83,41 @@
         #properties-form.page.span14
           %h3 List Settings
           %form.form-stacked
-            = render :partial => 'form'          
-          %h4 Sharing
-          %p  Buttons will be shown or hidden when you refresh the page.
-          %ul.sharing
-            %li
-              %label
-                %input#show-tweet-this{type: "checkbox", name:"show-tweet-this", checked: @list.show_tweet_this}
-                Show "tweet this" button
-            %li
-              %label
-                %input#show-facebook-like{type: "checkbox", name:"show-facebook-like", checked: @list.show_facebook_like}
-                Show "like this" facebook button
-          %h4 Access
-          - if anonymous?
-            .alert-message.block-message
-              %p Once you've signed up, your Access settings will be saved. In the mean time, the interface will continue to work so you can get a feel for it.
-          %table.bordered-table#access
-            %thead
-              %tr
-                %th User
-                %th Read
-                %th Read + Write
-                %th No Access
-            %tbody
-              %tr.everyone
-                %td everyone
-                %td.option.read{:class => ("selected" if @list.global_permission == ListPermissions::READ)}
-                %td.option.read-write{:class => ("selected" if @list.global_permission == ListPermissions::WRITE)}
-                %td.option.none{:class => ("selected" if @list.global_permission == ListPermissions::NONE)}
-          %p Enter username to share this list
-          %input#username
+            = render :partial => 'form'
+          .row
+            .span8
+              %h4 Access
+              - if anonymous?
+                .alert-message.block-message
+                  %p Once you've signed up, your Access settings will be saved. In the mean time, the interface will continue to work so you can get a feel for it.
+              %table.bordered-table#access
+                %thead
+                  %tr
+                    %th User
+                    %th Read
+                    %th Write
+                    %th No Access
+                %tbody
+                  %tr.everyone
+                    %td everyone
+                    %td.option.read{:class => ("selected" if @list.global_permission == ListPermissions::READ)}
+                    %td.option.write{:class => ("selected" if @list.global_permission == ListPermissions::WRITE)}
+                    %td.option.none{:class => ("selected" if @list.global_permission == ListPermissions::NONE)}
+              %p Enter username to share this list
+              %input#username
+            .span6 
+              %h4 Sharing
+              %ul.sharing
+                %li
+                  %label
+                    %input#show-tweet-this{type: "checkbox", name:"show-tweet-this", checked: @list.show_tweet_this}
+                    Show "tweet this" button
+                %li
+                  %label
+                    %input#show-facebook-like{type: "checkbox", name:"show-facebook-like", checked: @list.show_facebook_like}
+                    Show "like this" facebook button
+                    
+
       #clone.page.span14
         %h3 Clone List
         = form_tag clone_list_path(@list), :method => "put", :class => "form-stacked" do

@@ -265,9 +265,12 @@ h2.completed {
 }
 
 #access {
+  @include columns(8);
+  float:left;
   td.option {
     text-align:center;
     @include transition(.1s linear background-color);
+    @include columns(1);
     
     &:hover {
       @include transition(.1s linear background-color);
@@ -353,8 +356,8 @@ h2.completed {
 }
 
 ul.sharing {
-  margin-left:0;
-  padding-left:0;
+  @extend ul.unstyled;
+
     
   label {
     float:none;

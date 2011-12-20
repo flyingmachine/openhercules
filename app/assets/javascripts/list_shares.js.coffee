@@ -44,18 +44,18 @@ class App.backbone.ListShares extends Backbone.Collection
 class App.backbone.ListShareView extends Backbone.View
   tagName: "tr"
   className: "list-share"
-  template: _.template "<td class='username'></td><td class='option read'></td><td class='option read-write'></td><td class='option none'></td>"
+  template: _.template "<td class='username'></td><td class='option read'></td><td class='option write'></td><td class='option none'></td>"
   events:
     "click .read"       : "setRead"
-    "click .read-write" : "setReadWrite"
+    "click .write"      : "setWrite"
     "click .none"       : "delete"
 
   setRead: ->
     @model.set permission: "read"
     @render()
 
-  setReadWrite: ->
-    @model.set permission: "read-write"
+  setWrite: ->
+    @model.set permission: "write"
     @render()
 
   delete: ->
@@ -68,7 +68,7 @@ class App.backbone.ListShareView extends Backbone.View
     if @model.get("permission") == "read"
       @$(".read").addClass("selected")
     else
-      @$(".read-write").addClass("selected")
+      @$(".write").addClass("selected")
 
     this
 

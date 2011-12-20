@@ -428,7 +428,7 @@ new App.Slice
 
     $("#access .everyone td").click ->
       permission = 'read' if $(@).hasClass 'read'
-      permission = 'read-write' if $(@).hasClass 'read-write'
+      permission = 'write' if $(@).hasClass 'write'
       permission = 'none' if $(@).hasClass 'none'
       App.mainList.set(global_permission: permission)
 

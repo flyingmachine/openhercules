@@ -14,10 +14,11 @@ class List
   belongs_to :user
   
   default_scope order_by([[:created_at, :desc]])
-  before_save  :ensure_item_exists
+  before_save    :ensure_item_exists
   before_destroy :remove_all_sharees
   before_create  :set_global_permission
-  after_create :add_to_list_organizer
+  before_create  :set_sharing_preferences
+  after_create   :add_to_list_organizer
   
   class << self    
     def create_first(user)
@@ -129,5 +130,16 @@ class List
 
   def set_global_permission
     self.global_permission = (self.user && !self.user.anonymous? && ListPermissions::NONE) || ListPermissions::WRITE
+  end
+
+  def set_sharing_preferences
+    if self.user.anonymous?
+      self.show_tweet_this = true
+      self.show_facebook_like = true
+    else
+      self.show_tweet_this = false
+      self.show_facebook_like = false
+    end
+    true
   end
 end
