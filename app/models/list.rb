@@ -135,7 +135,7 @@ class List
   end
 
   def set_shorturl
-    self.shorturl = Bitly.new(ENV['BITLY_USERNAME'], ENV['BITLY_API_KEY']).shorten("http://checklisthub.com/lists/#{self.id.to_s}")
+    self.shorturl = Bitly.new(ENV['BITLY_USERNAME'], ENV['BITLY_API_KEY']).shorten("http://checklisthub.com/lists/#{self.id.to_s}").short_url
   end
 
   def set_sharing_preferences
