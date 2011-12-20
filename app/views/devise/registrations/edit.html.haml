@@ -1,0 +1,35 @@
+%h2 
+  Edit 
+  = resource_name.to_s.humanize
+
+= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => "form-stacked" }) do |f|
+  = devise_error_messages!
+
+  .clearfix{add_error_class(resource, :email)}
+    %label{:for => "user_email"} Email
+    = f.email_field :email
+
+  .clearfix{add_error_class(resource, :email)}
+    %label{:for => "user_password"} Password <em>(leave blank if you don't want to change it)</em>
+    = f.password_field :password
+
+  .clearfix{add_error_class(resource, :email)}
+    %label{:for => "user_password_confirmation"} Password Confirmation
+    = f.password_field :password_confirmation
+
+  .clearfix{add_error_class(resource, :email)}
+    %label{:for => "current_user_password"} Current Password <em>(we need your current password to confirm your changes)</em>
+    = f.password_field :current_password
+
+  .clearfix
+    = f.submit "Update", :class => "primary btn"
+
+
+%h3 Cancel my account
+
+%p
+  Unhappy? 
+  = link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete
+
+%p
+  = link_to "Back", :back
