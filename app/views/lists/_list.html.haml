@@ -13,23 +13,24 @@
   - unless owner?(@list)
     = author(@list)
 
-  .shares
-    - if @list.show_tweet_this
-      :javascript
-        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-      %a.twitter-share-button{href: "https://twitter.com/share", "data-text" => "Check out this list: \"#{@list.name}\" from #{@list.shorturl} @checklisthub" }
+  - if @list.show_tweet_this || @list.show_facebook_like
+    .shares.clearfix
+      - if @list.show_tweet_this
+        :javascript
+          !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+        %a.twitter-share-button{href: "https://twitter.com/share", "data-text" => "Check out this list: \"#{@list.name}\" from #{@list.shorturl} @checklisthub" }
     
-    - if @list.show_facebook_like
-      :javascript
-        (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=44575410254";
-        fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-      #fb-root
-      .fb-like{"data-href" => list_url(@list), "data-send" => "true", "data-layout" => "button_count", "data-width" => "450"}
+      - if @list.show_facebook_like
+        :javascript
+          (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=44575410254";
+          fjs.parentNode.insertBefore(js, fjs);
+          }(document, 'script', 'facebook-jssdk'));
+        #fb-root
+        .fb-like{"data-href" => list_url(@list), "data-send" => "true", "data-layout" => "button_count", "data-width" => "450"}
 
   .description.clearfix
     = @list.description
