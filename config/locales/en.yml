@@ -2,5 +2,4 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
-  first_list_title:  First list!
+  first_list_title: "First List: An Interactive Tutorial"
