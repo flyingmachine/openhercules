@@ -52,7 +52,7 @@
     list-style-type:none;
     position:relative;
     padding:0;
-    color:#666;
+    color:$grayDark;
   }
   
   input[type=checkbox] {
@@ -194,7 +194,7 @@ h2.completed {
         a {
           display:block;
           padding:5px 20px 5px 42px;
-          color:#666;
+          color:$grayDark;
           background:url(/images/259-list.png) 20px 8px no-repeat;
           &:hover {
             text-decoration:none;
@@ -364,7 +364,7 @@ ul.sharing {
     
   label {
     float:none;
-    color:#666;
+    color:$grayDark;
   }
 } 
 
@@ -375,7 +375,7 @@ ul.sharing {
 iframe.twitter-share-button, .fb-like {float:left}
 
 input, textarea, select {
-  color: #666;
+  color: $grayDark;
 }
   
 
