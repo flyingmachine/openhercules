@@ -10,7 +10,6 @@ class List
   field :global_permission, type: String
   field :show_tweet_this, type: Boolean, default: true
   field :show_facebook_like, type: Boolean, default: true
-  field :shorturl, type: String
   
   belongs_to :user
   
@@ -19,7 +18,6 @@ class List
   before_destroy :remove_all_sharees
   before_create  :set_global_permission
   before_create  :set_sharing_preferences
-  before_create  :set_shorturl
   after_create   :add_to_list_organizer
   
   class << self    
@@ -132,10 +130,6 @@ class List
 
   def set_global_permission
     self.global_permission = (self.user && !self.user.anonymous? && ListPermissions::NONE) || ListPermissions::WRITE
-  end
-
-  def set_shorturl
-    self.shorturl = Bitly.new(ENV['BITLY_USERNAME'], ENV['BITLY_API_KEY']).shorten("http://checklisthub.com/lists/#{self.id.to_s}").short_url
   end
 
   def set_sharing_preferences
