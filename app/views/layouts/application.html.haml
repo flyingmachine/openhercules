@@ -26,7 +26,7 @@
     .topbar
       .listfill
         .container-fluid
-          %a.brand{:href => "/"} Checklist Hub
+          %a.brand{:href => "/"}= I18n.t("site_name") 
           - if user_signed_in?
             .pull-right
               - if anonymous?

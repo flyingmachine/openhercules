@@ -37,7 +37,7 @@ class List
       if user.anonymous?
         children = [
           "Since you're an anonymous user, you can't log in on other browsers or privately share your lists with others.",
-          "Once you sign up, you'll be able to use Checklist Hub fully.",
+          "Once you sign up, you'll be able to use " + I18n.t("site_name") + " fully.",
         ].collect{|i| {body: i}}
         
         items << {body: "For anonymous users:", children: children}

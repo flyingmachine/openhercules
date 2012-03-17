@@ -1,6 +1,6 @@
 module ApplicationHelper
   def title
-    ((@title_pieces || []) << "Checklist Hub").join(" : ")
+    ((@title_pieces || []) << I18n.t("site_name")).join(" : ")
   end
 
   def add_title_piece(piece)

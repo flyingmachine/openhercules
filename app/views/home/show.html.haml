@@ -2,10 +2,10 @@
   .content.start
     .page-header
       %h1 
-        Checklist Hub
+        = I18n.t("site_name")
         %br
         %small
-          A home for checklist junkies
+          = I18n.t("tag_line")
     .row.start-now
       .span5
         = form_tag anonymous_user_registration_path, :class => "form-stracked" do

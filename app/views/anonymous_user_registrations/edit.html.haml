@@ -2,14 +2,14 @@
   .content.start
     .page-header
       %h1 
-        Checklist Hub
+        = I18n.t("site_name")
         %br
         %small
-          A home for checklist junkies
+          = I18n.t("tag_line")
     .row.start-now
       .span5
         %h3 Sign Up
-        %p You're about to unlock some Checklist Hub features. Woohoo!
+        %p== You're about to unlock some #{I18n.t("site_name")} features. Woohoo!
         = form_for current_user, :as => :user, :url => anonymous_user_registration_path(current_user), :html => {:class => "form-stacked", :method => "put"} do |f|
           .clearfix
             = f.label :username
