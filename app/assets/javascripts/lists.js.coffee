@@ -387,9 +387,9 @@ new App.Slice
       App.mainList.view.deleteItem()
     "del"          : ->
       App.mainList.view.deleteItem()
-    "x"            : ->
+    "ctrl+]"       : ->
       App.mainList.view.indentItem()
-    "z"            : ->
+    "ctrl+["       : ->
       App.mainList.view.outdentItem()
 
   setup: ->
