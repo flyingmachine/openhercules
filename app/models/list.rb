@@ -25,7 +25,7 @@ class List
       items = [
         "Try hitting 'escape' and editing this text. Hit 'escape' to save.",
         "Escape toggles between editing mode and organization mode.",
-        "Now hit the down arrow until this line of text is highlighted in blue. Pressing 'x' will indent the line, and 'z' will outdent it.",
+        "Now hit the down arrow until this line of text is highlighted in blue. Pressing 'control + ]' will indent the line, and 'control + [' will outdent it.",
         "Now highlight this line and hit backspace or delete.",
         "The previous line should be deleted.",
         "'space' toggles the line's checkbox.",
