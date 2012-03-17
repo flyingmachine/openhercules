@@ -32,38 +32,69 @@ class App.backbone.ItemFormView extends Backbone.View
     App.mainList.view.newItem()
     false
 
+  # Probably need a better name
   stopEditing: ->
-    val = @$("input").val()
-    @itemData.body = val
-    $(@el).parents("li")[0].view.switchToShow()
+    if @indenting
+      el = @
+      _.defer ->
+        el.$("input").focus()
+        el.restoreSelection(@indenting)
+        el.indenting = false
+    else
+      val = @$("input").val()
+      @itemData.body = val
+      $(@el).parents("li")[0].view.switchToShow()
 
   handleKey: (event) ->
-    keyCode = event.keyCode.toString()
-    if keyCode == "27"
+    keyCode = KeyCode.hot_key(KeyCode.translate_event(event.orginalEvent))
+    if keyCode == "esc"
       @stopEditing()
-    else if keyCode == "13"
+    else if keyCode == "return"
       @stopEditing()
       App.mainList.view.newItem()
 
+  saveSelection: ->
+    if window.getSelection
+      @selection = window.getSelection()
+      return @selection.getRangeAt(0) if @selection.getRangeAt and @selection.rangeCount
+    else return document.selection.createRange() if document.selection and document.selection.createRange
+    null
+
+  restoreSelection: (range) ->
+    if range
+      if window.getSelection
+        sel = window.getSelection()
+        sel.removeAllRanges()
+        sel.addRange range
+      else range.select()  if document.selection and range.select
+
   handleInputKey: (event) ->
-    keyCode = event.keyCode.toString()
-    if keyCode == "27"
-      @stopEditing()
-      false
-    else if keyCode == "38"
-      prev = App.selection().previous()
-      if prev
+    switch KeyCode.hot_key(KeyCode.translate_event(event.orginalEvent))
+      when "esc"
         @stopEditing()
-        prev.select()
-        prev.switchToForm()
-      false
-    else if keyCode == "40"
-      next = App.selection().next()
-      if next
-        @stopEditing()
-        next.select()
-        next.switchToForm()
-      false
+        false
+      when "up"
+        prev = App.selection().previous()
+        if prev
+          @stopEditing()
+          prev.select()
+          prev.switchToForm()
+        false
+      when "down"
+        next = App.selection().next()
+        if next
+          @stopEditing()
+          next.select()
+          next.switchToForm()
+        false
+      when "ctrl+]"
+        @indenting = @saveSelection()
+        App.selection().indent()
+        false
+      when "ctrl+["
+        @indenting = @saveSelection()
+        App.selection().outdent()
+        false
 
   render: ->
     $(@el).html @template()
