@@ -19,6 +19,14 @@ h2. Technology
 * love
 * electrons
 
+h2. Getting Started
+
+# start mongodb
+# @bundle@
+# @rails s@
+
+I'm pretty sure that's it. If that's wrong please tell me @nonrecursive.
+
 h2. Contributing
 
-Pull requests gratefully accepted!
+Pull requests gratefully accepted! When they come with tests. Otherwise, you will be forced into hand-to-three-mouths combat with Cerberus. Ha ha!
