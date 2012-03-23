@@ -1,68 +1,116 @@
+- @html_id = "home"
 .container
-  .content.start
-    .page-header
-      %h1 
-        = I18n.t("site_name")
-        %br
-        %small
-          = I18n.t("tag_line")
-    .row.start-now
-      .span5
-        = form_tag anonymous_user_registration_path, :class => "form-stracked" do
-          %p
-            %button.success.btn.large Create Checklist Now
-          %p Try out the site anonymously. If you like what you see, your checklists will be saved to your account when you sign up.
-          
-          
-      
-  .content.sign_up
-    .row
-      .span5
-        %h3 Sign up
-        
-        %p 
-          Access your lists from any browser and create private lists.
-        
-        = form_tag user_registration_path, :class => "form-stacked" do
-          .clearfix
-            %label{:for => "user_email"} Email
-            .input#user_email= text_field_tag 'user[email]', ""
+  .row
+    #happy-path
+      .content.start
+        .page-header
+          %h1 
+            = I18n.t("site_name")
+            %br
+            %small
+              = I18n.t("tag_line")
+        .row.start-now
+          .span5
+            = form_tag anonymous_user_registration_path, :class => "form-stracked" do
+              %p
+                %button.success.btn.large Create Checklist Now
+              %p Try out the app anonymously. Especially the keyboard interaction &ndash; it's very keyboard-friendly. If you like what you see, your checklists will be saved to your account when you sign up.
+              %p Open Hercules is free and <a href="https://github.com/flyingmachine/openhercules">open source</a>.
 
-          .clearfix
-            %label{:for => "user_username"} Username
-            .input#user_email= text_field_tag 'user[username]', ""
+      .content.sign_up
+        .row
+          .span5
+            %h3 Sign up
+
+            %p Access your lists from any browser &bull; Create private lists &bull; Privately share your lists with other users
+
+            = form_tag user_registration_path, :class => "form-stacked" do
+              .clearfix
+                %label{:for => "user_email"} Email
+                .input#user_email= text_field_tag 'user[email]', ""
+
+              .clearfix
+                %label{:for => "user_username"} Username
+                .input#user_email= text_field_tag 'user[username]', ""
 
 
-          .clearfix
-            %label{:for => "user_password"} Password
-            .input#user_password= password_field_tag 'user[password]', ""
+              .clearfix
+                %label{:for => "user_password"} Password
+                .input#user_password= password_field_tag 'user[password]', ""
 
-          .clearfix
-            %label{:for => "user_password_confirmation"} Password Confirmation
-            .input#user_password= password_field_tag 'user[password_confirmation]', ""
+              .clearfix
+                %label{:for => "user_password_confirmation"} Password Confirmation
+                .input#user_password= password_field_tag 'user[password_confirmation]', ""
 
-          .clearfix
-            %input.primary.btn{:type => "submit", :value => "Sign up"}
-  
-  .content.log_in
-    .row
-      .span5
-        %h3 Log in
-        = form_tag user_session_path, :class => "form-stacked" do
-          .clearfix
-            %label{:for => "user_username"} Username
-            .input#user_email= text_field_tag 'user[username]', ""
+              .clearfix
+                %input.primary.btn{:type => "submit", :value => "Sign up"}
 
-          .clearfix
-            %label{:for => "user_password"} Password
-            .input#user_password= password_field_tag 'user[password]', ""
+      .content.log_in
+        .row
+          .span5
+            %h3 Log in
+            = form_tag user_session_path, :class => "form-stacked" do
+              .clearfix
+                %label{:for => "user_username"} Username
+                .input#user_email= text_field_tag 'user[username]', ""
 
-          .clearfix
-            %label{:for => "user_remember_me"}
-              = check_box_tag 'user[remember_me]', :id => "user_remember_me"
-              Remember Me
+              .clearfix
+                %label{:for => "user_password"} Password
+                .input#user_password= password_field_tag 'user[password]', ""
 
-          .clearfix= link_to "Forgot your password?", new_password_path('user')
-          
-          .clearfix
-            %input.primary.btn{:type => "submit", :value => "Log in"}
+              .clearfix
+                %label{:for => "user_remember_me"}
+                  = check_box_tag 'user[remember_me]', :id => "user_remember_me"
+                  Remember Me
+
+              .clearfix= link_to "Forgot your password?", new_password_path('user')
+
+              .clearfix
+                %input.primary.btn{:type => "submit", :value => "Log in"}
+                  
+      .content.features
+        .row
+          .span5
+            %h3 How's This Different?
+
+            %h4 It's keyboard friendly
+            %p Thanks to smart key bindings, you can edit your lists without touching your mouse.
+
+            %h4 It's social
+            %p You can share your lists publicly, spreading your knowledge far and wide.
+
+            %h4 Cloning is easy
+            %p If you find a list that you like, you can easily clone it and make it your own. For example, if you like this <a href="/lists/4f6cb05b6680b50001000001">travel checklist</a>, you can just clone it and modify it to your heart's content.
+            %p This also makes it easy to reuse your own lists.
+
+            %h4 It's Free
+            %p Completely free. No fee for using it. It's <a href="https://github.com/flyingmachine/openhercules">open source</a>, too, so you can install it on your company's intranet or modify it or sell it on the black market or whatever.
+
+      .content.name
+        .row
+          .span5
+            %h3 About the Name
+            %p <a href="http://en.wikipedia.org/wiki/Hercules">Hercules</a> had probably the worst todo list ever imagined:
+            %ul
+              %li Kill the Nemean lion
+              %li Destroy the Lernaean Hydra
+              %li Capture the Ceryneian Hind alive
+              %li Trap the Erymanthian boar
+              %li Clean the Augean stables
+              %li Buther the Stymphalian birds
+              %li Capture the Cretan bull
+              %li Round up the Mares of Diomedes
+              %li Fetch Hippolyta's girdle of gold
+              %li Fetch the cattle of Geryon
+              %li Fetch the golden apples of the Hesperides
+              %li Bring Cerberus from Tartarus
+            %p ... and he managed to get that stuff done.
+    // #extra-info
+    //  .content
+    //  .row
+    //    .span9
+    //      %h3 More About Open Hercules
+    //      %p Open Hercules is a <strong>free</strong>, <strong>open-source</strong>, <strong>keyboard-friendly</strong>, <strong>social</strong> checklist app.
+    //      %h3 Example Lists
+    //      %p
+            

@@ -1,0 +1,52 @@
+#home {
+  background:url(/images/home-bg.jpg) #eee;
+  height:100%;
+  
+  body {
+    background:none;
+    padding-top:20px;
+    //height:100%;
+  }
+
+  ul {
+    li {
+      color:$grayDark;
+    }
+  }
+  
+  .content {
+    // background-color:rgba(255,255,255,0.9);
+    background: white;
+    margin:0 auto 20px;
+    padding:10px 20px 10px;
+    @include border-radius;
+    @extend .span5;
+
+    form {
+      margin-bottom:0;
+    }
+  }
+
+  #happy-path {
+    @extend .span6;
+    float:left;
+
+    .content {
+      @extend .span5;
+    }
+  }
+
+  #extra-info {
+    @extend .span9;
+    float:left;
+    
+    .content {
+      @extend .span9;
+    }
+  }
+    
+ 
+  input[type="text"], input[type="password"] {
+    @extend .span5;
+  }
+}
