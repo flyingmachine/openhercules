@@ -21,6 +21,9 @@
     margin:0 auto 20px;
     padding:10px 20px 10px;
     @include border-radius;
+    border-width:2px;
+    border-color:#999;
+    border-style:solid;
     @extend .span5;
 
     form {
