@@ -1,6 +1,6 @@
 h1. Open Hercules
 
-Open Hercules is a free list app. "Wow!" you're saying. "No one's ever made a list app!"
+"Open Hercules":http//openhercules.com is a free list app. "Wow!" you're saying. "No one's ever made a list app!"
 
 I'm sorry to tell you, but you're wrong. There are list apps aplenty. So what makes this one different?
 
