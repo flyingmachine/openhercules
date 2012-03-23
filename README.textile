@@ -1,0 +1,24 @@
+h1. Open Hercules
+
+Open Hercules is a free list app. "Wow!" you're saying. "No one's ever made a list app!"
+
+I'm sorry to tell you, but you're wrong. There are list apps aplenty. So what makes this one different?
+
+* Keyboard bindings. The bindings are smart, if I do say so myself, and they make it a ton easier to modify lists.
+* Social! No, not social as in "reads your lists and creeps you out with ads" social. Social as in, it is easy to share lists with specified people or with the world. Imagine a world where you can create a pre-deployment checklist and then share it with all your dev buddies. Well, friend, stop imagining, because that world is here and it's called Open Hercules.
+* Free! Open source! Through the infinite power of crowd sourcing, we can make this the most awesome and powerful list app ever created! None shall overpower it! All shall tremble at its glory!
+
+h2. Technology
+
+* Rails 3.1.1
+* mongodb
+* coffeescript
+* jquery
+* magic lion skin
+* hydras
+* love
+* electrons
+
+h2. Contributing
+
+Pull requests gratefully accepted!
