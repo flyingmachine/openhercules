@@ -422,6 +422,8 @@ new App.Slice
       App.mainList.view.newItem "indent"
     "shift+return" : ->
       App.mainList.view.newItem "previous"
+    "o"            : ->
+      App.mainList.view.newItem "previous"
     "backspace"    : ->
       App.mainList.view.deleteItem()
     "del"          : ->
