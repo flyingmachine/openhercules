@@ -29,7 +29,6 @@ class App.backbone.ItemFormView extends Backbone.View
 
   submit: ->
     @stopEditing()
-    App.mainList.view.newItem()
     false
 
   # Probably need a better name
@@ -47,9 +46,12 @@ class App.backbone.ItemFormView extends Backbone.View
 
   handleKey: (event) ->
     keyCode = KeyCode.hot_key(KeyCode.translate_event(event.orginalEvent))
-    if keyCode == "esc"
+    if keyCode == "esc" || keyCode == "return"
       @stopEditing()
-    else if keyCode == "return"
+    else if keyCode == "ctrl+return"
+      @stopEditing()
+      App.mainList.view.newItem "indent"
+    else if keyCode == "alt+return"
       @stopEditing()
       App.mainList.view.newItem()
 
