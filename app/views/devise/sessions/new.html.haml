@@ -15,7 +15,7 @@
   - if devise_mapping.rememberable?
     .clearfix
       %label{:for => "user_remember_me"}
-        = f.check_box :remember_me
+        = f.check_box :remember_me, :value => "true"
         Remember Me
 
   = f.submit "Log in", :class => "primary btn"
