@@ -402,11 +402,13 @@ new App.Slice
       App.mainList.view.selectPrevious()
     "down"         : ->
       App.mainList.view.selectNext()
-    "k"           : ->
+    "k"            : ->
       App.mainList.view.selectPrevious()
-    "j"         : ->
+    "j"            : ->
       App.mainList.view.selectNext()
     "esc"          : ->
+      App.mainList.view.switchItem()
+    "i"            : ->
       App.mainList.view.switchItem()
     "ctrl+up"      : ->
       App.mainList.view.moveSelectionUp()
