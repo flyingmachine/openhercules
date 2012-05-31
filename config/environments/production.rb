@@ -47,6 +47,15 @@ Checklisthub::Application.configure do
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
+  ActionMailer::Base.smtp_settings = {
+    :address        => "smtp.gmail.com",
+    :port           => "587",
+    :authentication => :plain,
+    :user_name      => ENV['EMAIL_USERNAME'],
+    :password       => ENV['EMAIL_PASSWORD'],
+    :domain         => "openhercules.com"
+  }
+  
 
   # Enable threaded mode
   # config.threadsafe!
@@ -58,7 +67,7 @@ Checklisthub::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
   
-  config.action_mailer.default_url_options = { :host => 'checklisthub.com' }
+  config.action_mailer.default_url_options = { :host => 'openhercules.com' }
   
   config.assets.initialize_on_precompile = false
 end
