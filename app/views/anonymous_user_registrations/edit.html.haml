@@ -11,6 +11,12 @@
         %h3 Sign Up
         %p== You're about to unlock some #{I18n.t("site_name")} features. Woohoo!
         = form_for current_user, :as => :user, :url => anonymous_user_registration_path(current_user), :html => {:class => "form-stacked", :method => "put"} do |f|
+          - unless current_user.errors.blank?
+            .clearfix.alert-message.block-message.error
+              Sorry, but we couldn't sign you up for the following reasons:
+              %ul
+              - current_user.errors.full_messages.each do |msg|
+                %li #{msg}
           .clearfix
             = f.label :username
             .input
