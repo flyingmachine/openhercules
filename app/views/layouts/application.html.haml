@@ -47,8 +47,6 @@
                 %p
                   = link_to "sign up", edit_anonymous_user_registration_path(current_user)
                   &bull;
-                  = link_to "log in", new_user_session_path
-                  &bull;
                   %a{:href => "#", "data-controls-modal" => "log-out-forever", "data-backdrop" => "true"}end anonymous session
               - else
                 %p

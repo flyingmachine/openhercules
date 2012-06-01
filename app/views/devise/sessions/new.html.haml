@@ -3,7 +3,6 @@
 = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => "form-stacked"}) do |f|
   = devise_error_messages!
   
-
   .clearfix{add_error_class(resource, :username)}
     %label{:for => "user_username"} Username
     = f.text_field :username
