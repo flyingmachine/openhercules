@@ -4,7 +4,7 @@ gem 'rails', '3.2.11'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
-gem 'mongoid'
+gem 'mongoid', '~> 2.4'
 gem 'bson_ext'
 gem 'jquery-rails'
 gem "haml-rails"
